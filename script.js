@@ -126,33 +126,84 @@ function makeWordsClickable(text) {
   return result.trim();
 }
 
+// Function to remove spaces for Japanese and Chinese content just before rendering to HTML
+function removeSpacesForAsianLanguages(text, language) {
+  if (language === 'ja' || language === 'zh-TW') {
+    return text.replace(/>\s+</g, '><'); // Remove spaces between clickable words
+  }
+  return text; // For other languages, return the text as is
+}
+
+// Function to wrap words in clickable spans (before removing spaces)
+function makeWordsClickable(text) {
+  const words = text.split(' ');
+  let result = '';
+  let currentPhrase = '';
+  let currentWordId = null;
+
+  words.forEach((word, index) => {
+    const wordIds = word.match(/\d+(_\d+)*$/); // Extract one or more word IDs
+    const cleanWord = word.replace(/\d+(_\d+)*$/, ''); // Remove the numbers from the word
+
+    if (wordIds) {
+      if (currentWordId === wordIds[0]) {
+        // Add the current word (with a space) to the current phrase
+        currentPhrase += ` ${cleanWord}`;
+      } else {
+        // Close the previous phrase (if any) and start a new one
+        if (currentPhrase) {
+          result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
+        }
+        currentWordId = wordIds[0];
+        currentPhrase = cleanWord; // Start the new phrase
+      }
+
+      // Handle the last word
+      if (index === words.length - 1) {
+        result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span>`;
+      }
+    } else {
+      // If no wordId, close any open phrase and add the current word without wrapping
+      if (currentPhrase) {
+        result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
+        currentPhrase = '';
+      }
+      result += cleanWord + ' ';
+      currentWordId = null; // Reset for the next phrase
+    }
+  });
+
+  return result.trim();
+}
+
 // Function to update the displayed text for either 'left' or 'right' side
 function updateText(side) {
-  if (!translationsData) {
-    console.error('Translations data is not available.');
-    return;
-  }
-
   const languageSelectorId = side === 'left' ? 'leftLanguageSelector' : 'rightLanguageSelector';
   const titleElementId = side === 'left' ? 'leftTitle' : 'rightTitle';
   const textElementId = side === 'left' ? 'leftText' : 'rightText';
   
   const language = document.getElementById(languageSelectorId).value;
-  
+
   if (!translationsData[language]) {
     console.error(`Language data for ${language} is not available.`);
     return;
   }
 
-  const title = translationsData[language].title;
-  const text = translationsData[language].text;
+  let title = translationsData[language].title;
+  let text = translationsData[language].text;
 
-  // Process and display title
-  const clickableTitle = makeWordsClickable(title);
+  // Process and display title with word numbers first
+  let clickableTitle = makeWordsClickable(title);
+  
+  // Process and display main text content with word numbers first
+  let clickableText = makeWordsClickable(text);
+
+  // Now remove spaces from the HTML-rendered content for Japanese and Chinese
+  clickableTitle = removeSpacesForAsianLanguages(clickableTitle, language);
+  clickableText = removeSpacesForAsianLanguages(clickableText, language);
+
+  // Render the clickable content into HTML
   document.getElementById(titleElementId).innerHTML = clickableTitle;
-
-  // Process and display main text content
-  const clickableText = makeWordsClickable(text);
   document.getElementById(textElementId).innerHTML = clickableText;
 
   // Add click event to each word or phrase (for both title and text)
