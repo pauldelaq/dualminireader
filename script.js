@@ -1,17 +1,49 @@
 let translationsData;
-let highlightedWordId = null; // To store the highlighted word's ID
-let wordEquivalencies = {}; // To store word ID equivalencies across languages
+let highlightedWordId = null;
+let wordEquivalencies = {};
 
 // Load the JSON file with the translations
 fetch('translations.json')
   .then(response => response.json())
   .then(data => {
     translationsData = data.languages;
+    
+    populateLanguageSelectors(); // Populate the dropdown menus
     processTranslations();
     updateText('left');  // Initialize left side with the default language (English)
     updateText('right'); // Initialize right side with the default language (English)
   })
   .catch(error => console.error('Error loading translations:', error));
+
+// Function to dynamically populate the dropdown menus based on available languages in the JSON file
+function populateLanguageSelectors() {
+  const languageOptions = Object.keys(translationsData); // Get the languages from the JSON
+  const leftSelector = document.getElementById('leftLanguageSelector');
+  const rightSelector = document.getElementById('rightLanguageSelector');
+  
+  // Clear the existing options in both dropdowns
+  leftSelector.innerHTML = '';
+  rightSelector.innerHTML = '';
+
+  // Populate both dropdowns with available languages from JSON
+  languageOptions.forEach(languageKey => {
+    const languageName = translationsData[languageKey].languageName;
+    const optionLeft = document.createElement('option');
+    const optionRight = document.createElement('option');
+    
+    optionLeft.value = languageKey;
+    optionLeft.textContent = languageName;
+    optionRight.value = languageKey;
+    optionRight.textContent = languageName;
+    
+    leftSelector.appendChild(optionLeft);
+    rightSelector.appendChild(optionRight);
+  });
+
+  // Set default values for both dropdowns
+  leftSelector.value = 'en';  // Set English as default for left
+  rightSelector.value = 'en';  // Set English as default for right
+}
 
 // Function to process translations and store equivalencies in localStorage
 function processTranslations() {

@@ -12,34 +12,24 @@
   <body>
   <h1>DualMiniReader</h1>
 
-  <!-- Container for language selectors and side-by-side text -->
+  <!-- Container for side-by-side language selectors and texts -->
   <div class="container">
     <!-- Left side section -->
     <div class="text-section">
       <!-- Left side language selector -->
       <label for="leftLanguageSelector">Left Text Language:</label>
-      <select id="leftLanguageSelector">
-        <option value="en">English</option>
-        <option value="fr">French</option>
-        <option value="ja">Japanese</option>
-        <option value="ko">Korean</option>
-      </select>
+      <select id="leftLanguageSelector"></select>
 
       <!-- Left side title and text -->
       <h2 id="leftTitle"></h2>
       <p id="leftText"></p>
     </div>
-    
+
     <!-- Right side section -->
     <div class="text-section right-section">
       <!-- Right side language selector -->
       <label for="rightLanguageSelector">Right Text Language:</label>
-      <select id="rightLanguageSelector">
-        <option value="en">English</option>
-        <option value="fr">French</option>
-        <option value="ja">Japanese</option>
-        <option value="ko">Korean</option>
-      </select>
+      <select id="rightLanguageSelector"></select>
 
       <!-- Right side title and text -->
       <h2 id="rightTitle"></h2>
@@ -47,7 +37,6 @@
     </div>
   </div>
 
-  <!-- Link to the external JavaScript file -->
   <script src="script.js"></script>
-</body>
+  </body>
 </html>
