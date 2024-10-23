@@ -1,21 +1,59 @@
+/* Universal font with support for multiple languages */
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+/* You can optionally adjust the font-size for better readability */
+.text-section {
+  font-size: 18px; /* Adjust the font size as needed */
+}
+
 /* Highlighted word or phrase */
 .highlight {
   background-color: yellow;
   display: inline-block; /* Prevent spacing issues while keeping words inline */
 }
 
-/* Container for side-by-side text sections */
+h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+/* Flexbox container for side-by-side layout */
 .container {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;  /* Aligns the two sections at the top */
+  margin-top: 20px;
 }
 
-/* Individual text sections */
+/* Left and Right text sections */
 .text-section {
-  width: 45%;
+  width: 45%; /* Adjusts width of each section */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Optional: Style for titles */
+/* Align the right-side language selector with the text */
+.right-section {
+  align-items: flex-start;
+}
+
+/* Ensure both dropdowns have the same fixed width */
+select {
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 200px; /* Set a fixed width for the dropdown */
+  max-width: 200px;
+}
+
+label {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+/* Optional styling for titles */
 h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
