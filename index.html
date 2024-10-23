@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Side-by-Side Language Comparison</title>
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>DualMiniReader</h1>
+  
+  <!-- Left side language selector -->
+  <label for="leftLanguageSelector">Left Text Language:</label>
+  <select id="leftLanguageSelector">
+    <option value="en">English</option>
+    <option value="fr">French</option>
+    <option value="ja">Japanese</option>
+    <option value="ko">Korean</option>
+  </select>
+
+  <!-- Right side language selector -->
+  <label for="rightLanguageSelector">Right Text Language:</label>
+  <select id="rightLanguageSelector">
+    <option value="en">English</option>
+    <option value="fr">French</option>
+    <option value="ja">Japanese</option>
+    <option value="ko">Korean</option>
+  </select>
+
+  <!-- Container for side-by-side texts -->
+  <div class="container">
+    <!-- Left text section -->
+    <div class="text-section">
+      <h2 id="leftTitle"></h2>
+      <p id="leftText"></p>
+    </div>
+    
+    <!-- Right text section -->
+    <div class="text-section">
+      <h2 id="rightTitle"></h2>
+      <p id="rightText"></p>
+    </div>
+  </div>
+
+  <!-- Link to the external JavaScript file -->
+  <script src="script.js"></script>
+</body>
+</html>

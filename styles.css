@@ -1,0 +1,22 @@
+/* Highlighted word or phrase */
+.highlight {
+  background-color: yellow;
+  display: inline-block; /* Prevent spacing issues while keeping words inline */
+}
+
+/* Container for side-by-side text sections */
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Individual text sections */
+.text-section {
+  width: 45%;
+}
+
+/* Optional: Style for titles */
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
