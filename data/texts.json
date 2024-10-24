@@ -6,9 +6,9 @@
         "jsonFile": "foxandgrapes.json"
       },
       {
-        "title": "Another Story",
-        "description": "Another intriguing tale to read.",
-        "jsonFile": "another_story.json"
+        "title": "The Quick Brown Fox",
+        "description": "This is a classic sentence used to display all letters of the alphabet.",
+        "jsonFile": "quickbrownfox.json"
       }
     ]
   }

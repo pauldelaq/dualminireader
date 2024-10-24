@@ -25,6 +25,15 @@ if (textFile) {
       
       updateText('left');  // Initialize left side with the default language (English)
       updateText('right'); // Initialize right side with the default language (French)
+
+      // Add event listeners for language selectors AFTER they are populated
+      document.getElementById('leftLanguageSelector').addEventListener('change', function() {
+        updateText('left');
+      });
+
+      document.getElementById('rightLanguageSelector').addEventListener('change', function() {
+        updateText('right');
+      });
     })
     .catch(error => console.error('Error loading text:', error));
 } else {
@@ -151,6 +160,7 @@ function updateText(side) {
   const languageSelectorId = side === 'left' ? 'leftLanguageSelector' : 'rightLanguageSelector';
   const titleElementId = side === 'left' ? 'leftTitle' : 'rightTitle';
   const textElementId = side === 'left' ? 'leftText' : 'rightText';
+  const notesElementId = side === 'left' ? 'leftNotes' : 'rightNotes'; // Added for notes
   
   const language = document.getElementById(languageSelectorId).value;
 
@@ -161,16 +171,25 @@ function updateText(side) {
 
   let title = translationsData[language].title;
   let text = translationsData[language].text;
-
+  let notes = translationsData[language].notes || ""; // Notes might be optional
+  
+  // Process and display title with word numbers first
   let clickableTitle = makeWordsClickable(title);
+  
+  // Process and display main text content with word numbers first
   let clickableText = makeWordsClickable(text);
 
+  // Remove spaces for Japanese/Chinese if needed
   clickableTitle = removeSpacesForAsianLanguages(clickableTitle, language);
   clickableText = removeSpacesForAsianLanguages(clickableText, language);
 
+  // Render the clickable content into HTML
   document.getElementById(titleElementId).innerHTML = clickableTitle;
   document.getElementById(textElementId).innerHTML = clickableText;
-
+  
+  // Render notes (no clickable spans, just plain text)
+  document.getElementById(notesElementId).innerText = notes;
+  
   const wordElements = document.querySelectorAll(`#${titleElementId} .clickable-word, #${textElementId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function() {
@@ -232,17 +251,3 @@ function highlightWordsOnBothSides(wordId) {
     });
   });
 }
-
-// Event listeners for left and right language selectors
-document.getElementById('leftLanguageSelector').addEventListener('change', function() {
-  updateText('left');
-});
-
-document.getElementById('rightLanguageSelector').addEventListener('change', function() {
-  updateText('right');
-});
-
-// Call updateText after JSON is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  // Texts will be updated after the fetch completes
-});

@@ -3,22 +3,26 @@
     "en": {
       "languageName": "English",
       "title": "The1 quick2 brown3 fox4",
-      "text": "The5 quick6 brown7 fox8 jumped9 over10 the11 lazy12 dog.13"
+      "text": "The5 quick6 brown7 fox8 jumped9 over10 the11 lazy12 dog.13",
+      "notes": "This is a classic sentence used to display all letters of the alphabet."
     },
     "fr": {
       "languageName": "Français",
       "title": "Le1 rapide2 brun3 renard4",
-      "text": "Le5 rapide6 brun7 renard8 a9 sauté9 par-dessus10 le11 chien13 paresseux.12"
+      "text": "Le5 rapide6 brun7 renard8 a9 sauté9 par-dessus10 le11 chien13 paresseux.12",
+      "notes": "Ce contenu a été traduit par l'IA."
     },
     "ja": {
       "languageName": "日本語",
       "title": "速い2 茶色の3 キツネ4",
-      "text": "素早い6 茶色の7 キツネが8 怠け者の12 犬を13 飛び越えた。9_10"
+      "text": "素早い6 茶色の7 キツネが8 怠け者の12 犬を13 飛び越えた。9_10",
+      "notes": "この内容はAIによって翻訳されました。"
     },
     "ko": {
       "languageName": "한국어",
       "title": "빠른2 갈색3 여우4",
-      "text": "빠른6 갈색7 여우8 게으른12 개를13 뛰어넘었다.9_10"
+      "text": "빠른6 갈색7 여우8 게으른12 개를13 뛰어넘었다.9_10",
+      "notes": "이 콘텐츠는 AI에 의해 번역되었습니다."
     }
   }
 }

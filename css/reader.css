@@ -68,3 +68,10 @@ h2 {
   background-color: greenyellow;
   box-sizing: border-box; /* Keep the size consistent when highlighted */
 }
+
+.notes {
+  font-style: italic;
+  font-size: 0.9em; /* Slightly smaller font size */
+  color: #555; /* Optional: a slightly muted color */
+  margin-top: 10px; /* Adds a small space above the notes */
+}
