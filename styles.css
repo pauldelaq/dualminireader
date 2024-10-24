@@ -54,24 +54,11 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* Styles for the selected word with a box */
-.selected-word::before {
-  content: '';  /* Required for pseudo-element */
-  position: absolute;
-  top: -2px;  /* Adjust to move the box higher */
-  left: -2px;  /* Adjust to move the box left */
-  right: -2px;  /* Adjust to expand the box to the right */
-  bottom: -2px;  /* Adjust to expand the box downward */
-  border: 2px solid #007BFF;  /* Blue border */
-  border-radius: 0px;
-  pointer-events: none; /* Ensures the box doesn't interfere with clicks */
-  z-index: 1;  /* Ensures the box appears above other elements */
-}
-
-/* Ensure the word is relatively positioned for the box to work */
+/* Styles for the selected word with a rectangular box */
 .selected-word {
-  position: relative;
-  z-index: 0; /* Ensures that the word is below the pseudo-element */
+  outline: 2px solid #007BFF;  /* Blue rectangular outline */
+  outline-offset: 0px;  /* Adds space between the text and the outline */
+  display: inline;  /* Keep it inline to avoid layout shifts */
 }
 
 /* Styles for highlighting the equivalent words */
