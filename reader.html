@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DualMiniReader</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="css/reader.css">
+    <!-- Google Fonts for Noto Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  </head>
+  <body>
+  <h1>DualMiniReader</h1>
+
+  <!-- Container for side-by-side language selectors and texts -->
+  <div class="container">
+    <!-- Left side section -->
+    <div class="text-section">
+      <!-- Left side language selector -->
+      <label for="leftLanguageSelector">Left Text Language:</label>
+      <select id="leftLanguageSelector"></select>
+
+      <!-- Left side title and text -->
+      <h2 id="leftTitle"></h2>
+      <p id="leftText"></p>
+    </div>
+
+    <!-- Right side section -->
+    <div class="text-section right-section">
+      <!-- Right side language selector -->
+      <label for="rightLanguageSelector">Right Text Language:</label>
+      <select id="rightLanguageSelector"></select>
+
+      <!-- Right side title and text -->
+      <h2 id="rightTitle"></h2>
+      <p id="rightText"></p>
+    </div>
+  </div>
+
+  <script src="/js/reader.js"></script>
+  </body>
+</html>

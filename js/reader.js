@@ -5,7 +5,7 @@ let selectedWordOnLeft = null; // Track the selected word on the left
 let selectedWordOnRight = null; // Track the selected word on the right
 
 // Load the JSON file with the translations
-fetch('translations.json')
+fetch('data/translations.json')
   .then(response => response.json())
   .then(data => {
     translationsData = data.languages;
