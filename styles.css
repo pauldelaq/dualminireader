@@ -1,17 +1,12 @@
 /* Universal font with support for multiple languages */
 body {
   font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 2px; /* Adjust the value as needed */
 }
 
 /* You can optionally adjust the font-size for better readability */
 .text-section {
   font-size: 18px; /* Adjust the font size as needed */
-}
-
-/* Highlighted word or phrase */
-.highlight {
-  background-color: yellow;
-  display: inline-block; /* Prevent spacing issues while keeping words inline */
 }
 
 h1 {
@@ -57,4 +52,30 @@ label {
 h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
+}
+
+/* Styles for the selected word with a box */
+.selected-word::before {
+  content: '';  /* Required for pseudo-element */
+  position: absolute;
+  top: -2px;  /* Adjust to move the box higher */
+  left: -2px;  /* Adjust to move the box left */
+  right: -2px;  /* Adjust to expand the box to the right */
+  bottom: -2px;  /* Adjust to expand the box downward */
+  border: 2px solid #007BFF;  /* Blue border */
+  border-radius: 0px;
+  pointer-events: none; /* Ensures the box doesn't interfere with clicks */
+  z-index: 1;  /* Ensures the box appears above other elements */
+}
+
+/* Ensure the word is relatively positioned for the box to work */
+.selected-word {
+  position: relative;
+  z-index: 0; /* Ensures that the word is below the pseudo-element */
+}
+
+/* Styles for highlighting the equivalent words */
+.highlight {
+  background-color: greenyellow;
+  box-sizing: border-box; /* Keep the size consistent when highlighted */
 }

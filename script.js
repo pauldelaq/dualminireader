@@ -1,6 +1,8 @@
 let translationsData;
 let highlightedWordId = null;
 let wordEquivalencies = {};
+let selectedWordOnLeft = null; // Track the selected word on the left
+let selectedWordOnRight = null; // Track the selected word on the right
 
 // Load the JSON file with the translations
 fetch('translations.json')
@@ -210,9 +212,26 @@ function updateText(side) {
   const wordElements = document.querySelectorAll(`#${titleElementId} .clickable-word, #${textElementId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function() {
-      highlightedWordId = this.getAttribute('data-word-id');
+      const selectedWordId = this.getAttribute('data-word-id');
 
-      // Find equivalent word in both sides and highlight them
+      // Clear the box from both sides before applying the new one
+      clearSelectedWordOnBothSides();
+
+      // Apply the box only on the clicked side
+      if (side === 'left') {
+        // Apply the box to the clicked word on the left
+        this.classList.add('selected-word');
+        // Update the selected word reference for the left side
+        selectedWordOnLeft = this;
+      } else if (side === 'right') {
+        // Apply the box to the clicked word on the right
+        this.classList.add('selected-word');
+        // Update the selected word reference for the right side
+        selectedWordOnRight = this;
+      }
+
+      // Keep the highlight logic working to highlight equivalent words
+      highlightedWordId = selectedWordId;
       highlightWordsOnBothSides(highlightedWordId);
     });
   });
@@ -223,7 +242,21 @@ function updateText(side) {
   }
 }
 
-// Modify highlightWordsOnBothSides to handle multiple word IDs and exact match
+// Function to clear selected words from both sides
+function clearSelectedWordOnBothSides() {
+  // Clear the box from the left side
+  if (selectedWordOnLeft) {
+    selectedWordOnLeft.classList.remove('selected-word');
+    selectedWordOnLeft = null;
+  }
+  // Clear the box from the right side
+  if (selectedWordOnRight) {
+    selectedWordOnRight.classList.remove('selected-word');
+    selectedWordOnRight = null;
+  }
+}
+
+// Modify highlightWordsOnBothSides to handle word highlighting and box selection separately
 function highlightWordsOnBothSides(wordId) {
   const wordIds = wordId.split('_'); // Support multiple word IDs
   const leftWords = document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`);
