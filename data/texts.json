@@ -1,0 +1,15 @@
+{
+    "texts": [
+      {
+        "title": "The Fox and the Grapes",
+        "description": "A short fable about a fox and some grapes.",
+        "jsonFile": "foxandgrapes.json"
+      },
+      {
+        "title": "Another Story",
+        "description": "Another intriguing tale to read.",
+        "jsonFile": "another_story.json"
+      }
+    ]
+  }
+  

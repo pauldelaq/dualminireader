@@ -4,18 +4,32 @@ let wordEquivalencies = {};
 let selectedWordOnLeft = null; // Track the selected word on the left
 let selectedWordOnRight = null; // Track the selected word on the right
 
-// Load the JSON file with the translations
-fetch('data/translations.json')
-  .then(response => response.json())
-  .then(data => {
-    translationsData = data.languages;
-    
-    populateLanguageSelectors(); // Populate the dropdown menus
-    processTranslations();
-    updateText('left');  // Initialize left side with the default language (English)
-    updateText('right'); // Initialize right side with the default language (English)
-  })
-  .catch(error => console.error('Error loading translations:', error));
+// Function to get the value of the query parameter (e.g., "text=the_fox_and_the_grapes.json")
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+// Get the text file name from the query parameter
+const textFile = getQueryParam('text');
+
+if (textFile) {
+  // Fetch the corresponding JSON file based on the selected text
+  fetch(`data/texts/${textFile}`)
+    .then(response => response.json())
+    .then(data => {
+      translationsData = data.languages; // Store the languages section of the JSON
+      
+      populateLanguageSelectors(); // Populate the dropdown menus
+      processTranslations(); // Process the translations for word equivalencies
+      
+      updateText('left');  // Initialize left side with the default language (English)
+      updateText('right'); // Initialize right side with the default language (French)
+    })
+    .catch(error => console.error('Error loading text:', error));
+} else {
+  console.error('No text file specified.');
+}
 
 // Function to dynamically populate the dropdown menus based on available languages in the JSON file
 function populateLanguageSelectors() {
@@ -44,7 +58,7 @@ function populateLanguageSelectors() {
 
   // Set default values for both dropdowns
   leftSelector.value = 'en';  // Set English as default for left
-  rightSelector.value = 'en';  // Set English as default for right
+  rightSelector.value = 'fr';  // Set French as default for right
 }
 
 // Function to process translations and store equivalencies in localStorage
@@ -52,16 +66,15 @@ function processTranslations() {
   const languages = Object.keys(translationsData);
   wordEquivalencies = {};
 
-  // Process each language (both title and text content)
   languages.forEach(lang => {
     const words = translationsData[lang].text.split(' ');
     const titleWords = translationsData[lang].title.split(' ');
 
     // Process title words
     titleWords.forEach(word => {
-      const wordId = word.match(/\d+$/); // Extract the word ID (numbers at the end)
+      const wordId = word.match(/\d+$/);
       if (wordId) {
-        const cleanWord = word.replace(/\d+$/, ''); // Remove the number from the word
+        const cleanWord = word.replace(/\d+$/, '');
         if (!wordEquivalencies[wordId]) {
           wordEquivalencies[wordId] = {};
         }
@@ -71,9 +84,9 @@ function processTranslations() {
 
     // Process text words
     words.forEach(word => {
-      const wordId = word.match(/\d+$/); // Extract the word ID (numbers at the end)
+      const wordId = word.match(/\d+$/);
       if (wordId) {
-        const cleanWord = word.replace(/\d+$/, ''); // Remove the number from the word
+        const cleanWord = word.replace(/\d+$/, '');
         if (!wordEquivalencies[wordId]) {
           wordEquivalencies[wordId] = {};
         }
@@ -99,15 +112,13 @@ function makeWordsClickable(text) {
 
     if (wordIds) {
       if (currentWordId === wordIds[0]) {
-        // Add the current word (with a space) to the current phrase
         currentPhrase += ` ${cleanWord}`;
       } else {
-        // Close the previous phrase (if any) and start a new one
         if (currentPhrase) {
           result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
         }
         currentWordId = wordIds[0];
-        currentPhrase = cleanWord; // Start the new phrase
+        currentPhrase = cleanWord;
       }
 
       // Handle the last word
@@ -115,13 +126,12 @@ function makeWordsClickable(text) {
         result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span>`;
       }
     } else {
-      // If no wordId, close any open phrase and add the current word without wrapping
       if (currentPhrase) {
         result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
         currentPhrase = '';
       }
       result += cleanWord + ' ';
-      currentWordId = null; // Reset for the next phrase
+      currentWordId = null;
     }
   });
 
@@ -133,49 +143,7 @@ function removeSpacesForAsianLanguages(text, language) {
   if (language === 'ja' || language === 'zh-TW') {
     return text.replace(/>\s+</g, '><'); // Remove spaces between clickable words
   }
-  return text; // For other languages, return the text as is
-}
-
-// Function to wrap words in clickable spans (before removing spaces)
-function makeWordsClickable(text) {
-  const words = text.split(' ');
-  let result = '';
-  let currentPhrase = '';
-  let currentWordId = null;
-
-  words.forEach((word, index) => {
-    const wordIds = word.match(/\d+(_\d+)*$/); // Extract one or more word IDs
-    const cleanWord = word.replace(/\d+(_\d+)*$/, ''); // Remove the numbers from the word
-
-    if (wordIds) {
-      if (currentWordId === wordIds[0]) {
-        // Add the current word (with a space) to the current phrase
-        currentPhrase += ` ${cleanWord}`;
-      } else {
-        // Close the previous phrase (if any) and start a new one
-        if (currentPhrase) {
-          result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
-        }
-        currentWordId = wordIds[0];
-        currentPhrase = cleanWord; // Start the new phrase
-      }
-
-      // Handle the last word
-      if (index === words.length - 1) {
-        result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span>`;
-      }
-    } else {
-      // If no wordId, close any open phrase and add the current word without wrapping
-      if (currentPhrase) {
-        result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
-        currentPhrase = '';
-      }
-      result += cleanWord + ' ';
-      currentWordId = null; // Reset for the next phrase
-    }
-  });
-
-  return result.trim();
+  return text;
 }
 
 // Function to update the displayed text for either 'left' or 'right' side
@@ -194,49 +162,35 @@ function updateText(side) {
   let title = translationsData[language].title;
   let text = translationsData[language].text;
 
-  // Process and display title with word numbers first
   let clickableTitle = makeWordsClickable(title);
-  
-  // Process and display main text content with word numbers first
   let clickableText = makeWordsClickable(text);
 
-  // Now remove spaces from the HTML-rendered content for Japanese and Chinese
   clickableTitle = removeSpacesForAsianLanguages(clickableTitle, language);
   clickableText = removeSpacesForAsianLanguages(clickableText, language);
 
-  // Render the clickable content into HTML
   document.getElementById(titleElementId).innerHTML = clickableTitle;
   document.getElementById(textElementId).innerHTML = clickableText;
 
-  // Add click event to each word or phrase (for both title and text)
   const wordElements = document.querySelectorAll(`#${titleElementId} .clickable-word, #${textElementId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function() {
       const selectedWordId = this.getAttribute('data-word-id');
 
-      // Clear the box from both sides before applying the new one
       clearSelectedWordOnBothSides();
 
-      // Apply the box only on the clicked side
       if (side === 'left') {
-        // Apply the box to the clicked word on the left
         this.classList.add('selected-word');
-        // Update the selected word reference for the left side
         selectedWordOnLeft = this;
       } else if (side === 'right') {
-        // Apply the box to the clicked word on the right
         this.classList.add('selected-word');
-        // Update the selected word reference for the right side
         selectedWordOnRight = this;
       }
 
-      // Keep the highlight logic working to highlight equivalent words
       highlightedWordId = selectedWordId;
       highlightWordsOnBothSides(highlightedWordId);
     });
   });
 
-  // If a word was previously highlighted, highlight the equivalent word/phrase in the new language
   if (highlightedWordId) {
     highlightWordsOnBothSides(highlightedWordId);
   }
@@ -244,46 +198,42 @@ function updateText(side) {
 
 // Function to clear selected words from both sides
 function clearSelectedWordOnBothSides() {
-  // Clear the box from the left side
   if (selectedWordOnLeft) {
     selectedWordOnLeft.classList.remove('selected-word');
     selectedWordOnLeft = null;
   }
-  // Clear the box from the right side
   if (selectedWordOnRight) {
     selectedWordOnRight.classList.remove('selected-word');
     selectedWordOnRight = null;
   }
 }
 
-// Modify highlightWordsOnBothSides to handle word highlighting and box selection separately
+// Function to highlight words on both sides
 function highlightWordsOnBothSides(wordId) {
-  const wordIds = wordId.split('_'); // Support multiple word IDs
+  const wordIds = wordId.split('_');
   const leftWords = document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`);
   const rightWords = document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`);
 
-  // Clear previous highlights
   leftWords.forEach(word => word.classList.remove('highlight'));
   rightWords.forEach(word => word.classList.remove('highlight'));
 
-  // Highlight words on both sides with exact matches
   wordIds.forEach(id => {
     leftWords.forEach(word => {
-      const wordDataIds = word.getAttribute('data-word-id').split('_'); // Split any multi-ID words
-      if (wordDataIds.includes(id)) {  // Exact match for each word ID
+      const wordDataIds = word.getAttribute('data-word-id').split('_');
+      if (wordDataIds.includes(id)) {
         word.classList.add('highlight');
       }
     });
     rightWords.forEach(word => {
-      const wordDataIds = word.getAttribute('data-word-id').split('_'); // Split any multi-ID words
-      if (wordDataIds.includes(id)) {  // Exact match for each word ID
+      const wordDataIds = word.getAttribute('data-word-id').split('_');
+      if (wordDataIds.includes(id)) {
         word.classList.add('highlight');
       }
     });
   });
 }
 
-// Add event listeners to the left and right language selectors
+// Event listeners for left and right language selectors
 document.getElementById('leftLanguageSelector').addEventListener('change', function() {
   updateText('left');
 });
@@ -292,7 +242,7 @@ document.getElementById('rightLanguageSelector').addEventListener('change', func
   updateText('right');
 });
 
-// Call updateText after JSON is loaded, for both sides to make words clickable
+// Call updateText after JSON is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  // Nothing here now, updateText is called after fetch completes
+  // Texts will be updated after the fetch completes
 });
