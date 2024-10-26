@@ -8,14 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h1>DualMiniReader</h1>
+      <!-- Header with Back and Settings buttons -->
+  <header class="header">
+    <a href="index.html" class="back-button">[&lt;]</a>
+    <h1 class="title">DualMiniReader</h1>
+    <button class="settings-button">[≡]</button>
+  </header>
 
     <!-- Container for side-by-side language selectors and texts -->
     <div class="container">
       <!-- Left side section -->
       <div class="text-section">
         <!-- Left side language selector -->
-        <label for="leftLanguageSelector">Left Text Language:</label>
         <select id="leftLanguageSelector"></select>
 
         <!-- Left side title and text -->
@@ -28,7 +32,6 @@
       <!-- Right side section -->
       <div class="text-section right-section">
         <!-- Right side language selector -->
-        <label for="rightLanguageSelector">Right Text Language:</label>
         <select id="rightLanguageSelector"></select>
 
         <!-- Right side title and text -->
