@@ -6,18 +6,22 @@
   <title>DualMiniReader - Index</title>
   <link rel="stylesheet" href="css/reader.css">
   <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/settings.css"> <!-- Link to settings.css -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-  <script defer src="js/index.js"></script> <!-- Link to the JS file -->
+  <script defer src="js/index.js"></script> <!-- Link to index.js -->
+  <script defer src="js/settings.js"></script> <!-- Link to settings.js -->
 </head>
 <body>
-      <header class="header">
+    <header class="header">
         <a href="info.html" class="info-button">[?]</a>
         <h1 class="title">DualMiniReader</h1>
         <button class="settings-button">[≡]</button>
-      </header>
-      <p>Welcome to DualMiniReader! Please choose a text to start.</p>
+    </header>
+    <p>Welcome to DualMiniReader! Please choose a text to start.</p>
 
-  <!-- Container for the dynamically generated list of texts -->
-  <div id="textList"></div>
+    <!-- Container for the dynamically generated list of texts -->
+    <div id="textList"></div>
+
+    <!-- Load settings.html into the page dynamically via settings.js -->
 </body>
 </html>
