@@ -39,3 +39,30 @@
     overflow: hidden;
   }
   
+  .font-size-control {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .slider-label {
+    font-size: inherit;
+  }
+    
+  /* Style for preview container to separate it from the controls */
+.preview-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Optional: Style for the preview text */
+#previewText {
+  font-size: inherit; /* Adjusts dynamically based on the slider input */
+}

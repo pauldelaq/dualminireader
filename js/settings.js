@@ -7,7 +7,8 @@ function loadSettingsMenu() {
             container.innerHTML = html;
             document.body.appendChild(container);
 
-            setupSettingsMenuListeners();
+            setupSettingsMenuListeners();  // Set up open/close behavior after loading HTML
+            initializeFontSizeControl();   // Initialize font size control
         })
         .catch(error => console.error('Error loading settings menu:', error));
 }
@@ -22,32 +23,56 @@ function setupSettingsMenuListeners() {
         const isMenuOpen = !settingsMenu.classList.contains('hidden');
         
         if (isMenuOpen) {
-            // Close the menu
             settingsMenu.classList.add('hidden');
-            settingsButton.textContent = '[≡]'; // Switch back to menu icon
+            settingsButton.textContent = '[≡]';
             document.body.classList.remove('settings-active');
         } else {
-            // Open the menu
             settingsMenu.classList.remove('hidden');
-            settingsButton.textContent = '[X]'; // Switch to close icon
+            settingsButton.textContent = '[X]';
             document.body.classList.add('settings-active');
         }
     });
 }
 
-// Save settings to localStorage when they change
-function saveSetting(key, value) {
-    localStorage.setItem(key, value);
+// Initialize font size slider and set up event listeners
+function initializeFontSizeControl() {
+    const fontSizeSlider = document.getElementById('fontSizeSlider');
+    const previewText = document.getElementById('previewText');
+
+    if (!fontSizeSlider || !previewText) {
+        console.error("Font size slider or preview text element is missing.");
+        return;
+    }
+
+    // Set initial slider value from localStorage or default
+    const savedFontSize = localStorage.getItem('fontSize') || 100;
+    fontSizeSlider.value = savedFontSize;
+    applyFontSize(savedFontSize);
+
+    // Update font size on slider change
+    fontSizeSlider.addEventListener('input', (event) => {
+        const newSize = event.target.value;
+        applyFontSize(newSize);
+        localStorage.setItem('fontSize', newSize);
+    });
 }
 
-// Load settings from localStorage when opening
-function loadSettings() {
-    const settingValue = localStorage.getItem('settingKey');
-    // Apply the setting value to your settings menu if needed
+// Function to apply font size across pages, excluding header
+function applyFontSize(sizePercentage) {
+    const scale = sizePercentage / 100;
+  
+    // Update the root CSS variable for the entire document
+    document.documentElement.style.setProperty('--base-font-size', `${scale}em`);
+  
+    // Update preview text size based on this variable as well
+    const previewText = document.getElementById('previewText');
+    if (previewText) {
+        previewText.style.fontSize = `${scale}em`;
+    }
 }
 
-// Load settings menu and CSS on page load
+// Load settings menu and initialize settings on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadSettingsMenu();
-    loadSettings();
+    // loadSettings();  // Uncomment when you have a loadSettings function defined
 });

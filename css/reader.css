@@ -1,32 +1,42 @@
+/* Define default font size variable */
+:root {
+  --base-font-size: 1em; /* Default to 1em */
+}
+
 /* Universal font with support for multiple languages */
 body {
   font-family: 'Noto Sans', sans-serif;
-  letter-spacing: 2px; /* Adjust the value as needed */
+  letter-spacing: 2px;
 }
 
-/* You can optionally adjust the font-size for better readability */
-.text-section {
-  font-size: 18px; /* Adjust the font size as needed */
+/* Exclude header from font size adjustments */
+.header {
+  font-size: 1em; /* Fixed font size for header elements */
 }
 
 h1 {
   text-align: center;
   font-size: 2em;
   margin-bottom: 20px;
-  letter-spacing: 2px; /* Adjust the value as needed */
+  letter-spacing: 2px;
+}
+
+/* Adjust the base size for readability in main content */
+.text-section {
+  font-size: var(--base-font-size);
 }
 
 /* Flexbox container for side-by-side layout */
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;  /* Aligns the two sections at the top */
+  align-items: flex-start;
   margin-top: 20px;
 }
 
 /* Left and Right text sections */
 .text-section {
-  width: 45%; /* Adjusts width of each section */
+  width: 45%;
   display: flex;
   flex-direction: column;
 }
@@ -40,7 +50,7 @@ h1 {
 select {
   font-size: 16px;
   margin-bottom: 10px;
-  width: 150px; /* Set a fixed width for the dropdown */
+  width: 150px;
   max-width: 200px;
 }
 
@@ -49,29 +59,30 @@ label {
   margin-bottom: 5px;
 }
 
-/* Optional styling for titles */
+/* Title styling */
 h2 {
-  font-size: 1.5em;
+  font-size: calc(var(--base-font-size) * 1.5); /* Proportionally larger than body */
   margin-bottom: 10px;
-  letter-spacing: 2px; /* Adjust the value as needed */
+  letter-spacing: 2px;
 }
 
-/* Styles for the selected word with a rectangular box */
+/* Styling for selected words */
 .selected-word {
-  outline: 2px solid #007BFF;  /* Blue rectangular outline */
-  outline-offset: 0px;  /* Adds space between the text and the outline */
-  display: inline;  /* Keep it inline to avoid layout shifts */
+  outline: 2px solid #007BFF;
+  outline-offset: 0px;
+  display: inline;
 }
 
-/* Styles for highlighting the equivalent words */
+/* Highlighting for equivalent words */
 .highlight {
   background-color: greenyellow;
-  box-sizing: border-box; /* Keep the size consistent when highlighted */
+  box-sizing: border-box;
 }
 
+/* Styling for notes */
 .notes {
   font-style: italic;
-  font-size: 0.9em; /* Slightly smaller font size */
-  color: #555; /* Optional: a slightly muted color */
-  margin-top: 10px; /* Adds a small space above the notes */
+  font-size: calc(var(--base-font-size) * 0.9); /* Slightly smaller than body */
+  color: #555;
+  margin-top: 10px;
 }
