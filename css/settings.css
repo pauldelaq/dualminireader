@@ -52,6 +52,7 @@
   align-items: center;
   margin-top: 20px; /* Adjust spacing as needed */
   margin-left: -40px; /* Offset to the left; adjust value as needed */
+  margin-bottom: 20px;
 }
   
   .slider-label {
@@ -67,4 +68,51 @@
 /* Optional: Style for the preview text */
 #previewText {
   font-size: inherit; /* Adjusts dynamically based on the slider input */
+}
+
+/* Display mode toggle styling */
+.display-mode-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.display-mode-toggle h3 {
+  margin-bottom: 10px;
+}
+
+/* Container for side-by-side display of radio buttons */
+.mode-options-container {
+  display: flex;
+  gap: 20px; /* Adjust spacing between buttons as needed */
+}
+
+/* Display mode options arranged side by side */
+.display-mode-options {
+  display: flex;
+  gap: 20px; /* Space between the two mode options */
+  align-items: center; /* Align radio buttons and text vertically centered */
+  justify-content: center;
+  margin-left: -40px;
+}
+
+/* Style for each option */
+.mode-option {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between radio button and text */
+}
+
+/* Stacked text styling for the second option */
+.stacked-text {
+  display: flex;
+  flex-direction: column; /* Stack abc elements vertically */
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  border-top: 1px solid black;
+  margin: 2px 0;
 }

@@ -7,5 +7,22 @@
       <input type="range" id="fontSizeSlider" min="100" max="160" value="100" style="margin: 0 10px;">
       <span style="font-size: 1.2em;">abc</span>
     </div>
-  </div>
+    <!-- Display Mode Options (Side by Side) -->
+    <div class="display-mode-options">
+      <!-- First Radio Option: Side-by-side display -->
+      <label class="mode-option">
+        <input type="radio" name="displayMode" value="sideBySide" checked>
+        <span>abc | abc</span>
+      </label>
+
+      <!-- Second Radio Option: Stacked display -->
+      <label class="mode-option">
+        <input type="radio" name="displayMode" value="stacked">
+        <div class="stacked-text">
+          <span>abc</span>
+          <span class="divider"></span>
+          <span>abc</span>
+        </div>
+      </label>
+    </div>
 </div>
