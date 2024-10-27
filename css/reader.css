@@ -108,9 +108,9 @@ h2 {
   overflow-wrap: break-word;
 }
 
-/* Hide footer by default */
+/* Styling for the footer in mini-dictionary mode */
 .footer {
-  display: none;
+  display: none; /* Hidden by default */
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -118,11 +118,11 @@ h2 {
   background-color: #f3f3f3;
   padding: 10px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensures no extra scrolling */
 }
 
-/* Show footer in mini-dictionary mode */
 .footer.active {
-  display: block;
+  display: block; /* Displayed when in miniDictionary mode */
 }
 
 /* Hide the right section in mini-dictionary mode */
@@ -130,17 +130,21 @@ h2 {
   display: none;
 }
 
-/* Adjust left section to full width in mini-dictionary mode */
-.container.single-column .text-section {
+/* Only apply full width to left section in mini-dictionary mode */
+.container.single-column #leftSection {
   width: 100%;
 }
 
-/* Footer language selector positioning */
+/* Style for footer language selector */
 .footer select {
   margin-bottom: 10px;
+  width: 100%; /* Full width to fit footer */
 }
 
+/* Style for displaying equivalent words in footer content */
 .footer-content {
   font-size: var(--base-font-size);
   color: #333;
+  margin-top: 10px;
+  line-height: 1.5;
 }

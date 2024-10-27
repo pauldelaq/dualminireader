@@ -104,8 +104,10 @@ function processTranslations() {
   localStorage.setItem('wordEquivalencies', JSON.stringify(wordEquivalencies));
 }
 
-// Handle word click events to set keyboard navigation starting point
 function handleWordClick(event, side) {
+  console.log("handleWordClick called with side:", side);
+  console.log("Current display mode:", currentDisplayMode);
+
   const words = getWordElements(side);
   currentWordIndex = Array.from(words).indexOf(event.target);
   currentSide = side;
@@ -114,14 +116,19 @@ function handleWordClick(event, side) {
   event.target.classList.add('highlight', 'selected-word');
   highlightedWordId = event.target.getAttribute('data-word-id');
 
-  if (side === 'left') selectedWordOnLeft = event.target;
-  else selectedWordOnRight = event.target;
+  console.log("Clicked word ID (highlightedWordId):", highlightedWordId); 
+
+  if (side === 'left') {
+      selectedWordOnLeft = event.target;
+  } else {
+      selectedWordOnRight = event.target;
+  }
 
   highlightWordsOnBothSides(highlightedWordId);
 
-  // Check if miniDictionary mode is active and display the equivalent in the footer
   if (currentDisplayMode === 'miniDictionary' && side === 'left') {
-    displayEquivalentWordInFooter(highlightedWordId);
+      console.log("Calling displayEquivalentWordInFooter with ID:", highlightedWordId);
+      displayEquivalentWordInFooter(highlightedWordId);
   }
 }
 
@@ -306,6 +313,7 @@ function activateSideBySideMode() {
   footerDictionary.classList.remove('active');
   rightSection.classList.remove('hidden');
   currentDisplayMode = 'sideBySide';
+  console.log("Switched to sideBySide mode");
 }
 
 function activateMiniDictionaryMode() {
@@ -313,14 +321,29 @@ function activateMiniDictionaryMode() {
   footerDictionary.classList.add('active');
   rightSection.classList.add('hidden');
   currentDisplayMode = 'miniDictionary';
+  console.log("Switched to miniDictionary mode");
 }
 
+footerLanguageSelector.addEventListener('change', () => {
+  console.log("Footer language changed");  // This should log whenever the dropdown value changes
+  if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
+      displayEquivalentWordInFooter(highlightedWordId); // Update displayed word when language changes
+  }
+});
+
 function displayEquivalentWordInFooter(wordId) {
+  console.log("displayEquivalentWordInFooter called with wordId:", wordId);
   const equivalentWords = wordEquivalencies[wordId];
+  console.log("Equivalent Words Object:", equivalentWords);
+
   if (equivalentWords) {
-    const selectedLang = footerLanguageSelector.value;
-    footerContent.textContent = equivalentWords[selectedLang] || 'No translation available';
+      const selectedLang = footerLanguageSelector.value;
+      console.log("Selected Language:", selectedLang);
+      const equivalentText = equivalentWords[selectedLang] || '...';
+      footerContent.textContent = equivalentText;
+      console.log("Text set in footerContent:", equivalentText);
   } else {
-    footerContent.textContent = 'No translation available';
+      footerContent.textContent = '...';
+      console.log("Text set in footerContent:", "...");
   }
 }

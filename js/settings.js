@@ -77,35 +77,39 @@ function initializeDisplayModeControl() {
 
     document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
         radio.addEventListener('change', (event) => {
-            console.log("Display mode changed:", event.target.value); // Add this line
             const selectedMode = event.target.value;
-            applyDisplayMode(selectedMode);
-            localStorage.setItem('displayMode', selectedMode); // Save mode to localStorage
+            if (selectedMode === 'sideBySide') {
+                currentDisplayMode = 'sideBySide'; // Update current mode
+                activateSideBySideMode();
+            } else if (selectedMode === 'miniDictionary') {
+                currentDisplayMode = 'miniDictionary'; // Update current mode
+                activateMiniDictionaryMode();
+            }
+            console.log("Display mode changed to:", currentDisplayMode);
         });
     });
-}
-
-function applyDisplayMode(mode) {
-    const textContainer = document.getElementById('textContainer');
-    const rightSection = document.getElementById('rightSection');
-    const leftSection = document.getElementById('leftSection');
-    const footerDictionary = document.getElementById('footerDictionary');
-
-    if (mode === 'sideBySide') {
-        // Side-by-side mode settings
-        textContainer.classList.remove('single-column');
-        footerDictionary.classList.remove('active'); // Hide footer
-        rightSection.classList.remove('hidden'); // Show right section
-        leftSection.style.width = '45%'; // Reset left section width to default
-    } else if (mode === 'miniDictionary') {
-        // Mini-dictionary mode settings
-        textContainer.classList.add('single-column');
-        footerDictionary.classList.add('active'); // Show footer
-        rightSection.classList.add('hidden'); // Hide right section
-        leftSection.style.width = '100%'; // Expand left section to full width
     }
-}
 
+    function applyDisplayMode(mode) {
+        const textContainer = document.getElementById('textContainer');
+        const rightSection = document.getElementById('rightSection');
+        const leftSection = document.getElementById('leftSection');
+        const footerDictionary = document.getElementById('footerDictionary');
+    
+        if (mode === 'sideBySide') {
+            textContainer.classList.remove('single-column');
+            footerDictionary.classList.remove('active');
+            rightSection.classList.remove('hidden');
+            
+            // Clear inline width to ensure CSS-defined 45% width is applied
+            leftSection.style.width = '';
+        } else if (mode === 'miniDictionary') {
+            textContainer.classList.add('single-column');
+            footerDictionary.classList.add('active');
+            rightSection.classList.add('hidden');
+        }
+    }
+        
 // Load settings menu, font size, and initialize settings on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadSettingsMenu();
