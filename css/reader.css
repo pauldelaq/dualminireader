@@ -7,6 +7,7 @@
 body {
   font-family: 'Noto Sans', sans-serif;
   letter-spacing: 2px;
+  overflow-x: hidden;
 }
 
 /* Exclude header from font size adjustments */
@@ -24,6 +25,7 @@ h1 {
 /* Apply font size adjustments only to main content */
 .main-content {
   font-size: var(--base-font-size);
+  max-width: 100%; /* Ensure main content does not exceed viewport width */
 }
 
 /* Text sections */
@@ -34,6 +36,7 @@ h1 {
 /* Flexbox container for side-by-side layout */
 .container {
   display: flex;
+  max-width: 100vw; /* Prevent content from expanding beyond the viewport */
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 20px;
@@ -41,14 +44,16 @@ h1 {
 
 /* Left and Right text sections */
 .text-section {
-  width: 45%;
+  width: 45%; /* Set the intended width */
+  max-width: 100%; /* Ensure it doesn’t exceed container width */
   display: flex;
   flex-direction: column;
 }
 
-/* Align the right-side language selector with the text */
+/* Right section specific styling */
 .right-section {
   align-items: flex-start;
+  white-space: normal; /* Allows text to wrap naturally to the next line */
 }
 
 /* Ensure both dropdowns have the same fixed width */
@@ -99,4 +104,6 @@ h2 {
   letter-spacing: 2px;
   line-height: 1.6; /* Consistent line height */
   color: #333; /* Adjust to match your desired text color */
+  max-width: 100%; /* Prevent overflow */
+  overflow-wrap: break-word;
 }

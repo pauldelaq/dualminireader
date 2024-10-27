@@ -45,13 +45,14 @@
     text-align: center;
   }
   
-  .slider-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px 0;
-  }
+/* Center the font size control with an offset to the left */
+.slider-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust spacing as needed */
+  margin-left: -40px; /* Offset to the left; adjust value as needed */
+}
   
   .slider-label {
     font-size: inherit;
