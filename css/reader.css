@@ -9,6 +9,16 @@ body {
   letter-spacing: 2px;
 }
 
+/* Style for the main welcome message */
+p {
+  font-size: var(--base-font-size);
+}
+
+/* Style for dynamically generated text list items */
+#textList, #textList p, #textList a {
+  font-size: var(--base-font-size); /* Ensures text size responds to the slider */
+}
+
 /* Exclude header from font size adjustments */
 .header {
   font-size: 1em; /* Fixed size for header text */
@@ -90,4 +100,13 @@ h2 {
   font-size: clamp(0.8em, calc(var(--base-font-size) * 0.85), 1em);
   color: #555;
   margin-top: 10px;
+}
+
+/* Shared text styling for welcome and generated text */
+.common-text {
+  font-size: var(--base-font-size);
+  font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 2px;
+  line-height: 1.6; /* Consistent line height */
+  color: #333; /* Adjust to match your desired text color */
 }
