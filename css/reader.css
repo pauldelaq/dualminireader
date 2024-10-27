@@ -9,16 +9,6 @@ body {
   letter-spacing: 2px;
 }
 
-/* Style for the main welcome message */
-p {
-  font-size: var(--base-font-size);
-}
-
-/* Style for dynamically generated text list items */
-#textList, #textList p, #textList a {
-  font-size: var(--base-font-size); /* Ensures text size responds to the slider */
-}
-
 /* Exclude header from font size adjustments */
 .header {
   font-size: 1em; /* Fixed size for header text */
