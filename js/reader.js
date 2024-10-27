@@ -7,6 +7,14 @@ let selectedWordOnRight = null;
 // Track current index and side for keyboard navigation
 let currentWordIndex = -1;
 let currentSide = null;
+let currentDisplayMode = 'sideBySide'; // Default mode
+
+// Get the DOM elements for display mode handling
+const textContainer = document.getElementById('textContainer');
+const rightSection = document.getElementById('rightSection');
+const footerDictionary = document.getElementById('footerDictionary');
+const footerLanguageSelector = document.getElementById('footerLanguageSelector');
+const footerContent = document.getElementById('footerContent');
 
 // Function to get the value of the query parameter (e.g., "text=the_fox_and_the_grapes.json")
 function getQueryParam(param) {
@@ -42,23 +50,31 @@ function populateLanguageSelectors() {
   const languageOptions = Object.keys(translationsData);
   const leftSelector = document.getElementById('leftLanguageSelector');
   const rightSelector = document.getElementById('rightLanguageSelector');
+  const footerSelector = document.getElementById('footerLanguageSelector');
+  
   leftSelector.innerHTML = '';
   rightSelector.innerHTML = '';
+  footerSelector.innerHTML = '';
 
   languageOptions.forEach(languageKey => {
     const languageName = translationsData[languageKey].languageName;
     const optionLeft = document.createElement('option');
     const optionRight = document.createElement('option');
+    const optionFooter = document.createElement('option');
     optionLeft.value = languageKey;
     optionLeft.textContent = languageName;
     optionRight.value = languageKey;
     optionRight.textContent = languageName;
+    optionFooter.value = languageKey;
+    optionFooter.textContent = languageName;
     leftSelector.appendChild(optionLeft);
     rightSelector.appendChild(optionRight);
+    footerSelector.appendChild(optionFooter);
   });
 
   leftSelector.value = 'en';
   rightSelector.value = 'fr';
+  footerSelector.value = 'fr';
 }
 
 // Process translations and store equivalencies
@@ -94,48 +110,43 @@ function handleWordClick(event, side) {
   currentWordIndex = Array.from(words).indexOf(event.target);
   currentSide = side;
 
-  console.log("Clicked word index:", currentWordIndex);
-  console.log("Current side:", currentSide);
-  
   clearSelectedWordOnBothSides();
   event.target.classList.add('highlight', 'selected-word');
   highlightedWordId = event.target.getAttribute('data-word-id');
 
   if (side === 'left') selectedWordOnLeft = event.target;
   else selectedWordOnRight = event.target;
+
   highlightWordsOnBothSides(highlightedWordId);
+
+  // Check if miniDictionary mode is active and display the equivalent in the footer
+  if (currentDisplayMode === 'miniDictionary' && side === 'left') {
+    displayEquivalentWordInFooter(highlightedWordId);
+  }
 }
 
-// Updated function to highlight word by index and ensure consistent behavior
+// Function to highlight word by index and ensure consistent behavior
 function highlightWordByIndex(side, index) {
   const words = getWordElements(side);
 
-  // Clear previous highlights on both sides
   clearSelectedWordOnBothSides();
 
-  // Ensure the index is within bounds
   if (index >= 0 && index < words.length) {
     const word = words[index];
-    
-    // Add highlight and box to the new word
     word.classList.add('highlight', 'selected-word');
     
-    // Update selected word reference and highlightedWordId
-    if (side === 'left') {
-      selectedWordOnLeft = word;
-    } else if (side === 'right') {
-      selectedWordOnRight = word;
-    }
+    if (side === 'left') selectedWordOnLeft = word;
+    else selectedWordOnRight = word;
+
     highlightedWordId = word.getAttribute('data-word-id');
     currentWordIndex = index;
     currentSide = side;
 
-    // Highlight the equivalent word on the other side
     highlightWordsOnBothSides(highlightedWordId);
   }
 }
 
-// Updated keyboard event listener for navigation
+// Keyboard event listener for navigation
 document.addEventListener('keydown', (event) => {
   if (currentSide && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
     const words = getWordElements(currentSide);
@@ -146,7 +157,6 @@ document.addEventListener('keydown', (event) => {
       currentWordIndex--;
     }
 
-    // Use the updated function to highlight the word by index and synchronize both sides
     highlightWordByIndex(currentSide, currentWordIndex);
   }
 });
@@ -206,8 +216,8 @@ function makeWordsClickable(text) {
   let currentWordId = null;
 
   words.forEach((word, index) => {
-    const wordIds = word.match(/\d+(_\d+)*$/); // Extract one or more word IDs
-    const cleanWord = word.replace(/\d+(_\d+)*$/, ''); // Remove the numbers from the word
+    const wordIds = word.match(/\d+(_\d+)*$/);
+    const cleanWord = word.replace(/\d+(_\d+)*$/, '');
 
     if (wordIds) {
       if (currentWordId === wordIds[0]) {
@@ -219,8 +229,6 @@ function makeWordsClickable(text) {
         currentWordId = wordIds[0];
         currentPhrase = cleanWord;
       }
-
-      // Handle the last word
       if (index === words.length - 1) {
         result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span>`;
       }
@@ -240,7 +248,7 @@ function makeWordsClickable(text) {
 // Function to remove spaces for Japanese and Chinese content just before rendering to HTML
 function removeSpacesForAsianLanguages(text, language) {
   if (language === 'ja' || language === 'zh-TW') {
-    return text.replace(/>\s+</g, '><'); // Remove spaces between clickable words
+    return text.replace(/>\s+</g, '><');
   }
   return text;
 }
@@ -280,4 +288,39 @@ function highlightWordsOnBothSides(wordId) {
       }
     });
   });
+}
+
+// Functions for display mode switching
+document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
+  radio.addEventListener('change', (event) => {
+    if (event.target.value === 'sideBySide') {
+      activateSideBySideMode();
+    } else if (event.target.value === 'miniDictionary') {
+      activateMiniDictionaryMode();
+    }
+  });
+});
+
+function activateSideBySideMode() {
+  textContainer.classList.remove('single-column');
+  footerDictionary.classList.remove('active');
+  rightSection.classList.remove('hidden');
+  currentDisplayMode = 'sideBySide';
+}
+
+function activateMiniDictionaryMode() {
+  textContainer.classList.add('single-column');
+  footerDictionary.classList.add('active');
+  rightSection.classList.add('hidden');
+  currentDisplayMode = 'miniDictionary';
+}
+
+function displayEquivalentWordInFooter(wordId) {
+  const equivalentWords = wordEquivalencies[wordId];
+  if (equivalentWords) {
+    const selectedLang = footerLanguageSelector.value;
+    footerContent.textContent = equivalentWords[selectedLang] || 'No translation available';
+  } else {
+    footerContent.textContent = 'No translation available';
+  }
 }

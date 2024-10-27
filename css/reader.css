@@ -107,3 +107,40 @@ h2 {
   max-width: 100%; /* Prevent overflow */
   overflow-wrap: break-word;
 }
+
+/* Hide footer by default */
+.footer {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 20vh; /* Takes up 20% of the viewport height */
+  background-color: #f3f3f3;
+  padding: 10px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Show footer in mini-dictionary mode */
+.footer.active {
+  display: block;
+}
+
+/* Hide the right section in mini-dictionary mode */
+.container.single-column #rightSection {
+  display: none;
+}
+
+/* Adjust left section to full width in mini-dictionary mode */
+.container.single-column .text-section {
+  width: 100%;
+}
+
+/* Footer language selector positioning */
+.footer select {
+  margin-bottom: 10px;
+}
+
+.footer-content {
+  font-size: var(--base-font-size);
+  color: #333;
+}

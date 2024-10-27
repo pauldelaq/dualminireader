@@ -21,25 +21,30 @@
     <!-- Main content container for adjustable text -->
     <div class="main-content">
       <!-- Container for side-by-side language selectors and texts -->
-      <div class="container">
-        <!-- Left side section -->
-        <div class="text-section">
-          <select id="leftLanguageSelector"></select>
-          <h2 id="leftTitle"></h2>
-          <p id="leftText"></p>
-          <p id="leftNotes" class="notes"></p>
+      <div id="textContainer" class="container">
+        <!-- Left section (expanded in miniDictionary mode) -->
+        <div id="leftSection" class="text-section">
+            <select id="leftLanguageSelector"></select>
+            <h2 id="leftTitle"></h2>
+            <p id="leftText"></p>
+            <p id="leftNotes" class="notes"></p>
         </div>
-  
-        <!-- Right side section -->
-        <div class="text-section right-section">
-          <select id="rightLanguageSelector"></select>
-          <h2 id="rightTitle"></h2>
-          <p id="rightText"></p>
-          <p id="rightNotes" class="notes"></p>
+    
+        <!-- Right section (hidden in miniDictionary mode) -->
+        <div id="rightSection" class="text-section right-section">
+            <select id="rightLanguageSelector"></select>
+            <h2 id="rightTitle"></h2>
+            <p id="rightText"></p>
+            <p id="rightNotes" class="notes"></p>
         </div>
-      </div>
     </div>
-  
+    
+    <!-- Footer for mini-dictionary mode (visible only in miniDictionary mode) -->
+    <div id="footerDictionary" class="footer hidden">
+        <select id="footerLanguageSelector"></select>
+        <div id="footerContent" class="footer-content"></div>
+    </div>
+        </div>
     <!-- Scripts for reader and settings functionality -->
     <script src="js/reader.js"></script>
     <script src="js/settings.js"></script>

@@ -9,6 +9,7 @@ function loadSettingsMenu() {
 
             setupSettingsMenuListeners();  // Set up open/close behavior after loading HTML
             initializeFontSizeControl();   // Initialize font size control
+            initializeDisplayModeControl(); // Initialize display mode control
         })
         .catch(error => console.error('Error loading settings menu:', error));
 }
@@ -34,7 +35,7 @@ function setupSettingsMenuListeners() {
     });
 }
 
-// Function to load and apply the saved font size from localStorage
+// Load and apply the saved font size from localStorage
 function loadFontSize() {
     const savedFontSize = localStorage.getItem('fontSize') || 100; // Default to 100 if not set
     applyFontSize(savedFontSize);
@@ -51,13 +52,13 @@ function initializeFontSizeControl() {
   
     // Update font size on slider change
     fontSizeSlider.addEventListener('input', (event) => {
-      const newSize = event.target.value;
-      applyFontSize(newSize);
-      localStorage.setItem('fontSize', newSize); // Save font size to localStorage
+        const newSize = event.target.value;
+        applyFontSize(newSize);
+        localStorage.setItem('fontSize', newSize); // Save font size to localStorage
     });
 }
 
-// Function to apply font size across pages, excluding header
+// Apply font size across pages, excluding header
 function applyFontSize(sizePercentage) {
     const scale = sizePercentage / 100;
     document.documentElement.style.setProperty('--base-font-size', `${scale}em`);
@@ -66,6 +67,42 @@ function applyFontSize(sizePercentage) {
     const previewText = document.getElementById('previewText');
     if (previewText) {
         previewText.style.fontSize = `${scale}em`;
+    }
+}
+
+function initializeDisplayModeControl() {
+    console.log("Initializing display mode controls"); // Add this line
+    const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
+    applyDisplayMode(savedDisplayMode);
+
+    document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
+        radio.addEventListener('change', (event) => {
+            console.log("Display mode changed:", event.target.value); // Add this line
+            const selectedMode = event.target.value;
+            applyDisplayMode(selectedMode);
+            localStorage.setItem('displayMode', selectedMode); // Save mode to localStorage
+        });
+    });
+}
+
+function applyDisplayMode(mode) {
+    const textContainer = document.getElementById('textContainer');
+    const rightSection = document.getElementById('rightSection');
+    const leftSection = document.getElementById('leftSection');
+    const footerDictionary = document.getElementById('footerDictionary');
+
+    if (mode === 'sideBySide') {
+        // Side-by-side mode settings
+        textContainer.classList.remove('single-column');
+        footerDictionary.classList.remove('active'); // Hide footer
+        rightSection.classList.remove('hidden'); // Show right section
+        leftSection.style.width = '45%'; // Reset left section width to default
+    } else if (mode === 'miniDictionary') {
+        // Mini-dictionary mode settings
+        textContainer.classList.add('single-column');
+        footerDictionary.classList.add('active'); // Show footer
+        rightSection.classList.add('hidden'); // Hide right section
+        leftSection.style.width = '100%'; // Expand left section to full width
     }
 }
 
