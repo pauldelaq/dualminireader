@@ -1,9 +1,9 @@
-/* Define default font size variable */
+/* Base font size variable */
 :root {
-  --base-font-size: 1em; /* Default to 1em */
+  --base-font-size: 1em; /* Default font size */
 }
 
-/* Universal font with support for multiple languages */
+/* Universal font styling */
 body {
   font-family: 'Noto Sans', sans-serif;
   letter-spacing: 2px;
@@ -11,7 +11,7 @@ body {
 
 /* Exclude header from font size adjustments */
 .header {
-  font-size: 1em; /* Fixed font size for header elements */
+  font-size: 1em; /* Fixed size for header text */
 }
 
 h1 {
@@ -21,9 +21,14 @@ h1 {
   letter-spacing: 2px;
 }
 
-/* Adjust the base size for readability in main content */
-.text-section {
+/* Apply font size adjustments only to main content */
+.main-content {
   font-size: var(--base-font-size);
+}
+
+/* Text sections */
+.text-section {
+  font-size: 1em; /* Standard body text size */
 }
 
 /* Flexbox container for side-by-side layout */
@@ -59,9 +64,9 @@ label {
   margin-bottom: 5px;
 }
 
-/* Title styling */
+/* Proportionally limit title size */
 h2 {
-  font-size: calc(var(--base-font-size) * 1.5); /* Proportionally larger than body */
+  font-size: clamp(1.2em, calc(var(--base-font-size) * 1.4), 1.6em);
   margin-bottom: 10px;
   letter-spacing: 2px;
 }
@@ -79,10 +84,10 @@ h2 {
   box-sizing: border-box;
 }
 
-/* Styling for notes */
+/* Limit notes size growth */
 .notes {
   font-style: italic;
-  font-size: calc(var(--base-font-size) * 0.9); /* Slightly smaller than body */
+  font-size: clamp(0.8em, calc(var(--base-font-size) * 0.85), 1em);
   color: #555;
   margin-top: 10px;
 }

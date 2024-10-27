@@ -1,15 +1,16 @@
 /* Position the settings menu to cover the entire area below the header */
 .settings-menu {
-    position: fixed;
-    top: 53.5px; /* Adjust this value to match the height of your header */
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 50px); /* Take the full viewport height minus header */
-    background-color: white;
-    overflow-y: auto;
-    z-index: 10; /* Ensures it stays above other content */
-    display: none; /* Initially hidden */
-    padding: 20px;
+  position: fixed;
+  top: 53.5px; /* Adjust this value to match the height of your header */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 53.5px); /* Adjust to match header height */
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px); /* Apply a 10px blur effect */
+  overflow-y: auto;
+  z-index: 10; /* Ensure it stays above other content */
+  display: none; /* Initially hidden */
+  padding: 20px;
 }
 
 /* Show the settings menu when not hidden */

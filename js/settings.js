@@ -34,37 +34,29 @@ function setupSettingsMenuListeners() {
     });
 }
 
-// Initialize font size slider and set up event listeners
+// Initialize font size slider without preview text
 function initializeFontSizeControl() {
     const fontSizeSlider = document.getElementById('fontSizeSlider');
-    const previewText = document.getElementById('previewText');
-
-    if (!fontSizeSlider || !previewText) {
-        console.error("Font size slider or preview text element is missing.");
-        return;
-    }
-
+  
     // Set initial slider value from localStorage or default
     const savedFontSize = localStorage.getItem('fontSize') || 100;
     fontSizeSlider.value = savedFontSize;
     applyFontSize(savedFontSize);
-
+  
     // Update font size on slider change
     fontSizeSlider.addEventListener('input', (event) => {
-        const newSize = event.target.value;
-        applyFontSize(newSize);
-        localStorage.setItem('fontSize', newSize);
+      const newSize = event.target.value;
+      applyFontSize(newSize);
+      localStorage.setItem('fontSize', newSize); // Save font size to localStorage
     });
 }
 
 // Function to apply font size across pages, excluding header
 function applyFontSize(sizePercentage) {
     const scale = sizePercentage / 100;
-  
-    // Update the root CSS variable for the entire document
     document.documentElement.style.setProperty('--base-font-size', `${scale}em`);
-  
-    // Update preview text size based on this variable as well
+
+    // Update preview text size, but only if previewText exists
     const previewText = document.getElementById('previewText');
     if (previewText) {
         previewText.style.fontSize = `${scale}em`;
