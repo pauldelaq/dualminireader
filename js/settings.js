@@ -34,6 +34,12 @@ function setupSettingsMenuListeners() {
     });
 }
 
+// Function to load and apply the saved font size from localStorage
+function loadFontSize() {
+    const savedFontSize = localStorage.getItem('fontSize') || 100; // Default to 100 if not set
+    applyFontSize(savedFontSize);
+}
+
 // Initialize font size slider without preview text
 function initializeFontSizeControl() {
     const fontSizeSlider = document.getElementById('fontSizeSlider');
@@ -63,8 +69,8 @@ function applyFontSize(sizePercentage) {
     }
 }
 
-// Load settings menu and initialize settings on page load
+// Load settings menu, font size, and initialize settings on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadSettingsMenu();
-    // loadSettings();  // Uncomment when you have a loadSettings function defined
+    loadFontSize(); // Apply font size from localStorage on page load
 });

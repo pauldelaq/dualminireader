@@ -1,12 +1,3 @@
-// index.js
-
-// Function to load and apply the saved font size from localStorage
-function loadFontSize() {
-  const savedFontSize = localStorage.getItem('fontSize') || 100; // Default to 100 if not set
-  const scale = savedFontSize / 100;
-  document.documentElement.style.setProperty('--base-font-size', `${scale}em`);
-}
-
 document.addEventListener('DOMContentLoaded', function () {
   fetch('data/texts.json')
     .then(response => response.json())
