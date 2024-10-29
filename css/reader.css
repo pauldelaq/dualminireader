@@ -26,6 +26,7 @@ h1 {
 .main-content {
   font-size: var(--base-font-size);
   max-width: 100%; /* Ensure main content does not exceed viewport width */
+  padding-bottom: 90px; /* Slightly more than footer height to ensure visibility */
 }
 
 /* Text sections */
