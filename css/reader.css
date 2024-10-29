@@ -114,7 +114,7 @@ h2 {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 20vh; /* Takes up 20% of the viewport height */
+  height: 13vh; /* viewport height */
   background-color: #f3f3f3;
   padding: 10px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -123,6 +123,7 @@ h2 {
 
 .footer.active {
   display: block; /* Displayed when in miniDictionary mode */
+  left: 0px;
 }
 
 /* Hide the right section in mini-dictionary mode */
@@ -145,6 +146,6 @@ h2 {
 .footer-content {
   font-size: var(--base-font-size);
   color: #333;
-  margin-top: 10px;
+  margin-top: -13px;
   line-height: 1.5;
 }
