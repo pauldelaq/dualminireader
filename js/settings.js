@@ -10,6 +10,10 @@ function loadSettingsMenu() {
             setupSettingsMenuListeners();  // Set up open/close behavior after loading HTML
             initializeFontSizeControl();   // Initialize font size control
             initializeDisplayModeControl(); // Initialize display mode control
+
+            // Apply saved display mode here, ensuring elements are in the DOM
+            const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
+            applyDisplayMode(savedDisplayMode);
         })
         .catch(error => console.error('Error loading settings menu:', error));
 }
@@ -71,44 +75,54 @@ function applyFontSize(sizePercentage) {
 }
 
 function initializeDisplayModeControl() {
-    console.log("Initializing display mode controls"); // Add this line
+    // Get the saved display mode from localStorage
     const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
-    applyDisplayMode(savedDisplayMode);
 
+    // Select the radio buttons
+    const sideBySideRadio = document.querySelector('input[name="displayMode"][value="sideBySide"]');
+    const miniDictionaryRadio = document.querySelector('input[name="displayMode"][value="miniDictionary"]');
+    
+    // Set the radio button checked status based on saved display mode
+    if (savedDisplayMode === 'sideBySide') {
+        sideBySideRadio.checked = true;
+        applyDisplayMode('sideBySide'); // Apply side-by-side mode on load
+    } else if (savedDisplayMode === 'miniDictionary') {
+        miniDictionaryRadio.checked = true;
+        applyDisplayMode('miniDictionary'); // Apply mini-dictionary mode on load
+    }
+
+    // Add event listeners to update display mode on radio button change
     document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
         radio.addEventListener('change', (event) => {
             const selectedMode = event.target.value;
-            if (selectedMode === 'sideBySide') {
-                currentDisplayMode = 'sideBySide'; // Update current mode
-                activateSideBySideMode();
-            } else if (selectedMode === 'miniDictionary') {
-                currentDisplayMode = 'miniDictionary'; // Update current mode
-                activateMiniDictionaryMode();
-            }
-            console.log("Display mode changed to:", currentDisplayMode);
+            localStorage.setItem('displayMode', selectedMode); // Save selected mode
+            applyDisplayMode(selectedMode); // Apply the selected display mode
+            console.log("Display mode changed to:", selectedMode); // Log the selected mode
         });
     });
-    }
+}
 
-    function applyDisplayMode(mode) {
-        const textContainer = document.getElementById('textContainer');
-        const rightSection = document.getElementById('rightSection');
-        const leftSection = document.getElementById('leftSection');
-        const footerDictionary = document.getElementById('footerDictionary');
-    
+// Apply display mode to the layout
+function applyDisplayMode(mode) {
+    const textContainer = document.getElementById('textContainer');
+    const rightSection = document.getElementById('rightSection');
+    const leftSection = document.getElementById('leftSection');
+    const footerDictionary = document.getElementById('footerDictionary');
+
+    if (textContainer && rightSection && leftSection && footerDictionary) {
         if (mode === 'sideBySide') {
             textContainer.classList.remove('single-column');
             footerDictionary.classList.remove('active');
             rightSection.classList.remove('hidden');
-            
-            // Clear inline width to ensure CSS-defined 45% width is applied
             leftSection.style.width = '';
         } else if (mode === 'miniDictionary') {
             textContainer.classList.add('single-column');
             footerDictionary.classList.add('active');
             rightSection.classList.add('hidden');
+            leftSection.style.width = '100%';
         }
     }
+}
         
 // Load settings menu, font size, and initialize settings on page load
 document.addEventListener('DOMContentLoaded', () => {
