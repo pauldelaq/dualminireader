@@ -132,39 +132,49 @@ function handleWordClick(event, side) {
   }
 }
 
-// Function to highlight word by index and ensure consistent behavior
+// Updated highlightWordByIndex function to work with miniDictionary mode
 function highlightWordByIndex(side, index) {
   const words = getWordElements(side);
 
   clearSelectedWordOnBothSides();
 
   if (index >= 0 && index < words.length) {
-    const word = words[index];
-    word.classList.add('highlight', 'selected-word');
-    
-    if (side === 'left') selectedWordOnLeft = word;
-    else selectedWordOnRight = word;
+      const word = words[index];
+      word.classList.add('highlight', 'selected-word');
+      
+      if (side === 'left') selectedWordOnLeft = word;
+      else selectedWordOnRight = word;
 
-    highlightedWordId = word.getAttribute('data-word-id');
-    currentWordIndex = index;
-    currentSide = side;
+      highlightedWordId = word.getAttribute('data-word-id');
+      currentWordIndex = index;
+      currentSide = side;
 
-    highlightWordsOnBothSides(highlightedWordId);
+      highlightWordsOnBothSides(highlightedWordId);
+
+      // Update mini-dictionary when in miniDictionary mode
+      if (currentDisplayMode === 'miniDictionary' && side === 'left') {
+          displayEquivalentWordInFooter(highlightedWordId);
+      }
   }
 }
 
-// Keyboard event listener for navigation
+// Updated keyboard event listener for navigation to reflect mini-dictionary changes
 document.addEventListener('keydown', (event) => {
   if (currentSide && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
-    const words = getWordElements(currentSide);
+      const words = getWordElements(currentSide);
 
-    if (event.key === 'ArrowRight' && currentWordIndex < words.length - 1) {
-      currentWordIndex++;
-    } else if (event.key === 'ArrowLeft' && currentWordIndex > 0) {
-      currentWordIndex--;
-    }
+      if (event.key === 'ArrowRight' && currentWordIndex < words.length - 1) {
+          currentWordIndex++;
+      } else if (event.key === 'ArrowLeft' && currentWordIndex > 0) {
+          currentWordIndex--;
+      }
 
-    highlightWordByIndex(currentSide, currentWordIndex);
+      highlightWordByIndex(currentSide, currentWordIndex);
+
+      // Ensure mini-dictionary updates on key navigation
+      if (currentDisplayMode === 'miniDictionary' && currentSide === 'left') {
+          displayEquivalentWordInFooter(highlightedWordId);
+      }
   }
 });
 
@@ -331,19 +341,15 @@ footerLanguageSelector.addEventListener('change', () => {
   }
 });
 
+// Update displayEquivalentWordInFooter to be consistent across modes
 function displayEquivalentWordInFooter(wordId) {
-  console.log("displayEquivalentWordInFooter called with wordId:", wordId);
   const equivalentWords = wordEquivalencies[wordId];
-  console.log("Equivalent Words Object:", equivalentWords);
+  console.log("Displaying equivalent word in footer for word ID:", wordId, "Equivalent words:", equivalentWords);
 
   if (equivalentWords) {
-      const selectedLang = footerLanguageSelector.value;
-      console.log("Selected Language:", selectedLang);
-      const equivalentText = equivalentWords[selectedLang] || '...';
-      footerContent.textContent = equivalentText;
-      console.log("Text set in footerContent:", equivalentText);
+      const selectedLang = footerLanguageSelector.value; // Get the selected language in the footer
+      footerContent.textContent = equivalentWords[selectedLang] || '...'; // Display equivalent word or message
   } else {
-      footerContent.textContent = '...';
-      console.log("Text set in footerContent:", "...");
+      footerContent.textContent = '...'; // Display message if no equivalent found
   }
 }
