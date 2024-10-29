@@ -75,29 +75,29 @@ function applyFontSize(sizePercentage) {
 }
 
 function initializeDisplayModeControl() {
-    // Get the saved display mode from localStorage
-    const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
+    // Get the saved display mode from localStorage or default to 'sideBySide'
+    currentDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
 
     // Select the radio buttons
     const sideBySideRadio = document.querySelector('input[name="displayMode"][value="sideBySide"]');
     const miniDictionaryRadio = document.querySelector('input[name="displayMode"][value="miniDictionary"]');
     
-    // Set the radio button checked status based on saved display mode
-    if (savedDisplayMode === 'sideBySide') {
+    // Set the checked status of the radio button based on currentDisplayMode
+    if (currentDisplayMode === 'sideBySide') {
         sideBySideRadio.checked = true;
         applyDisplayMode('sideBySide'); // Apply side-by-side mode on load
-    } else if (savedDisplayMode === 'miniDictionary') {
+    } else if (currentDisplayMode === 'miniDictionary') {
         miniDictionaryRadio.checked = true;
         applyDisplayMode('miniDictionary'); // Apply mini-dictionary mode on load
     }
 
-    // Add event listeners to update display mode on radio button change
+    // Event listeners to update display mode on radio button change
     document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
         radio.addEventListener('change', (event) => {
-            const selectedMode = event.target.value;
-            localStorage.setItem('displayMode', selectedMode); // Save selected mode
-            applyDisplayMode(selectedMode); // Apply the selected display mode
-            console.log("Display mode changed to:", selectedMode); // Log the selected mode
+            currentDisplayMode = event.target.value; // Update currentDisplayMode
+            localStorage.setItem('displayMode', currentDisplayMode); // Save to localStorage
+            applyDisplayMode(currentDisplayMode); // Apply the selected display mode
+            console.log("Display mode changed to:", currentDisplayMode); // Log the change
         });
     });
 }
