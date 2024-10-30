@@ -361,14 +361,18 @@ footerLanguageSelector.addEventListener('change', () => {
   }
 });
 
-// Update displayEquivalentWordInFooter to be consistent across modes
 function displayEquivalentWordInFooter(wordId) {
   const equivalentWords = wordEquivalencies[wordId];
   console.log("Displaying equivalent word in footer for word ID:", wordId, "Equivalent words:", equivalentWords);
 
   if (equivalentWords) {
-      const selectedLang = footerLanguageSelector.value; // Get the selected language in the footer
-      footerContent.textContent = equivalentWords[selectedLang] || '...'; // Display equivalent word or message
+      const selectedLang = footerLanguageSelector.value;
+      let wordToDisplay = equivalentWords[selectedLang] || '...';
+
+      // Remove punctuation from the word
+      wordToDisplay = wordToDisplay.replace(/[.,\/#!$%\^&\*;:{}=\«»_`~()。]/g,"");
+
+      footerContent.textContent = wordToDisplay;
   } else {
       footerContent.textContent = '...'; // Display message if no equivalent found
   }
