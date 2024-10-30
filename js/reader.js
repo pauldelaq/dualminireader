@@ -77,31 +77,42 @@ function populateLanguageSelectors() {
   footerSelector.value = 'fr';
 }
 
-// Process translations and store equivalencies
 function processTranslations() {
   const languages = Object.keys(translationsData);
   wordEquivalencies = {};
+  
   languages.forEach(lang => {
     const words = translationsData[lang].text.split(' ');
     const titleWords = translationsData[lang].title.split(' ');
-    titleWords.forEach(word => {
-      const wordId = word.match(/\d+$/);
-      if (wordId) {
-        const cleanWord = word.replace(/\d+$/, '');
-        if (!wordEquivalencies[wordId]) wordEquivalencies[wordId] = {};
-        wordEquivalencies[wordId][lang] = cleanWord;
-      }
-    });
-    words.forEach(word => {
-      const wordId = word.match(/\d+$/);
-      if (wordId) {
-        const cleanWord = word.replace(/\d+$/, '');
-        if (!wordEquivalencies[wordId]) wordEquivalencies[wordId] = {};
-        wordEquivalencies[wordId][lang] = cleanWord;
-      }
-    });
+
+    // Process title words
+    titleWords.forEach(word => processWord(word, lang));
+
+    // Process body text words
+    words.forEach(word => processWord(word, lang));
   });
+
+  // Store equivalencies in localStorage
   localStorage.setItem('wordEquivalencies', JSON.stringify(wordEquivalencies));
+}
+
+function processWord(word, lang) {
+  const wordIds = word.match(/\d+(_\d+)*/);
+  if (wordIds) {
+    const cleanWord = word.replace(/\d+(_\d+)*/, '');
+    wordIds[0].split('_').forEach(id => {
+      if (!wordEquivalencies[id]) wordEquivalencies[id] = {};
+      wordEquivalencies[id][lang] = cleanWord;
+      
+      // Track multi-word connections across IDs for reverse lookup
+      wordIds[0].split('_').forEach(relatedId => {
+        if (relatedId !== id) {
+          if (!wordEquivalencies[id].connections) wordEquivalencies[id].connections = new Set();
+          wordEquivalencies[id].connections.add(relatedId);
+        }
+      });
+    });
+  }
 }
 
 function handleWordClick(event, side) {
@@ -282,15 +293,24 @@ function clearSelectedWordOnBothSides() {
   }
 }
 
-// Function to highlight words on both sides
 function highlightWordsOnBothSides(wordId) {
-  const wordIds = wordId.split('_');
+  const wordIds = new Set(wordId.split('_'));
+  
+  // Include connected IDs in the set
+  wordIds.forEach(id => {
+    if (wordEquivalencies[id] && wordEquivalencies[id].connections) {
+      wordEquivalencies[id].connections.forEach(connId => wordIds.add(connId));
+    }
+  });
+
   const leftWords = document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`);
   const rightWords = document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`);
 
+  // Clear existing highlights
   leftWords.forEach(word => word.classList.remove('highlight'));
   rightWords.forEach(word => word.classList.remove('highlight'));
 
+  // Apply highlights based on gathered IDs
   wordIds.forEach(id => {
     leftWords.forEach(word => {
       const wordDataIds = word.getAttribute('data-word-id').split('_');
