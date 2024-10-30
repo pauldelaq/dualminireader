@@ -29,15 +29,28 @@ if (textFile) {
     .then(data => {
       translationsData = data.languages;
       populateLanguageSelectors();
-      processTranslations();
       updateText('left');
       updateText('right');
 
-      document.getElementById('leftLanguageSelector').addEventListener('change', function() {
+      // Event listeners for dropdown changes
+      document.getElementById('leftLanguageSelector').addEventListener('change', () => {
         updateText('left');
+        updateWordEquivalenciesForSelectedLanguages(); // Update equivalencies based on new language pair
+        
+        // Update mini-dictionary if in miniDictionary mode
+        if (currentDisplayMode === 'miniDictionary' && highlightedWordId) {
+          displayEquivalentWordInFooter(highlightedWordId);
+        }
       });
-      document.getElementById('rightLanguageSelector').addEventListener('change', function() {
+
+      document.getElementById('rightLanguageSelector').addEventListener('change', () => {
         updateText('right');
+        updateWordEquivalenciesForSelectedLanguages(); // Update equivalencies based on new language pair
+        
+        // Update mini-dictionary if in miniDictionary mode
+        if (currentDisplayMode === 'miniDictionary' && highlightedWordId) {
+          displayEquivalentWordInFooter(highlightedWordId);
+        }
       });
     })
     .catch(error => console.error('Error loading text:', error));
@@ -45,7 +58,51 @@ if (textFile) {
   console.error('No text file specified.');
 }
 
-// Populate dropdown menus based on languages in JSON
+// ** New function: update word equivalencies based on the selected languages **
+function updateWordEquivalenciesForSelectedLanguages() {
+  const leftLang = document.getElementById('leftLanguageSelector').value;
+  const rightLang = document.getElementById('rightLanguageSelector').value;
+  
+  wordEquivalencies = {}; // Clear current equivalencies
+  processTranslations(leftLang, rightLang); // Cross-reference only selected languages
+}
+
+// ** Modified function: processTranslations for only two languages **
+function processTranslations(lang1, lang2) {
+  wordEquivalencies = {};
+
+  // Retrieve words for lang1 and lang2 from translationsData
+  const lang1Words = [...translationsData[lang1].text.split(' '), ...translationsData[lang1].title.split(' ')];
+  const lang2Words = [...translationsData[lang2].text.split(' '), ...translationsData[lang2].title.split(' ')];
+
+  // Process words in lang1
+  lang1Words.forEach(word => processWord(word, lang1));
+
+  // Process words in lang2
+  lang2Words.forEach(word => processWord(word, lang2));
+}
+
+// ** Unchanged function: process each word to store equivalencies **
+function processWord(word, lang) {
+  const wordIds = word.match(/\d+(_\d+)*/);
+  if (wordIds) {
+    const cleanWord = word.replace(/\d+(_\d+)*/, '');
+    wordIds[0].split('_').forEach(id => {
+      if (!wordEquivalencies[id]) wordEquivalencies[id] = {};
+      wordEquivalencies[id][lang] = cleanWord;
+      
+      // Track multi-word connections across IDs for reverse lookup
+      wordIds[0].split('_').forEach(relatedId => {
+        if (relatedId !== id) {
+          if (!wordEquivalencies[id].connections) wordEquivalencies[id].connections = new Set();
+          wordEquivalencies[id].connections.add(relatedId);
+        }
+      });
+    });
+  }
+}
+
+// ** Modified function: Populate dropdown menus and add synchronization **
 function populateLanguageSelectors() {
   const languageOptions = Object.keys(translationsData);
   const leftSelector = document.getElementById('leftLanguageSelector');
@@ -79,58 +136,34 @@ function populateLanguageSelectors() {
 
   // Synchronize right and footer selectors
   syncLanguageSelectors(rightSelector, footerSelector);
+
+  // Set initial word equivalencies for default language selections
+  updateWordEquivalenciesForSelectedLanguages();
 }
 
-// Function to synchronize the right and footer language selectors
 function syncLanguageSelectors(rightSelector, footerSelector) {
+  // When the right language selector changes
   rightSelector.addEventListener('change', () => {
     footerSelector.value = rightSelector.value;
-    updateText('right'); // Optional: Refresh content based on selected language
+    updateText('right'); // Refresh content for the right side
+    updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
+    if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
+      displayEquivalentWordInFooter(highlightedWordId); // Update mini-dictionary content
+    }
   });
 
+  // When the footer language selector changes
   footerSelector.addEventListener('change', () => {
     rightSelector.value = footerSelector.value;
-    updateText('right'); // Optional: Refresh content based on selected language
+    updateText('right'); // Refresh content for the right side
+    updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
+    if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
+      displayEquivalentWordInFooter(highlightedWordId); // Update mini-dictionary content
+    }
   });
 }
 
-function processTranslations() {
-  const languages = Object.keys(translationsData);
-  wordEquivalencies = {};
-  
-  languages.forEach(lang => {
-    const words = translationsData[lang].text.split(' ');
-    const titleWords = translationsData[lang].title.split(' ');
-
-    // Process title words
-    titleWords.forEach(word => processWord(word, lang));
-
-    // Process body text words
-    words.forEach(word => processWord(word, lang));
-  });
-
-  // Store equivalencies in localStorage
-  localStorage.setItem('wordEquivalencies', JSON.stringify(wordEquivalencies));
-}
-
-function processWord(word, lang) {
-  const wordIds = word.match(/\d+(_\d+)*/);
-  if (wordIds) {
-    const cleanWord = word.replace(/\d+(_\d+)*/, '');
-    wordIds[0].split('_').forEach(id => {
-      if (!wordEquivalencies[id]) wordEquivalencies[id] = {};
-      wordEquivalencies[id][lang] = cleanWord;
-      
-      // Track multi-word connections across IDs for reverse lookup
-      wordIds[0].split('_').forEach(relatedId => {
-        if (relatedId !== id) {
-          if (!wordEquivalencies[id].connections) wordEquivalencies[id].connections = new Set();
-          wordEquivalencies[id].connections.add(relatedId);
-        }
-      });
-    });
-  }
-}
+// Rest of your existing code remains unchanged
 
 function handleWordClick(event, side) {
   console.log("handleWordClick called with side:", side);
@@ -160,7 +193,6 @@ function handleWordClick(event, side) {
   }
 }
 
-// Updated highlightWordByIndex function to work with miniDictionary mode
 function highlightWordByIndex(side, index) {
   const words = getWordElements(side);
 
@@ -179,7 +211,6 @@ function highlightWordByIndex(side, index) {
 
       highlightWordsOnBothSides(highlightedWordId);
 
-      // Update mini-dictionary when in miniDictionary mode
       if (currentDisplayMode === 'miniDictionary' && side === 'left') {
           displayEquivalentWordInFooter(highlightedWordId);
       }
@@ -372,9 +403,14 @@ function activateMiniDictionaryMode() {
 }
 
 footerLanguageSelector.addEventListener('change', () => {
-  console.log("Footer language changed");  // This should log whenever the dropdown value changes
+  console.log("Footer language changed");  // Log whenever the footer dropdown changes
+
+  // Recalculate word equivalencies based on updated language pair
+  updateWordEquivalenciesForSelectedLanguages();
+  
+  // Update mini-dictionary content if in miniDictionary mode
   if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
-      displayEquivalentWordInFooter(highlightedWordId); // Update displayed word when language changes
+    displayEquivalentWordInFooter(highlightedWordId);
   }
 });
 
@@ -383,14 +419,15 @@ function displayEquivalentWordInFooter(wordId) {
   console.log("Displaying equivalent word in footer for word ID:", wordId, "Equivalent words:", equivalentWords);
 
   if (equivalentWords) {
-      const selectedLang = footerLanguageSelector.value;
-      let wordToDisplay = equivalentWords[selectedLang] || '...';
+      // Get the currently selected language in the footer each time this function is called
+      const selectedFooterLang = footerLanguageSelector.value;
+      let wordToDisplay = equivalentWords[selectedFooterLang] || '...';
 
-      // Remove punctuation from the word
+      // Remove punctuation from the word for display in mini-dictionary
       wordToDisplay = wordToDisplay.replace(/[.,\/#!$%\^&\*;:{}=\«»_`~()。]/g,"");
 
       footerContent.textContent = wordToDisplay;
   } else {
-      footerContent.textContent = '...'; // Display message if no equivalent found
+      footerContent.textContent = '...'; // Display a placeholder if no equivalent is found
   }
 }
