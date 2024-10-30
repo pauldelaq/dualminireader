@@ -32,23 +32,24 @@ if (textFile) {
       updateText('left');
       updateText('right');
 
-      // Event listeners for dropdown changes
+      // Event listener for left language selector
       document.getElementById('leftLanguageSelector').addEventListener('change', () => {
         updateText('left');
-        updateWordEquivalenciesForSelectedLanguages(); // Update equivalencies based on new language pair
-        
-        // Update mini-dictionary if in miniDictionary mode
-        if (currentDisplayMode === 'miniDictionary' && highlightedWordId) {
+        updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies based on new language pair
+
+        // Update mini-dictionary content if a word is highlighted
+        if (highlightedWordId) {
           displayEquivalentWordInFooter(highlightedWordId);
         }
       });
 
+      // Event listener for right language selector
       document.getElementById('rightLanguageSelector').addEventListener('change', () => {
         updateText('right');
-        updateWordEquivalenciesForSelectedLanguages(); // Update equivalencies based on new language pair
-        
-        // Update mini-dictionary if in miniDictionary mode
-        if (currentDisplayMode === 'miniDictionary' && highlightedWordId) {
+        updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
+
+        // Update mini-dictionary content if a word is highlighted
+        if (highlightedWordId) {
           displayEquivalentWordInFooter(highlightedWordId);
         }
       });
@@ -163,8 +164,6 @@ function syncLanguageSelectors(rightSelector, footerSelector) {
   });
 }
 
-// Rest of your existing code remains unchanged
-
 function handleWordClick(event, side) {
   console.log("handleWordClick called with side:", side);
   console.log("Current display mode:", currentDisplayMode);
@@ -187,10 +186,8 @@ function handleWordClick(event, side) {
 
   highlightWordsOnBothSides(highlightedWordId);
 
-  if (currentDisplayMode === 'miniDictionary' && side === 'left') {
-      console.log("Calling displayEquivalentWordInFooter with ID:", highlightedWordId);
-      displayEquivalentWordInFooter(highlightedWordId);
-  }
+  // Preload mini-dictionary content with the highlighted word
+  displayEquivalentWordInFooter(highlightedWordId);
 }
 
 function highlightWordByIndex(side, index) {
@@ -402,14 +399,13 @@ function activateMiniDictionaryMode() {
   console.log("Switched to miniDictionary mode");
 }
 
+// Event listener for footer language selector
 footerLanguageSelector.addEventListener('change', () => {
-  console.log("Footer language changed");  // Log whenever the footer dropdown changes
+  console.log("Footer language changed");
+  updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
 
-  // Recalculate word equivalencies based on updated language pair
-  updateWordEquivalenciesForSelectedLanguages();
-  
-  // Update mini-dictionary content if in miniDictionary mode
-  if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
+  // Update mini-dictionary content if a word is highlighted
+  if (highlightedWordId) {
     displayEquivalentWordInFooter(highlightedWordId);
   }
 });
