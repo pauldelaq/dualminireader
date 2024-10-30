@@ -72,9 +72,26 @@ function populateLanguageSelectors() {
     footerSelector.appendChild(optionFooter);
   });
 
+  // Set default values
   leftSelector.value = 'en';
   rightSelector.value = 'fr';
   footerSelector.value = 'fr';
+
+  // Synchronize right and footer selectors
+  syncLanguageSelectors(rightSelector, footerSelector);
+}
+
+// Function to synchronize the right and footer language selectors
+function syncLanguageSelectors(rightSelector, footerSelector) {
+  rightSelector.addEventListener('change', () => {
+    footerSelector.value = rightSelector.value;
+    updateText('right'); // Optional: Refresh content based on selected language
+  });
+
+  footerSelector.addEventListener('change', () => {
+    rightSelector.value = footerSelector.value;
+    updateText('right'); // Optional: Refresh content based on selected language
+  });
 }
 
 function processTranslations() {
