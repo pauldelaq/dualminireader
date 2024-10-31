@@ -249,10 +249,10 @@ function getWordElements(side) {
 // updateText function: Attach click listeners and process text
 function updateText(side) {
   const languageSelectorId = side === 'left' ? 'leftLanguageSelector' : 'rightLanguageSelector';
-  const titleElementId = side === 'left' ? 'leftTitle' : 'rightTitle';
-  const textElementId = side === 'left' ? 'leftText' : 'rightText';
-  const notesElementId = side === 'left' ? 'leftNotes' : 'rightNotes';
-  
+  const titleId = side === 'left' ? 'leftTitle' : 'rightTitle';
+  const textContainerId = side === 'left' ? 'leftText' : 'rightText';
+  const notesId = side === 'left' ? 'leftNotes' : 'rightNotes';
+
   const language = document.getElementById(languageSelectorId).value;
 
   if (!translationsData[language]) {
@@ -260,39 +260,63 @@ function updateText(side) {
     return;
   }
 
-  // Fetch title, text, and notes from translationsData
   let title = translationsData[language].title;
   let text = translationsData[language].text;
   let notes = translationsData[language].notes || "";
 
-  // Replace placeholders for line breaks and indentation
+  // Apply placeholders for line breaks and indentation
   title = applyPlaceholders(title);
   text = applyPlaceholders(text);
+  notes = applyPlaceholders(notes);
 
-  // Make words clickable after placeholder replacement
-  let clickableTitle = makeWordsClickable(title);
-  let clickableText = makeWordsClickable(text);
+  // Make words clickable after applying placeholders
+  const clickableTitle = makeWordsClickable(title);
+  const clickableText = makeWordsClickable(text);
 
-  clickableTitle = removeSpacesForAsianLanguages(clickableTitle, language);
-  clickableText = removeSpacesForAsianLanguages(clickableText, language);
+  // Ensure Asian languages have proper spacing
+  const finalTitle = removeSpacesForAsianLanguages(clickableTitle, language);
+  const finalText = removeSpacesForAsianLanguages(clickableText, language);
 
-  // Update HTML elements with processed content
-  document.getElementById(titleElementId).innerHTML = clickableTitle;
-  document.getElementById(textElementId).innerHTML = clickableText;
-  document.getElementById(notesElementId).innerText = notes;
-  
-  // Attach click listeners to each word element
-  const wordElements = document.querySelectorAll(`#${titleElementId} .clickable-word, #${textElementId} .clickable-word`);
+  // Populate title, text, and notes
+  document.getElementById(titleId).innerHTML = finalTitle;
+  document.getElementById(textContainerId).innerHTML = finalText;
+  document.getElementById(notesId).innerHTML = notes;
+
+  // Attach click listeners for word elements
+  const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function(event) {
       handleWordClick(event, side);
     });
   });
 
+  // Align the rows if in side-by-side mode
+  if (currentDisplayMode === 'sideBySide') {
+    alignTableRows();
+  }
+
   if (highlightedWordId) {
     highlightWordsOnBothSides(highlightedWordId);
   }
 }
+
+// Function to align rows by adjusting row heights to match the taller side
+function alignTableRows() {
+  const leftCells = Array.from(document.querySelectorAll('.left-text .paragraph, .left-notes'));
+  const rightCells = Array.from(document.querySelectorAll('.right-text .paragraph, .right-notes'));
+
+  leftCells.forEach((leftCell, index) => {
+    const rightCell = rightCells[index];
+    const maxHeight = Math.max(leftCell.offsetHeight, rightCell.offsetHeight);
+
+    leftCell.style.height = `${maxHeight}px`;
+    rightCell.style.height = `${maxHeight}px`;
+  });
+}
+
+// Ensure alignment on page load and resize
+window.addEventListener('load', alignTableRows);
+window.addEventListener('resize', alignTableRows);
 
 // Function to apply line break and indentation placeholders
 function applyPlaceholders(text) {
@@ -392,7 +416,7 @@ function highlightWordsOnBothSides(wordId) {
   });
 }
 
-// Functions for display mode switching
+// Attach event listeners to display mode radio buttons
 document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
   radio.addEventListener('change', (event) => {
     if (event.target.value === 'sideBySide') {
@@ -404,19 +428,24 @@ document.querySelectorAll('input[name="displayMode"]').forEach((radio) => {
 });
 
 function activateSideBySideMode() {
-  textContainer.classList.remove('single-column');
+  document.querySelector('.table-container').classList.remove('single-column');
   footerDictionary.classList.remove('active');
   rightSection.classList.remove('hidden');
   currentDisplayMode = 'sideBySide';
-  console.log("Switched to sideBySide mode");
+  alignTableRows(); // Re-align the rows for side-by-side mode
+  console.log("Switched to sideBySide mode - single-column class removed");
 }
 
 function activateMiniDictionaryMode() {
-  textContainer.classList.add('single-column');
+  document.querySelector('.table-container').classList.add('single-column');
   footerDictionary.classList.add('active');
   rightSection.classList.add('hidden');
   currentDisplayMode = 'miniDictionary';
-  console.log("Switched to miniDictionary mode");
+
+  if (highlightedWordId) {
+    displayEquivalentWordInFooter(highlightedWordId);
+  }
+  console.log("Switched to miniDictionary mode - single-column class added");
 }
 
 // Event listener for footer language selector

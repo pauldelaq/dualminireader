@@ -119,22 +119,16 @@ function initializeDisplayModeControl() {
 
 // Apply display mode to the layout
 function applyDisplayMode(mode) {
-    const textContainer = document.getElementById('textContainer');
-    const rightSection = document.getElementById('rightSection');
-    const leftSection = document.getElementById('leftSection');
+    const tableContainer = document.querySelector('.table-container');
     const footerDictionary = document.getElementById('footerDictionary');
 
-    if (textContainer && rightSection && leftSection && footerDictionary) {
+    if (tableContainer && footerDictionary) {
         if (mode === 'sideBySide') {
-            textContainer.classList.remove('single-column');
+            tableContainer.classList.remove('single-column');
             footerDictionary.classList.remove('active');
-            rightSection.classList.remove('hidden');
-            leftSection.style.width = '';
         } else if (mode === 'miniDictionary') {
-            textContainer.classList.add('single-column');
+            tableContainer.classList.add('single-column');
             footerDictionary.classList.add('active');
-            rightSection.classList.add('hidden');
-            leftSection.style.width = '100%';
         }
     }
 }

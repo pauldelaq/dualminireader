@@ -20,25 +20,43 @@
   
     <!-- Main content container for adjustable text -->
     <div class="main-content">
-      <!-- Container for side-by-side language selectors and texts -->
-      <div id="textContainer" class="container">
-        <!-- Left section (expanded in miniDictionary mode) -->
-        <div id="leftSection" class="text-section">
+      <div id="textContainer" class="table-container">
+        <!-- Row for Title -->
+        <div class="row">
+          <div class="cell left-title">
             <select id="leftLanguageSelector"></select>
             <h2 id="leftTitle"></h2>
-            <p id="leftText"></p>
-            <p id="leftNotes" class="notes"></p>
-        </div>
-    
-        <!-- Right section (hidden in miniDictionary mode) -->
-        <div id="rightSection" class="text-section right-section">
+          </div>
+          <div class="cell gap"></div>
+          <div class="cell right-title">
             <select id="rightLanguageSelector"></select>
             <h2 id="rightTitle"></h2>
-            <p id="rightText"></p>
-            <p id="rightNotes" class="notes"></p>
+          </div>
         </div>
+    
+        <!-- Row for Text -->
+        <div class="row">
+          <div class="cell left-text">
+            <p id="leftText"></p>
+          </div>
+          <div class="cell gap"></div>
+          <div class="cell right-text">
+            <p id="rightText"></p>
+          </div>
+        </div>
+    
+        <!-- Row for Notes -->
+        <div class="row">
+          <div class="cell left-notes">
+            <p id="leftNotes" class="notes"></p>
+          </div>
+          <div class="cell gap"></div>
+          <div class="cell right-notes">
+            <p id="rightNotes" class="notes"></p>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Footer for mini-dictionary mode (visible only in miniDictionary mode) -->
 <!-- Footer for mini-dictionary mode -->
 <div id="footerDictionary" class="footer hidden">
   <select id="footerLanguageSelector"></select> <!-- Ensure this ID is correct -->
