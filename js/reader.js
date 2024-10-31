@@ -260,20 +260,28 @@ function updateText(side) {
     return;
   }
 
+  // Fetch title, text, and notes from translationsData
   let title = translationsData[language].title;
   let text = translationsData[language].text;
   let notes = translationsData[language].notes || "";
-  
+
+  // Replace placeholders for line breaks and indentation
+  title = applyPlaceholders(title);
+  text = applyPlaceholders(text);
+
+  // Make words clickable after placeholder replacement
   let clickableTitle = makeWordsClickable(title);
   let clickableText = makeWordsClickable(text);
 
   clickableTitle = removeSpacesForAsianLanguages(clickableTitle, language);
   clickableText = removeSpacesForAsianLanguages(clickableText, language);
 
+  // Update HTML elements with processed content
   document.getElementById(titleElementId).innerHTML = clickableTitle;
   document.getElementById(textElementId).innerHTML = clickableText;
   document.getElementById(notesElementId).innerText = notes;
   
+  // Attach click listeners to each word element
   const wordElements = document.querySelectorAll(`#${titleElementId} .clickable-word, #${textElementId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function(event) {
@@ -284,6 +292,13 @@ function updateText(side) {
   if (highlightedWordId) {
     highlightWordsOnBothSides(highlightedWordId);
   }
+}
+
+// Function to apply line break and indentation placeholders
+function applyPlaceholders(text) {
+  return text
+    .replace(/\[br\]/g, '<br>') // Replace [br] with a line break
+    .replace(/\[in\]/g, '<span style="margin-left: 2em;"></span>'); // Replace [in] with indentation
 }
 
 // Function to wrap multi-word phrases (with spaces) in a single span
