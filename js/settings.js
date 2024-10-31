@@ -22,13 +22,14 @@ function initializeUILanguageDropdown() {
     const uiLanguageDropdown = document.getElementById('uiLanguageDropdown');
     const savedUILanguage = localStorage.getItem('uiLanguage') || 'en'; // Default to English
 
-    // Set dropdown to the saved UI language
     uiLanguageDropdown.value = savedUILanguage;
 
-    // Listen for changes to save the new language to localStorage
     uiLanguageDropdown.addEventListener('change', (event) => {
         const selectedLanguage = event.target.value;
         localStorage.setItem('uiLanguage', selectedLanguage);
+
+        // Dispatch a custom event after updating localStorage
+        window.dispatchEvent(new Event('languageChanged'));
     });
 }
 

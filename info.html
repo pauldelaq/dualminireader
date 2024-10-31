@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/settings.css"> <!-- Link to settings.css -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
   <script defer src="js/settings.js"></script> <!-- Link to settings.js -->
+  <script defer src="js/info.js"></script> <!-- Link to settings.js -->
 </head>
 <body>
     <header class="header">
@@ -17,14 +18,9 @@
         <button class="settings-button">[≡]</button>
     </header>
 
-    <!-- Wrap all main content in the common-text class -->
-    <div class="common-text">
-        <p>DualMiniReader is a dedicated reading interface optimized for handling bilingual texts. Many language apps come jam-packed with numerous features. Such apps can be over-complicated and can sometimes have a steep learning curve. As an alternative, this platform offers a simple and intuitive interface for viewing and learning from bilingual reading content. Just select the languages you want and click on words to see their equivalent translations.</p>
-        <p>I hope you enjoy it!</p>
-        <p>- Paul</p>
-        <br>
-        <p><i>If you have any comments or inquiries, please contact me at <a href='mailto:pauldelaq@gmail.com'>pauldelaq@gmail.com</a>.</i></p>
-        <p><i>If you'd like to support the project, you can do so at <a href='https://buymeacoffee.com/pauldelaq'>BuyMeACoffee.</a></i></p>
+    <!-- Main content container to be filled by JavaScript -->
+    <div class="common-text" id="contentContainer">
+        <!-- Content will be loaded dynamically here -->
     </div>
 </body>
 </html>
