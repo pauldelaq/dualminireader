@@ -322,7 +322,7 @@ window.addEventListener('resize', alignTableRows);
 function applyPlaceholders(text) {
   return text
     .replace(/\[br\]/g, '<br>') // Replace [br] with a line break
-    .replace(/\[in\]/g, '<span style="margin-left: 2em;"></span>'); // Replace [in] with indentation
+    .replace(/\[in\]/g, '<span style="margin-left: 1.5em;"></span>'); // Replace [in] with indentation
 }
 
 // Function to wrap multi-word phrases (with spaces) in a single span
