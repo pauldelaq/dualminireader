@@ -124,3 +124,16 @@
   border-top: 1px solid black;
   margin: 2px 0;
 }
+
+.language-dropdown-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add spacing below the dropdown if necessary */
+  margin-left: -50px;
+  margin-top: 25px;
+  justify-content: center;
+}
+
+.ui-language-dropdown {
+  font-size: 1em;
+}

@@ -7,15 +7,29 @@ function loadSettingsMenu() {
             container.innerHTML = html;
             document.body.appendChild(container);
 
-            setupSettingsMenuListeners();  // Set up open/close behavior after loading HTML
-            initializeFontSizeControl();   // Initialize font size control
-            initializeDisplayModeControl(); // Initialize display mode control
+            setupSettingsMenuListeners();
+            initializeFontSizeControl();
+            initializeDisplayModeControl();
+            initializeUILanguageDropdown(); // Initialize UI language dropdown
 
-            // Apply saved display mode here, ensuring elements are in the DOM
             const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
             applyDisplayMode(savedDisplayMode);
         })
         .catch(error => console.error('Error loading settings menu:', error));
+}
+
+function initializeUILanguageDropdown() {
+    const uiLanguageDropdown = document.getElementById('uiLanguageDropdown');
+    const savedUILanguage = localStorage.getItem('uiLanguage') || 'en'; // Default to English
+
+    // Set dropdown to the saved UI language
+    uiLanguageDropdown.value = savedUILanguage;
+
+    // Listen for changes to save the new language to localStorage
+    uiLanguageDropdown.addEventListener('change', (event) => {
+        const selectedLanguage = event.target.value;
+        localStorage.setItem('uiLanguage', selectedLanguage);
+    });
 }
 
 // Function to setup open/close behavior using the settings button

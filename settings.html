@@ -1,7 +1,17 @@
 <!-- settings.html -->
 <div id="settingsMenu" class="settings-menu hidden">
   <div class="settings-content">
-    <!-- Font Size Control Container -->
+    <div class="language-dropdown-container">
+      <label for="uiLanguageDropdown" style="margin-right: 5px;">UI:</label>
+      <select id="uiLanguageDropdown" class="ui-language-dropdown">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <!-- Add more languages as needed -->
+      </select>
+    </div>
+        <!-- Font Size Control Container -->
     <div class="slider-container">
       <span style="font-size: 0.8em;">abc</span>
       <input type="range" id="fontSizeSlider" min="100" max="160" value="100" style="margin: 0 10px;">
