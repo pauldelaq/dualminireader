@@ -83,15 +83,20 @@ function processTranslations(lang1, lang2) {
   lang2Words.forEach(word => processWord(word, lang2));
 }
 
-// ** Unchanged function: process each word to store equivalencies **
 function processWord(word, lang) {
   const wordIds = word.match(/\d+(_\d+)*/);
   if (wordIds) {
     const cleanWord = word.replace(/\d+(_\d+)*/, '');
+
     wordIds[0].split('_').forEach(id => {
       if (!wordEquivalencies[id]) wordEquivalencies[id] = {};
-      wordEquivalencies[id][lang] = cleanWord;
       
+      // Store each word with the same ID in an array for the language
+      if (!wordEquivalencies[id][lang]) {
+        wordEquivalencies[id][lang] = []; // Initialize array if not present
+      }
+      wordEquivalencies[id][lang].push(cleanWord); // Add the word to the array
+
       // Track multi-word connections across IDs for reverse lookup
       wordIds[0].split('_').forEach(relatedId => {
         if (relatedId !== id) {
@@ -411,19 +416,26 @@ footerLanguageSelector.addEventListener('change', () => {
 });
 
 function displayEquivalentWordInFooter(wordId) {
-  const equivalentWords = wordEquivalencies[wordId];
-  console.log("Displaying equivalent word in footer for word ID:", wordId, "Equivalent words:", equivalentWords);
+  const selectedFooterLang = footerLanguageSelector.value;
+  console.log("Selected language for mini-dictionary:", selectedFooterLang);
 
-  if (equivalentWords) {
-      // Get the currently selected language in the footer each time this function is called
-      const selectedFooterLang = footerLanguageSelector.value;
-      let wordToDisplay = equivalentWords[selectedFooterLang] || '...';
+  // Split multi-ID string (like "9_10") into individual IDs
+  const ids = wordId.split('_');
 
-      // Remove punctuation from the word for display in mini-dictionary
-      wordToDisplay = wordToDisplay.replace(/[.,\/#!$%\^&\*;:{}=\«»_`~()。]/g,"");
+  // Collect words for each ID in the selected language
+  let wordsToDisplay = ids
+    .map(id => {
+      const equivalentWords = wordEquivalencies[id];
+      if (equivalentWords) {
+        return (equivalentWords[selectedFooterLang] || []).join(' ');
+      }
+      return ''; // Return empty string if no equivalent found for this ID
+    })
+    .filter(word => word) // Remove empty strings
+    .join(' '); // Join all words with a space between them
 
-      footerContent.textContent = wordToDisplay;
-  } else {
-      footerContent.textContent = '...'; // Display a placeholder if no equivalent is found
-  }
+  // Remove punctuation from the concatenated phrase
+  wordsToDisplay = wordsToDisplay.replace(/[.,\/#!$%\^&\*;:{}=\«»_`~()。]/g, "");
+
+  footerContent.textContent = wordsToDisplay || '...'; // Display the concatenated phrase or placeholder
 }
