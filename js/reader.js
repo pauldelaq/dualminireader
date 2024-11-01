@@ -325,30 +325,34 @@ function updateText(side) {
   }
 }
 
-// Function to align rows by adjusting row heights to match the tallest cell in each pair
 function alignTableRows() {
-  // Select all rows for left and right sections
-  const leftRows = document.querySelectorAll('.left-text .row .cell');
-  const rightRows = document.querySelectorAll('.right-text .row .cell');
+  const leftRows = document.querySelectorAll('.left-text .row');
+  const rightRows = document.querySelectorAll('.right-text .row');
 
   // Ensure we have the same number of rows on each side
   const rowCount = Math.min(leftRows.length, rightRows.length);
 
-  // Loop through each pair of cells and set their heights to match
   for (let i = 0; i < rowCount; i++) {
-    const leftCell = leftRows[i];
-    const rightCell = rightRows[i];
+      const leftCell = leftRows[i].querySelector('.cell');
+      const rightCell = rightRows[i].querySelector('.cell');
 
-    // Reset any previous inline height styles
-    leftCell.style.height = 'auto';
-    rightCell.style.height = 'auto';
+      if (leftCell && rightCell) {
+          // Reset heights
+          leftCell.style.height = 'auto';
+          rightCell.style.height = 'auto';
 
-    // Calculate the maximum height between the two cells
-    const maxHeight = Math.max(leftCell.offsetHeight, rightCell.offsetHeight);
+          // Calculate maximum height for the content row
+          const maxContentHeight = Math.max(leftCell.offsetHeight, rightCell.offsetHeight);
+          leftCell.style.height = `${maxContentHeight}px`;
+          rightCell.style.height = `${maxContentHeight}px`;
+      }
 
-    // Apply the maximum height to both cells
-    leftCell.style.height = `${maxHeight}px`;
-    rightCell.style.height = `${maxHeight}px`;
+      // Set a consistent height for any spacer rows if needed
+      if (leftRows[i].classList.contains('spacer-row') && rightRows[i].classList.contains('spacer-row')) {
+          const spacerHeight = '1em'; // Adjust as needed for spacing
+          leftRows[i].style.height = spacerHeight;
+          rightRows[i].style.height = spacerHeight;
+      }
   }
 }
 

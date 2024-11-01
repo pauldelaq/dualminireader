@@ -82,11 +82,14 @@ function applyFontSize(sizePercentage) {
     const scale = sizePercentage / 100;
     document.documentElement.style.setProperty('--base-font-size', `${scale}em`);
 
-    // Update preview text size, but only if previewText exists
+    // Update preview text size if previewText exists
     const previewText = document.getElementById('previewText');
     if (previewText) {
         previewText.style.fontSize = `${scale}em`;
     }
+
+    // Trigger re-alignment of rows to adjust cell heights
+    alignTableRows();
 }
 
 function initializeDisplayModeControl() {
