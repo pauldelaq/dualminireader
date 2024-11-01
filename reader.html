@@ -33,18 +33,18 @@
             <h2 id="rightTitle"></h2>
           </div>
         </div>
-    
-        <!-- Row for Text -->
+
+        <!-- Row for Text Content (paragraphs aligned line by line) -->
         <div class="row">
           <div class="cell left-text">
-            <p id="leftText"></p>
+            <div id="leftText"></div>
           </div>
           <div class="cell gap"></div>
           <div class="cell right-text">
-            <p id="rightText"></p>
+            <div id="rightText"></div>
           </div>
         </div>
-    
+
         <!-- Row for Notes -->
         <div class="row">
           <div class="cell left-notes">
@@ -57,16 +57,15 @@
         </div>
       </div>
     </div>
-<!-- Footer for mini-dictionary mode -->
-<div id="footerDictionary" class="footer hidden">
-  <select id="footerLanguageSelector"></select> <!-- Ensure this ID is correct -->
-  <div id="footerContent" class="footer-content"></div> <!-- Ensure this ID is correct -->
-</div>
+
+    <!-- Footer for mini-dictionary mode -->
+    <div id="footerDictionary" class="footer hidden">
+      <select id="footerLanguageSelector"></select>
+      <div id="footerContent" class="footer-content"></div>
     </div>
-    </div>
-      </div>
+
     <!-- Scripts for reader and settings functionality -->
     <script src="js/settings.js"></script>
     <script src="js/reader.js"></script>
   </body>
-  </html>
+</html>
