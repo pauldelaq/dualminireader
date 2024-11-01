@@ -88,9 +88,11 @@ function applyFontSize(sizePercentage) {
         previewText.style.fontSize = `${scale}em`;
     }
 
-    // Trigger re-alignment of rows to adjust cell heights
-    alignTableRows();
-}
+        // Call alignTableRows if it is defined
+        if (typeof alignTableRows === 'function') {
+            alignTableRows();
+        }
+    }
 
 function initializeDisplayModeControl() {
     // Get the saved display mode from localStorage or default to 'sideBySide'
@@ -134,11 +136,13 @@ function applyDisplayMode(mode) {
             footerDictionary.classList.add('active');
         }
 
-        // Trigger re-alignment to adjust cell sizes for the new layout
-        alignTableRows();
+        // Call alignTableRows if it is defined
+        if (typeof alignTableRows === 'function') {
+            alignTableRows();
+        }
     }
 }
-        
+
 // Load settings menu, font size, and initialize settings on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadSettingsMenu();
