@@ -133,6 +133,9 @@ function applyDisplayMode(mode) {
             tableContainer.classList.add('single-column');
             footerDictionary.classList.add('active');
         }
+
+        // Trigger re-alignment to adjust cell sizes for the new layout
+        alignTableRows();
     }
 }
         
