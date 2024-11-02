@@ -32,28 +32,32 @@ if (textFile) {
       updateText('left');
       updateText('right');
 
-      // Event listener for left language selector
-      document.getElementById('leftLanguageSelector').addEventListener('change', () => {
-        updateText('left');
-        updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies based on new language pair
+// Event listener for left language selector
+document.getElementById('leftLanguageSelector').addEventListener('change', (event) => {
+  const selectedLanguage = event.target.value;
+  localStorage.setItem('leftLanguage', selectedLanguage); // Save to localStorage
+  updateText('left');
+  updateWordEquivalenciesForSelectedLanguages();
 
-        // Update mini-dictionary content if a word is highlighted
-        if (highlightedWordId) {
-          displayEquivalentWordInFooter(highlightedWordId);
-        }
-      });
+  // Update mini-dictionary content if a word is highlighted
+  if (highlightedWordId) {
+    displayEquivalentWordInFooter(highlightedWordId);
+  }
+});
 
-      // Event listener for right language selector
-      document.getElementById('rightLanguageSelector').addEventListener('change', () => {
-        updateText('right');
-        updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
+// Event listener for right language selector
+document.getElementById('rightLanguageSelector').addEventListener('change', (event) => {
+  const selectedLanguage = event.target.value;
+  localStorage.setItem('rightLanguage', selectedLanguage); // Save to localStorage
+  updateText('right');
+  updateWordEquivalenciesForSelectedLanguages();
 
-        // Update mini-dictionary content if a word is highlighted
-        if (highlightedWordId) {
-          displayEquivalentWordInFooter(highlightedWordId);
-        }
-      });
-    })
+  // Update mini-dictionary content if a word is highlighted
+  if (highlightedWordId) {
+    displayEquivalentWordInFooter(highlightedWordId);
+  }
+});
+})
     .catch(error => console.error('Error loading text:', error));
 } else {
   console.error('No text file specified.');
@@ -108,13 +112,12 @@ function processWord(word, lang) {
   }
 }
 
-// ** Modified function: Populate dropdown menus and add synchronization **
 function populateLanguageSelectors() {
   const languageOptions = Object.keys(translationsData);
   const leftSelector = document.getElementById('leftLanguageSelector');
   const rightSelector = document.getElementById('rightLanguageSelector');
   const footerSelector = document.getElementById('footerLanguageSelector');
-  
+
   leftSelector.innerHTML = '';
   rightSelector.innerHTML = '';
   footerSelector.innerHTML = '';
@@ -135,10 +138,10 @@ function populateLanguageSelectors() {
     footerSelector.appendChild(optionFooter);
   });
 
-  // Set default values
-  leftSelector.value = 'en';
-  rightSelector.value = 'fr';
-  footerSelector.value = 'fr';
+  // Get saved values from localStorage, or fall back to defaults
+  leftSelector.value = localStorage.getItem('leftLanguage') || 'en';
+  rightSelector.value = localStorage.getItem('rightLanguage') || 'fr';
+  footerSelector.value = localStorage.getItem('footerLanguage') || rightSelector.value;
 
   // Synchronize right and footer selectors
   syncLanguageSelectors(rightSelector, footerSelector);
@@ -491,9 +494,10 @@ function activateMiniDictionaryMode() {
 }
 
 // Event listener for footer language selector
-footerLanguageSelector.addEventListener('change', () => {
-  console.log("Footer language changed");
-  updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
+footerLanguageSelector.addEventListener('change', (event) => {
+  const selectedLanguage = event.target.value;
+  localStorage.setItem('footerLanguage', selectedLanguage); // Save to localStorage
+  updateWordEquivalenciesForSelectedLanguages();
 
   // Update mini-dictionary content if a word is highlighted
   if (highlightedWordId) {
