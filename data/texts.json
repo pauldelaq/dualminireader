@@ -1,15 +1,58 @@
 {
-    "texts": [
-      {
-        "title": "The Fox and the Grapes",
-        "description": "A short fable about a fox and some grapes.",
-        "jsonFile": "foxandgrapes.json"
+  "texts": [
+    {
+      "author": {
+        "en": "Demo Texts",
+        "fr": "Textes de démonstration",
+        "es": "Textos de demostración",
+        "zh-TW": "範例文本",
+        "zh-CN": "示例文本",
+        "ja": "デモテキスト"
       },
-      {
-        "title": "The Quick Brown Fox",
-        "description": "This is a classic sentence used to display all letters of the alphabet.",
-        "jsonFile": "quickbrownfox.json"
-      }
-    ]
-  }
-  
+      "title": {
+        "en": "The Quick Brown Fox",
+        "fr": "Le Renard Brun Rapide",
+        "es": "El Zorro Marrón Rápido",
+        "zh-TW": "快速的棕色狐狸",
+        "zh-CN": "快速的棕色狐狸",
+        "ja": "素早い茶色のキツネ"
+      },
+      "description": {
+        "en": "This is a classic sentence used to display all letters of the alphabet.",
+        "fr": "Ceci est une phrase classique utilisée pour afficher toutes les lettres de l'alphabet.",
+        "es": "Esta es una frase clásica utilizada para mostrar todas las letras del alfabeto.",
+        "zh-TW": "這是一個經典句子，用來展示所有字母。",
+        "zh-CN": "这是一个经典句子，用来展示所有字母。",
+        "ja": "これはアルファベットのすべての文字を表示するために使用される古典的な文です。"
+      },
+      "jsonFile": "quickbrownfox.json"
+    },
+    {
+      "author": {
+        "en": "Aesop's Fables",
+        "fr": "Fables d'Ésope",
+        "es": "Fábulas de Esopo",
+        "zh-TW": "伊索寓言",
+        "zh-CN": "伊索寓言",
+        "ja": "イソップ物語"
+      },
+      "title": {
+        "en": "The Fox and the Grapes",
+        "fr": "Le Renard et les Raisins",
+        "es": "El Zorro y las Uvas",
+        "zh-TW": "狐狸與葡萄",
+        "zh-CN": "狐狸与葡萄",
+        "ja": "キツネとブドウ"
+      },
+      "description": {
+        "en": "A short fable about a fox and some grapes.",
+        "fr": "Une courte fable sur un renard et des raisins.",
+        "es": "Una fábula corta sobre un zorro y unas uvas.",
+        "zh-TW": "關於狐狸和葡萄的短篇寓言。",
+        "zh-CN": "关于狐狸和葡萄的短篇寓言。",
+        "ja": "キツネとブドウに関する短い寓話です。"
+      },
+      "jsonFile": "foxandgrapes.json"
+    }
+  ]
+}

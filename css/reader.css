@@ -199,3 +199,10 @@ h2 {
 .right-text .cell:last-child {
   margin-top: 0;
 }
+
+.author-header {
+  font-size: 1.5em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #333; /* Adjust color as needed */
+}
