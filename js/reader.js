@@ -48,7 +48,13 @@ document.getElementById('leftLanguageSelector').addEventListener('change', (even
 // Event listener for right language selector
 document.getElementById('rightLanguageSelector').addEventListener('change', (event) => {
   const selectedLanguage = event.target.value;
-  localStorage.setItem('rightLanguage', selectedLanguage); // Save to localStorage
+  // Update both keys in localStorage
+  localStorage.setItem('rightLanguage', selectedLanguage);
+  localStorage.setItem('footerLanguage', selectedLanguage);
+
+  // Sync the footer language selector
+  document.getElementById('footerLanguageSelector').value = selectedLanguage;
+
   updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
@@ -496,7 +502,14 @@ function activateMiniDictionaryMode() {
 // Event listener for footer language selector
 footerLanguageSelector.addEventListener('change', (event) => {
   const selectedLanguage = event.target.value;
-  localStorage.setItem('footerLanguage', selectedLanguage); // Save to localStorage
+  // Update both keys in localStorage
+  localStorage.setItem('footerLanguage', selectedLanguage);
+  localStorage.setItem('rightLanguage', selectedLanguage);
+
+  // Sync the right language selector
+  document.getElementById('rightLanguageSelector').value = selectedLanguage;
+
+  updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
   // Update mini-dictionary content if a word is highlighted
