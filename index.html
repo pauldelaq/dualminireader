@@ -12,32 +12,30 @@
   <script defer src="js/settings.js"></script> <!-- Link to settings.js -->
 </head>
 <body>
-    <header class="header">
-        <a href="info.html" class="info-button">[?]</a>
-        <h1 class="title">DualMiniReader</h1>
-        <button class="settings-button">[≡]</button>
-    </header>
-    
-    <!-- Added id for easy JavaScript selection -->
-    <p id="welcomeText" class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
-    
-    <br>
-    <!-- Updated dropdown labels with ids for dynamic language updates -->
-    <div class="language-selection">
-      <label id="showMeLabel" for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
+  <header class="header">
+      <a href="info.html" class="info-button">[?]</a>
+      <h1 class="title">DualMiniReader</h1>
+      <button class="settings-button">[≡]</button>
+  </header>
+
+  <!-- Wrapper for the centered content -->
+  <div class="centered-content">
+      <p id="welcomeText" class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
       <br>
-      <br> <!-- Line break for a new line -->
-      <select id="leftLanguageDropdown" class="select">
-        <!-- Options will be populated dynamically -->
-      </select>
-      <label id="andLabel" for="rightLanguageDropdown" class="common-text">and</label>
-      <select id="rightLanguageDropdown" class="select">
-        <!-- Options will be populated dynamically -->
-      </select>
-    </div>
-    
-    <br>
-    <!-- Container for the dynamically generated list of texts -->
-    <div id="textList"></div>
+      
+      <!-- New dropdown menus with updated classes -->
+      <div class="language-selection">
+          <label id="showMeLabel" for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
+          <br><br>
+          <select id="leftLanguageDropdown" class="select"></select>
+          <label id="andLabel" for="rightLanguageDropdown" class="common-text">and</label>
+          <select id="rightLanguageDropdown" class="select"></select>
+      </div>
+      
+      <br>
+      
+      <!-- Container for the dynamically generated list of texts -->
+      <div id="textList"></div>
+  </div>
 </body>
 </html>

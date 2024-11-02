@@ -206,3 +206,10 @@ h2 {
   margin-bottom: 10px;
   color: #333; /* Adjust color as needed */
 }
+
+.centered-content {
+  display: block; /* Ensure it is a block-level container */
+  text-align: center; /* Centers text */
+  margin: 0 auto; /* Centers the container */
+  max-width: 100%; /* Prevent horizontal overflow */
+}
