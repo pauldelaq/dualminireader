@@ -17,23 +17,27 @@
         <h1 class="title">DualMiniReader</h1>
         <button class="settings-button">[≡]</button>
     </header>
-    <p class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
+    
+    <!-- Added id for easy JavaScript selection -->
+    <p id="welcomeText" class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
+    
     <br>
-    <!-- New dropdown menus with updated classes -->
+    <!-- Updated dropdown labels with ids for dynamic language updates -->
     <div class="language-selection">
-      <label for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
+      <label id="showMeLabel" for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
       <br>
       <br> <!-- Line break for a new line -->
       <select id="leftLanguageDropdown" class="select">
         <!-- Options will be populated dynamically -->
       </select>
-      <label for="rightLanguageDropdown" class="common-text">and</label>
+      <label id="andLabel" for="rightLanguageDropdown" class="common-text">and</label>
       <select id="rightLanguageDropdown" class="select">
         <!-- Options will be populated dynamically -->
       </select>
     </div>
+    
     <br>
     <!-- Container for the dynamically generated list of texts -->
-    <div id="textList"></div>        
+    <div id="textList"></div>
 </body>
 </html>

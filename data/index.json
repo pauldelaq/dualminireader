@@ -1,0 +1,27 @@
+{
+    "welcomeText": {
+      "en": "Welcome to DualMiniReader! Please choose a text to start.",
+      "fr": "Bienvenue sur DualMiniReader! Veuillez choisir un texte pour commencer.",
+      "es": "¡Bienvenido a DualMiniReader! Por favor, elige un texto para empezar.",
+      "zh-TW": "歡迎來到 DualMiniReader！請選擇一篇文章開始。",
+      "zh-CN": "欢迎来到 DualMiniReader！请选择一篇文章开始。",
+      "ja": "DualMiniReaderへようこそ！テキストを選んでください。"
+    },
+    "showMeText": {
+      "en": "Show me texts in:",
+      "fr": "Montrez-moi les textes en :",
+      "es": "Muéstrame textos en:",
+      "zh-TW": "顯示以下語言的文本：",
+      "zh-CN": "显示以下语言的文本：",
+      "ja": "テキストを以下の言語で表示："
+    },
+    "andText": {
+      "en": "and",
+      "fr": "et",
+      "es": "y",
+      "zh-TW": "和",
+      "zh-CN": "和",
+      "ja": "と"
+    }
+  }
+  
