@@ -1,4 +1,50 @@
 document.addEventListener('DOMContentLoaded', function () {
+  const languages = ['en', 'fr', 'es', 'zh-TW', 'zh-CN', 'ja'];
+  const languageNames = {
+    'en': 'English',
+    'fr': 'Français',
+    'es': 'Español',
+    'zh-TW': '中文（繁體）',
+    'zh-CN': '中文（简体）',
+    'ja': '日本語'
+  };
+
+  // Populate the dropdown menus
+  function populateLanguageDropdown(dropdown, storedValue) {
+    languages.forEach(lang => {
+      const option = document.createElement('option');
+      option.value = lang;
+      option.textContent = languageNames[lang];
+      if (lang === storedValue) {
+        option.selected = true;
+      }
+      dropdown.appendChild(option);
+    });
+  }
+
+  // Get references to the dropdown elements
+  const leftLanguageDropdown = document.getElementById('leftLanguageDropdown');
+  const rightLanguageDropdown = document.getElementById('rightLanguageDropdown');
+
+  // Populate dropdowns with options
+  const storedLeftLanguage = localStorage.getItem('leftLanguage') || 'en';
+  const storedRightLanguage = localStorage.getItem('rightLanguage') || 'en';
+  populateLanguageDropdown(leftLanguageDropdown, storedLeftLanguage);
+  populateLanguageDropdown(rightLanguageDropdown, storedRightLanguage);
+
+  // Event listeners for dropdown changes
+  leftLanguageDropdown.addEventListener('change', (event) => {
+    const selectedLanguage = event.target.value;
+    localStorage.setItem('leftLanguage', selectedLanguage);
+  });
+
+  rightLanguageDropdown.addEventListener('change', (event) => {
+    const selectedLanguage = event.target.value;
+    localStorage.setItem('rightLanguage', selectedLanguage);
+    localStorage.setItem('footerLanguage', selectedLanguage); // Set footerLanguage as well
+  });
+
+  // Load initial content based on the stored uiLanguage
   const loadContent = () => {
     const uiLanguage = localStorage.getItem('uiLanguage') || 'en'; // Default to English if not set
 

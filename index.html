@@ -18,10 +18,22 @@
         <button class="settings-button">[≡]</button>
     </header>
     <p class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
-
+    <br>
+    <!-- New dropdown menus with updated classes -->
+    <div class="language-selection">
+      <label for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
+      <br>
+      <br> <!-- Line break for a new line -->
+      <select id="leftLanguageDropdown" class="select">
+        <!-- Options will be populated dynamically -->
+      </select>
+      <label for="rightLanguageDropdown" class="common-text">and</label>
+      <select id="rightLanguageDropdown" class="select">
+        <!-- Options will be populated dynamically -->
+      </select>
+    </div>
+    <br>
     <!-- Container for the dynamically generated list of texts -->
-    <div id="textList"></div>
-
-    <!-- Load settings.html into the page dynamically via settings.js -->
+    <div id="textList"></div>        
 </body>
 </html>
