@@ -415,7 +415,7 @@ function makeWordsClickable(text) {
 
 // Function to remove spaces for Japanese and Chinese content just before rendering to HTML
 function removeSpacesForAsianLanguages(text, language) {
-  if (language === 'ja' || language === 'zh-TW') {
+  if (language === 'ja' || language === 'zh-TW'|| language === 'zh-CN') {
     return text.replace(/>\s+</g, '><');
   }
   return text;
