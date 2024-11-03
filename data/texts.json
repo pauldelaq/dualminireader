@@ -53,6 +53,21 @@
         "ja": "キツネとブドウに関する短い寓話です。"
       },
       "jsonFile": "foxandgrapes.json"
+    },
+    {
+      "author": {
+        "en": "Paul 'Genius' Delaquis",
+        "fr": "Paul 'Génieux' Delaquis"
+      },
+      "title": {
+        "en": "How I Became Rich",
+        "fr": "Comment Je Suis Devenu Riche"
+      },
+      "description": {
+        "en": "A short fable about how I got my loot.",
+        "fr": "Une courte fable sur comment j'ai reçu mes benjamins."
+      },
+      "jsonFile": "howibecamerich.json"
     }
   ]
 }

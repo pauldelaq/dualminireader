@@ -14,57 +14,71 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(error => console.error('Error loading index translations:', error));
   };
 
-  // Function to load and display text content based on the current uiLanguage
-  const loadContent = () => {
-    const uiLanguage = localStorage.getItem('uiLanguage') || 'en'; // Default to English if not set
+  // Function to filter and display text content based on the selected languages
+  const filterContentBasedOnLanguages = () => {
+    const leftLanguage = localStorage.getItem('leftLanguage') || 'en';
+    const rightLanguage = localStorage.getItem('rightLanguage') || 'en';
 
     fetch('data/texts.json')
       .then(response => response.json())
       .then(data => {
-        const textList = document.getElementById('textList');
-        textList.classList.add('common-text');
-        textList.innerHTML = ''; // Clear existing content
-
-        // Group texts by author with language consideration
-        const textsByAuthor = {};
-        data.texts.forEach(text => {
-          const author = text.author[uiLanguage] || text.author['en']; // Fallback to English if translation not available
-          if (!textsByAuthor[author]) {
-            textsByAuthor[author] = [];
-          }
-          textsByAuthor[author].push(text);
+        const filteredTexts = data.texts.filter(text => {
+          // Only include texts that have both selected languages
+          return text.title[leftLanguage] && text.title[rightLanguage];
         });
 
-        // Create and display the text list with headers
-        Object.keys(textsByAuthor).forEach(author => {
-          // Create a header for each author
-          const authorHeader = document.createElement('h2');
-          authorHeader.textContent = author;
-          authorHeader.classList.add('author-header');
-          textList.appendChild(authorHeader);
-
-          // List texts under the header
-          textsByAuthor[author].forEach(text => {
-            const textItem = document.createElement('div');
-            textItem.classList.add('text-item');
-
-            const link = document.createElement('a');
-            link.href = `reader.html?text=${encodeURIComponent(text.jsonFile)}`;
-            link.textContent = text.title[uiLanguage] || text.title['en']; // Fallback to English
-
-            const description = document.createElement('p');
-            description.classList.add('description');
-            description.textContent = text.description[uiLanguage] || text.description['en']; // Fallback to English
-
-            textItem.appendChild(link);
-            textItem.appendChild(description);
-            textList.appendChild(textItem);
-          });
-        });
+        updateTextList(filteredTexts);
       })
       .catch(error => console.error('Error loading texts:', error));
   };
 
+  // Function to update the text list on the index page
+  const updateTextList = (filteredTexts) => {
+    const textList = document.getElementById('textList');
+    textList.classList.add('common-text');
+    textList.innerHTML = ''; // Clear existing content
+  
+    // Get the uiLanguage for displaying content
+    const uiLanguage = localStorage.getItem('uiLanguage') || 'en'; // Default to English if not set
+  
+    // Group texts by author using uiLanguage for display
+    const textsByAuthor = {};
+    filteredTexts.forEach(text => {
+      const author = text.author[uiLanguage] || text.author['en']; // Fallback to English if translation not available
+      if (!textsByAuthor[author]) {
+        textsByAuthor[author] = [];
+      }
+      textsByAuthor[author].push(text);
+    });
+  
+    // Create and display the text list with headers
+    Object.keys(textsByAuthor).forEach(author => {
+      // Create a header for each author
+      const authorHeader = document.createElement('h2');
+      authorHeader.textContent = author;
+      authorHeader.classList.add('author-header');
+      textList.appendChild(authorHeader);
+  
+      // List texts under the header
+      textsByAuthor[author].forEach(text => {
+        const textItem = document.createElement('div');
+        textItem.classList.add('text-item');
+  
+        const link = document.createElement('a');
+        link.href = `reader.html?text=${encodeURIComponent(text.jsonFile)}`;
+        link.textContent = text.title[uiLanguage] || text.title['en']; // Use uiLanguage for display
+  
+        const description = document.createElement('p');
+        description.classList.add('description');
+        description.textContent = text.description[uiLanguage] || text.description['en']; // Use uiLanguage for display
+  
+        textItem.appendChild(link);
+        textItem.appendChild(description);
+        textList.appendChild(textItem);
+      });
+    });
+  };
+  
   // Function to initialize and populate language dropdowns
   function initializeUILanguageDropdown() {
     const leftLanguageDropdown = document.getElementById('leftLanguageDropdown');
@@ -103,12 +117,14 @@ document.addEventListener('DOMContentLoaded', function () {
     leftLanguageDropdown.addEventListener('change', (event) => {
       const selectedLanguage = event.target.value;
       localStorage.setItem('leftLanguage', selectedLanguage);
+      filterContentBasedOnLanguages(); // Filter content when the left language changes
     });
 
     rightLanguageDropdown.addEventListener('change', (event) => {
       const selectedLanguage = event.target.value;
       localStorage.setItem('rightLanguage', selectedLanguage);
       localStorage.setItem('footerLanguage', selectedLanguage); // Set footerLanguage as well
+      filterContentBasedOnLanguages(); // Filter content when the right language changes
 
       // Dispatch a custom event to refresh the content dynamically
       window.dispatchEvent(new Event('languageChanged'));
@@ -120,11 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initial content load
   updateStaticContent();
-  loadContent();
+  filterContentBasedOnLanguages(); // Filter content based on initial language selection
 
   // Listen for custom event to detect uiLanguage change and update content dynamically
   window.addEventListener('languageChanged', () => {
     updateStaticContent(); // Update static text with new language
-    loadContent(); // Reload text list based on new language
+    filterContentBasedOnLanguages(); // Reload text list based on new language
   });
 });
