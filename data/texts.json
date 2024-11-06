@@ -54,7 +54,34 @@
       },
       "jsonFile": "foxandgrapes.json"
     },
-    {
+      {
+        "author": {
+          "en": "Aesop's Fables",
+          "fr": "Fables d'Ésope",
+          "es": "Fábulas de Esopo",
+          "zh-TW": "伊索寓言",
+          "zh-CN": "伊索寓言",
+          "ja": "イソップ物語"
+        },
+        "title": {
+          "en": "The Lamp",
+          "fr": "La Lampe",
+          "es": "La Lámpara",
+          "zh-TW": "燈",
+          "zh-CN": "灯",
+          "ja": "ランプ"
+        },
+        "description": {
+          "en": "A short fable about a lamp.",
+          "fr": "Une courte fable sur une lampe.",
+          "es": "Una fábula corta sobre una lámpara.",
+          "zh-TW": "關於一盞燈的簡短寓言。",
+          "zh-CN": "关于一盏灯的简短寓言。",
+          "ja": "ランプに関する短い寓話。"
+        },
+        "jsonFile": "thelamp.json"
+      },
+          {
       "author": {
         "en": "Paul 'Genius' Delaquis",
         "fr": "Paul 'Génieux' Delaquis"
