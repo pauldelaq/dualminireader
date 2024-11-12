@@ -81,6 +81,24 @@
         },
         "jsonFile": "thelamp.json"
       },
+      {
+        "author": {
+          "en": "Aesop's Fables",
+          "fr": "Fables d'Ésope",
+          "es": "Fábulas de Esopo"
+        },
+        "title": {
+          "en": "The Lion",
+          "fr": "Le Lion",
+          "es": "El León"
+        },
+        "description": {
+          "en": "A short fable about a lion.",
+          "fr": "Une courte fable sur un lion.",
+          "es": "Una fábula corta sobre un león."
+        },
+        "jsonFile": "thelion.json"
+      },
           {
       "author": {
         "en": "Paul 'Genius' Delaquis",
