@@ -99,20 +99,32 @@
         },
         "jsonFile": "thelion.json"
       },
-          {
+    {
       "author": {
-        "en": "Paul 'Genius' Delaquis",
-        "fr": "Paul 'Génieux' Delaquis"
+        "en": "Famous Quotes",
+        "fr": "Citations Célèbres",
+        "es": "Citas Famosas",
+        "zh-TW": "名言",
+        "zh-CN": "名言",
+        "ja": "有名な名言"
       },
       "title": {
-        "en": "How I Became Rich",
-        "fr": "Comment Je Suis Devenu Riche"
+        "en": "Growth",
+        "fr": "Croissance",
+        "es": "Crecimiento",
+        "zh-TW": "成長",
+        "zh-CN": "成长",
+        "ja": "成長"
       },
       "description": {
-        "en": "A short fable about how I got my loot.",
-        "fr": "Une courte fable sur comment j'ai reçu mes benjamins."
+        "en": "Advice on growth from Georges St-Pierre",
+        "fr": "Conseils sur la croissance de Georges St-Pierre",
+        "es": "Consejos sobre el crecimiento de Georges St-Pierre",
+        "zh-TW": "Georges St-Pierre 的成長建議",
+        "zh-CN": "Georges St-Pierre 的成长建议",
+        "ja": "Georges St-Pierreからの成長のアドバイス"
       },
-      "jsonFile": "howibecamerich.json"
+      "jsonFile": "growth.json"
     }
   ]
 }
