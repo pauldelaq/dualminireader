@@ -85,17 +85,26 @@
         "author": {
           "en": "Aesop's Fables",
           "fr": "Fables d'Ésope",
-          "es": "Fábulas de Esopo"
+          "es": "Fábulas de Esopo",
+          "zh-TW": "伊索寓言",
+          "zh-CN": "伊索寓言",
+          "ja": "イソップ寓話"
         },
         "title": {
           "en": "The Lion",
           "fr": "Le Lion",
-          "es": "El León"
+          "es": "El León",
+          "zh-TW": "獅子",
+          "zh-CN": "狮子",
+          "ja": "ライオン"
         },
         "description": {
           "en": "A short fable about a lion.",
           "fr": "Une courte fable sur un lion.",
-          "es": "Una fábula corta sobre un león."
+          "es": "Una fábula corta sobre un león.",
+          "zh-TW": "關於獅子的短寓言。",
+          "zh-CN": "关于狮子的短寓言。",
+          "ja": "ライオンに関する短い寓話です。"
         },
         "jsonFile": "thelion.json"
       },
