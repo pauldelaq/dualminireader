@@ -116,12 +116,30 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listeners for dropdown changes
     leftLanguageDropdown.addEventListener('change', (event) => {
       const selectedLanguage = event.target.value;
+      const currentRightLanguage = rightLanguageDropdown.value;
+
+      if (selectedLanguage === currentRightLanguage) {
+        // Swap the languages if the same language is selected on the opposite menu
+        rightLanguageDropdown.value = localStorage.getItem('leftLanguage') || 'en';
+        localStorage.setItem('rightLanguage', rightLanguageDropdown.value);
+      }
+
+      // Update localStorage and filter content
       localStorage.setItem('leftLanguage', selectedLanguage);
       filterContentBasedOnLanguages(); // Filter content when the left language changes
     });
 
     rightLanguageDropdown.addEventListener('change', (event) => {
       const selectedLanguage = event.target.value;
+      const currentLeftLanguage = leftLanguageDropdown.value;
+
+      if (selectedLanguage === currentLeftLanguage) {
+        // Swap the languages if the same language is selected on the opposite menu
+        leftLanguageDropdown.value = localStorage.getItem('rightLanguage') || 'en';
+        localStorage.setItem('leftLanguage', leftLanguageDropdown.value);
+      }
+
+      // Update localStorage and filter content
       localStorage.setItem('rightLanguage', selectedLanguage);
       localStorage.setItem('footerLanguage', selectedLanguage); // Set footerLanguage as well
       filterContentBasedOnLanguages(); // Filter content when the right language changes
