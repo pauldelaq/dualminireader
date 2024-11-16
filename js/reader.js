@@ -296,75 +296,65 @@ function updateText(side) {
   let text = translationsData[language].text;
   let notes = translationsData[language].notes || "";
 
-  // Debugging: Log raw content
-  console.log(`Raw title: ${title}`);
-  console.log(`Raw text: ${text}`);
-  console.log(`Raw notes: ${notes}`);
-
   // Apply placeholders for line breaks and indentation
   title = applyPlaceholders(title);
   notes = applyPlaceholders(notes);
 
-  // Debugging: Log after placeholders
-  console.log(`After placeholders - Title: ${title}`);
-  console.log(`After placeholders - Notes: ${notes}`);
+  // Debugging: Log raw content
+  console.log(`[DEBUG] Raw Title: ${title}`);
+  console.log(`[DEBUG] Raw Notes: ${notes}`);
 
-  // Make words clickable
+  // Make words clickable in title and text
   const clickableTitle = makeWordsClickable(title);
   const clickableNotes = makeWordsClickable(notes);
 
   // Debugging: Log clickable content
-  console.log(`Clickable Title: ${clickableTitle}`);
-  console.log(`Clickable Notes: ${clickableNotes}`);
+  console.log(`[DEBUG] Clickable Title: ${clickableTitle}`);
+  console.log(`[DEBUG] Clickable Notes: ${clickableNotes}`);
 
-  // Remove spaces for Asian languages (Final cleanup)
+  // Remove spaces only from the title and text sections
   const finalTitle = removeSpacesForAsianLanguages(clickableTitle, language);
-  const finalNotes = removeSpacesForAsianLanguages(clickableNotes, language);
+  console.log(`[DEBUG] Final Title: ${finalTitle}`);
 
-  // Debugging: Log final processed content
-  console.log(`Final Title: ${finalTitle}`);
-  console.log(`Final Notes: ${finalNotes}`);
-
-  // Populate title and notes
+  // Populate the title
   document.getElementById(titleId).innerHTML = finalTitle;
-  document.getElementById(notesId).innerHTML = finalNotes;
 
   // Process text paragraphs
   const paragraphs = text.split(/\[br\]/);
   const textContainer = document.getElementById(textContainerId);
   textContainer.innerHTML = ''; // Clear previous content
 
-  paragraphs.forEach(paragraph => {
+  paragraphs.forEach((paragraph, index) => {
+    console.log(`[DEBUG] Raw Paragraph ${index + 1}: ${paragraph}`);
+
     // Apply placeholders
     paragraph = applyPlaceholders(paragraph);
 
-    // Debugging: Log each paragraph before processing
-    console.log(`Raw paragraph: ${paragraph}`);
+    // Make paragraph clickable
+    let clickableParagraph = makeWordsClickable(paragraph);
+    console.log(`[DEBUG] Clickable Paragraph ${index + 1}: ${clickableParagraph}`);
 
-  // Make paragraph clickable
-  let clickableParagraph = makeWordsClickable(paragraph);
+    // Final cleanup of spaces for text
+    clickableParagraph = removeSpacesForAsianLanguages(clickableParagraph, language);
 
-  // Debugging: Log clickable paragraph
-  console.log(`[DEBUG] Clickable Paragraph: ${clickableParagraph}`);
+    // Debugging: Log final processed paragraph
+    console.log(`[DEBUG] Final Paragraph ${index + 1}: ${clickableParagraph}`);
 
-  // Final cleanup of spaces
-  clickableParagraph = removeSpacesForAsianLanguages(clickableParagraph, language);
-
-  // Debugging: Log final processed paragraph
-  console.log(`[DEBUG] Final Paragraph: ${clickableParagraph}`);
-
-  // Create a row and append the processed paragraph
-  const row = document.createElement('div');
-  row.classList.add('row');
-  const cell = document.createElement('div');
-  cell.classList.add('cell', side === 'left' ? 'left-text' : 'right-text');
-  cell.innerHTML = clickableParagraph;
-  row.appendChild(cell);
-  textContainer.appendChild(row);
+    // Create a row and append the processed paragraph
+    const row = document.createElement('div');
+    row.classList.add('row');
+    const cell = document.createElement('div');
+    cell.classList.add('cell', side === 'left' ? 'left-text' : 'right-text');
+    cell.innerHTML = clickableParagraph;
+    row.appendChild(cell);
+    textContainer.appendChild(row);
   });
 
+  // Populate notes without removing spaces
+  document.getElementById(notesId).innerHTML = clickableNotes;
+
   // Attach click listeners for all clickable words
-  const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word, #${notesId} .clickable-word`);
+  const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function(event) {
       handleWordClick(event, side);
