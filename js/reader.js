@@ -35,8 +35,22 @@ if (textFile) {
 // Event listener for left language selector
 document.getElementById('leftLanguageSelector').addEventListener('change', (event) => {
   const selectedLanguage = event.target.value;
-  localStorage.setItem('leftLanguage', selectedLanguage); // Save to localStorage
+  const rightLanguageSelector = document.getElementById('rightLanguageSelector');
+  const currentRightLanguage = rightLanguageSelector.value;
+
+  if (selectedLanguage === currentRightLanguage) {
+    // Swap the languages if the same language is selected
+    rightLanguageSelector.value = localStorage.getItem('leftLanguage') || 'en';
+    localStorage.setItem('rightLanguage', rightLanguageSelector.value);
+  }
+
+  // Update localStorage for both selectors
+  localStorage.setItem('leftLanguage', selectedLanguage);
+  localStorage.setItem('rightLanguage', rightLanguageSelector.value);
+
+  // Update text for both sides
   updateText('left');
+  updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
   // Update mini-dictionary content if a word is highlighted
@@ -48,13 +62,21 @@ document.getElementById('leftLanguageSelector').addEventListener('change', (even
 // Event listener for right language selector
 document.getElementById('rightLanguageSelector').addEventListener('change', (event) => {
   const selectedLanguage = event.target.value;
-  // Update both keys in localStorage
+  const leftLanguageSelector = document.getElementById('leftLanguageSelector');
+  const currentLeftLanguage = leftLanguageSelector.value;
+
+  if (selectedLanguage === currentLeftLanguage) {
+    // Swap the languages if the same language is selected
+    leftLanguageSelector.value = localStorage.getItem('rightLanguage') || 'fr';
+    localStorage.setItem('leftLanguage', leftLanguageSelector.value);
+  }
+
+  // Update localStorage for both selectors
   localStorage.setItem('rightLanguage', selectedLanguage);
-  localStorage.setItem('footerLanguage', selectedLanguage);
+  localStorage.setItem('leftLanguage', leftLanguageSelector.value);
 
-  // Sync the footer language selector
-  document.getElementById('footerLanguageSelector').value = selectedLanguage;
-
+  // Update text for both sides
+  updateText('left');
   updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
