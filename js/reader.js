@@ -555,15 +555,31 @@ function activateMiniDictionaryMode() {
 }
 
 // Event listener for footer language selector
-footerLanguageSelector.addEventListener('change', (event) => {
-  const selectedLanguage = event.target.value;
-  // Update both keys in localStorage
-  localStorage.setItem('footerLanguage', selectedLanguage);
-  localStorage.setItem('rightLanguage', selectedLanguage);
+document.getElementById('footerLanguageSelector').addEventListener('change', (event) => {
+  const selectedFooterLanguage = event.target.value;
+  const leftLanguageSelector = document.getElementById('leftLanguageSelector');
+  const rightLanguageSelector = document.getElementById('rightLanguageSelector');
+  const currentLeftLanguage = leftLanguageSelector.value;
+  const currentRightLanguage = rightLanguageSelector.value;
 
-  // Sync the right language selector
-  document.getElementById('rightLanguageSelector').value = selectedLanguage;
+  if (selectedFooterLanguage === currentLeftLanguage) {
+    // Swap footer language with the left language
+    leftLanguageSelector.value = currentRightLanguage; // Swap left to the current right
+    localStorage.setItem('leftLanguage', currentRightLanguage);
 
+    rightLanguageSelector.value = currentLeftLanguage; // Swap right to the current left
+    event.target.value = currentLeftLanguage; // Footer is now the original left
+    localStorage.setItem('footerLanguage', currentLeftLanguage);
+    localStorage.setItem('rightLanguage', currentLeftLanguage);
+  } else {
+    // Otherwise, update the footer and right language normally
+    rightLanguageSelector.value = selectedFooterLanguage;
+    localStorage.setItem('footerLanguage', selectedFooterLanguage);
+    localStorage.setItem('rightLanguage', selectedFooterLanguage);
+  }
+
+  // Update text and equivalencies for all affected sides
+  updateText('left');
   updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
