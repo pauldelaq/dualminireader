@@ -269,54 +269,79 @@ function updateText(side) {
     return;
   }
 
+  // Fetch title, text, and notes
   let title = translationsData[language].title;
   let text = translationsData[language].text;
   let notes = translationsData[language].notes || "";
+
+  // Debugging: Log raw content
+  console.log(`Raw title: ${title}`);
+  console.log(`Raw text: ${text}`);
+  console.log(`Raw notes: ${notes}`);
 
   // Apply placeholders for line breaks and indentation
   title = applyPlaceholders(title);
   notes = applyPlaceholders(notes);
 
-  // Make words clickable in title and notes after applying placeholders
+  // Debugging: Log after placeholders
+  console.log(`After placeholders - Title: ${title}`);
+  console.log(`After placeholders - Notes: ${notes}`);
+
+  // Make words clickable
   const clickableTitle = makeWordsClickable(title);
   const clickableNotes = makeWordsClickable(notes);
 
-  // Ensure Asian languages have proper spacing
+  // Debugging: Log clickable content
+  console.log(`Clickable Title: ${clickableTitle}`);
+  console.log(`Clickable Notes: ${clickableNotes}`);
+
+  // Remove spaces for Asian languages (Final cleanup)
   const finalTitle = removeSpacesForAsianLanguages(clickableTitle, language);
   const finalNotes = removeSpacesForAsianLanguages(clickableNotes, language);
+
+  // Debugging: Log final processed content
+  console.log(`Final Title: ${finalTitle}`);
+  console.log(`Final Notes: ${finalNotes}`);
 
   // Populate title and notes
   document.getElementById(titleId).innerHTML = finalTitle;
   document.getElementById(notesId).innerHTML = finalNotes;
 
-  // Split text into paragraphs by [br] placeholder for creating rows
+  // Process text paragraphs
   const paragraphs = text.split(/\[br\]/);
   const textContainer = document.getElementById(textContainerId);
   textContainer.innerHTML = ''; // Clear previous content
 
-  // Iterate over each paragraph and create a new row
   paragraphs.forEach(paragraph => {
-    // Apply placeholders for indentation in each paragraph
+    // Apply placeholders
     paragraph = applyPlaceholders(paragraph);
 
-    // Create a new row for each paragraph
-    const row = document.createElement('div');
-    row.classList.add('row');
+    // Debugging: Log each paragraph before processing
+    console.log(`Raw paragraph: ${paragraph}`);
 
-    // Wrap paragraph text in a cell and make it clickable
-    const cell = document.createElement('div');
-    cell.classList.add('cell', side === 'left' ? 'left-text' : 'right-text');
-    cell.innerHTML = makeWordsClickable(paragraph);
+  // Make paragraph clickable
+  let clickableParagraph = makeWordsClickable(paragraph);
 
-    // Ensure proper spacing for Asian languages
-    cell.innerHTML = removeSpacesForAsianLanguages(cell.innerHTML, language);
+  // Debugging: Log clickable paragraph
+  console.log(`[DEBUG] Clickable Paragraph: ${clickableParagraph}`);
 
-    // Append cell to row, and row to container
-    row.appendChild(cell);
-    textContainer.appendChild(row); // Append each row to the container
+  // Final cleanup of spaces
+  clickableParagraph = removeSpacesForAsianLanguages(clickableParagraph, language);
+
+  // Debugging: Log final processed paragraph
+  console.log(`[DEBUG] Final Paragraph: ${clickableParagraph}`);
+
+  // Create a row and append the processed paragraph
+  const row = document.createElement('div');
+  row.classList.add('row');
+  const cell = document.createElement('div');
+  cell.classList.add('cell', side === 'left' ? 'left-text' : 'right-text');
+  cell.innerHTML = clickableParagraph;
+  row.appendChild(cell);
+  textContainer.appendChild(row);
   });
 
-  // Attach click listeners for all word elements in title, notes, and text paragraphs
+  // Attach click listeners for all clickable words
   const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word, #${notesId} .clickable-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function(event) {
@@ -324,7 +349,7 @@ function updateText(side) {
     });
   });
 
-  // Align the rows if in side-by-side mode
+  // Align rows in side-by-side mode
   if (currentDisplayMode === 'sideBySide') {
     alignTableRows();
   }
@@ -415,10 +440,28 @@ function makeWordsClickable(text) {
 
 // Function to remove spaces for Japanese and Chinese content just before rendering to HTML
 function removeSpacesForAsianLanguages(text, language) {
-  if (language === 'ja' || language === 'zh-TW'|| language === 'zh-CN') {
-    return text.replace(/>\s+</g, '><');
+  if (language === 'ja' || language === 'zh-TW' || language === 'zh-CN') {
+    // Use a DOM parser to separate HTML structure from text
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(`<div>${text}</div>`, 'text/html');
+    const container = doc.body.firstChild;
+
+    // Walk through child nodes and modify only text nodes
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      // Remove spaces in the text content
+      node.textContent = node.textContent
+        .replace(/\s+([.,!?;、。，])/g, '$1') // Remove spaces before punctuation
+        .replace(/([.,!?;、。，])\s+/g, '$1') // Remove spaces after punctuation
+        .replace(/\s+/g, ''); // Remove all extra spaces
+    }
+
+    return container.innerHTML; // Return the modified HTML structure
   }
-  return text;
+
+  return text; // For non-Asian languages, return text as-is
 }
 
 // Function to clear selected words from both sides
