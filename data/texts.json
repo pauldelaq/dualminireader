@@ -25,7 +25,8 @@
         "zh-CN": "这是一个经典句子，用来展示所有字母。",
         "ja": "これはアルファベットのすべての文字を表示するために使用される古典的な文です。"
       },
-      "jsonFile": "quickbrownfox.json"
+      "jsonFile": "quickbrownfox.json",
+      "availableLanguages": ["en", "fr", "es", "zh-TW", "zh-CN", "ja"]
     },
     {
       "author": {
@@ -52,7 +53,8 @@
         "zh-CN": "关于狐狸和葡萄的短篇寓言。",
         "ja": "キツネとブドウに関する短い寓話です。"
       },
-      "jsonFile": "foxandgrapes.json"
+      "jsonFile": "foxandgrapes.json",
+      "availableLanguages": ["en", "fr", "es"]
     },
       {
         "author": {
@@ -79,7 +81,8 @@
           "zh-CN": "关于一盏灯的简短寓言。",
           "ja": "ランプに関する短い寓話。"
         },
-        "jsonFile": "thelamp.json"
+        "jsonFile": "thelamp.json",
+        "availableLanguages": ["en", "fr", "es"]
       },
       {
         "author": {
@@ -106,7 +109,8 @@
           "zh-CN": "关于狮子的短寓言。",
           "ja": "ライオンに関する短い寓話です。"
         },
-        "jsonFile": "thelion.json"
+        "jsonFile": "thelion.json",
+        "availableLanguages": ["en", "fr", "es"]
       },
     {
       "author": {
@@ -133,7 +137,8 @@
         "zh-CN": "Georges St-Pierre 的成长建议",
         "ja": "Georges St-Pierreからの成長のアドバイス"
       },
-      "jsonFile": "growth.json"
+      "jsonFile": "growth.json",
+      "availableLanguages": ["en", "fr", "es", "zh-TW", "zh-CN"]
     }
   ]
 }

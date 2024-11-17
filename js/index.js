@@ -18,20 +18,23 @@ document.addEventListener('DOMContentLoaded', function () {
   const filterContentBasedOnLanguages = () => {
     const leftLanguage = localStorage.getItem('leftLanguage') || 'en';
     const rightLanguage = localStorage.getItem('rightLanguage') || 'en';
-
+  
     fetch('data/texts.json')
       .then(response => response.json())
       .then(data => {
         const filteredTexts = data.texts.filter(text => {
-          // Only include texts that have both selected languages
-          return text.title[leftLanguage] && text.title[rightLanguage];
+          // Check if both selected languages are in the availableLanguages array
+          return (
+            text.availableLanguages.includes(leftLanguage) &&
+            text.availableLanguages.includes(rightLanguage)
+          );
         });
-
+  
         updateTextList(filteredTexts);
       })
       .catch(error => console.error('Error loading texts:', error));
   };
-
+  
   // Function to update the text list on the index page
   const updateTextList = (filteredTexts) => {
     const textList = document.getElementById('textList');
