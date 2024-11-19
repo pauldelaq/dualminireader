@@ -611,5 +611,10 @@ function displayEquivalentWordInFooter(wordId) {
   // Remove punctuation from the concatenated phrase
   wordsToDisplay = wordsToDisplay.replace(/[.,\/#!$%\^&\*;:{}=\«»_`~()。]/g, "");
 
+  // Apply space removal for Asian languages
+  if (['ja', 'zh-TW', 'zh-CN'].includes(selectedFooterLang)) {
+    wordsToDisplay = removeSpacesForAsianLanguages(wordsToDisplay, selectedFooterLang);
+  }
+
   footerContent.textContent = wordsToDisplay || '...'; // Display the concatenated phrase or placeholder
 }
