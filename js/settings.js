@@ -56,7 +56,7 @@ function setupSettingsMenuListeners() {
 
 // Load and apply the saved font size from localStorage
 function loadFontSize() {
-    const savedFontSize = localStorage.getItem('fontSize') || 100; // Default to 100 if not set
+    const savedFontSize = localStorage.getItem('dmrfontSize') || 100; // Default to 100 if not set
     applyFontSize(savedFontSize);
 }
 
@@ -65,7 +65,7 @@ function initializeFontSizeControl() {
     const fontSizeSlider = document.getElementById('fontSizeSlider');
   
     // Set initial slider value from localStorage or default
-    const savedFontSize = localStorage.getItem('fontSize') || 100;
+    const savedFontSize = localStorage.getItem('dmrfontSize') || 100;
     fontSizeSlider.value = savedFontSize;
     applyFontSize(savedFontSize);
   
@@ -73,7 +73,7 @@ function initializeFontSizeControl() {
     fontSizeSlider.addEventListener('input', (event) => {
         const newSize = event.target.value;
         applyFontSize(newSize);
-        localStorage.setItem('fontSize', newSize); // Save font size to localStorage
+        localStorage.setItem('dmrfontSize', newSize); // Save font size to localStorage
     });
 }
 
