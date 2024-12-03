@@ -112,6 +112,34 @@
         "jsonFile": "thelion.json",
         "availableLanguages": ["en", "fr", "es"]
       },
+      {
+        "author": {
+          "en": "Grimms’ Fairy Tales",
+          "fr": "Contes de Grimm",
+          "es": "Cuentos de Grimm",
+          "zh-TW": "格林童話",
+          "zh-CN": "格林童话",
+          "ja": "グリム童話"
+        },
+        "title": {
+          "en": "The Old Man and His Grandson",
+          "fr": "Le Vieil Homme et Son Petit-Fils",
+          "es": "El Viejo y Su Nieto",
+          "zh-TW": "老翁與他的孫子",
+          "zh-CN": "老翁与他的孙子",
+          "ja": "おじいさんと孫"
+        },
+        "description": {
+          "en": "A fairy tale about a grandfather and grandson.",
+          "fr": "Un conte sur un grand-père et son petit-fils.",
+          "es": "Un cuento sobre un abuelo y su nieto.",
+          "zh-TW": "一則關於祖父和孫子的童話故事。",
+          "zh-CN": "一个关于祖父和孙子的童话故事。",
+          "ja": "祖父と孫についての童話です。"
+        },
+        "jsonFile": "oldmanandgrandson.json",
+        "availableLanguages": ["en", "fr", "es"]
+      },
     {
       "author": {
         "en": "Famous Quotes",
