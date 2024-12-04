@@ -465,29 +465,40 @@ function applyPlaceholders(text) {
 
 // Function to wrap multi-word phrases (with spaces) in a single span
 function makeWordsClickable(text) {
+  // Define regex patterns for excluded punctuation
+  const excludedPunctuation = /^[«»!?;:.,。、？！，]+$/; // Matches single and multi-character punctuation
+
   // Parse the text into a DOM structure
   const parser = new DOMParser();
   const doc = parser.parseFromString(`<div>${text}</div>`, 'text/html');
   const container = doc.body.firstChild;
 
-  // Traverse the DOM and wrap only plain text nodes
+  // Traverse the DOM and wrap only valid text nodes
   const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
 
   while (walker.nextNode()) {
     const node = walker.currentNode;
-    const words = node.textContent.split(' ');
+    const words = node.textContent.split(/\s+/); // Split by spaces
 
     // Replace text content with spans for each word
     const processedWords = words.map(word => {
-      const wordIds = word.match(/\d+(_\d+)*$/); // Check for numbered word
-      const cleanWord = word.replace(/\d+(_\d+)*$/, ''); // Remove IDs for display
+      // Skip wrapping excluded punctuation
+      if (excludedPunctuation.test(word.trim())) {
+        return word; // Leave punctuation as-is
+      }
+
+      // Check for numbered words
+      const wordIds = word.match(/\d+(_\d+)*$/);
+      const cleanWord = word.replace(/\d+(_\d+)*$/, '');
 
       if (wordIds) {
         // Wrap numbered words
         return `<span class="clickable-word" data-word-id="${wordIds[0]}">${cleanWord}</span>`;
-      } else {
-        // Wrap unnumbered words
+      } else if (word.trim() !== '') {
+        // Wrap unnumbered words, ignoring empty spaces
         return `<span class="unnumbered-word">${cleanWord}</span>`;
+      } else {
+        return word; // Preserve spaces
       }
     });
 
