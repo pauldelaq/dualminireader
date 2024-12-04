@@ -230,6 +230,9 @@ function handleWordClick(event, side) {
     // Preload mini-dictionary content with the highlighted word
     displayEquivalentWordInFooter(highlightedWordId);
   } else if (event.target.classList.contains('unnumbered-word')) {
+    // Clear the highlightedWordId
+    highlightedWordId = null;
+
     // Apply unnumbered highlight class
     event.target.classList.add('unnumbered-highlight');
     console.log("Clicked an unnumbered word:", event.target.textContent);
@@ -239,6 +242,9 @@ function handleWordClick(event, side) {
     } else {
       selectedWordOnRight = event.target;
     }
+
+    // Display "..." in the mini-dictionary for unnumbered words
+    displayEquivalentWordInFooter(null);
   }
 
   console.log("Final target classes:", event.target.classList);
@@ -253,23 +259,39 @@ function highlightWordByIndex(side, index) {
   if (index >= 0 && index < words.length) {
     const word = words[index];
 
-    // Highlight all related words on both sides
-    highlightedWordId = word.getAttribute('data-word-id');
-    currentWordIndex = index;
-    currentSide = side;
-
-    highlightWordsOnBothSides(highlightedWordId);
-
-    // Explicitly apply the selected-word class to the clicked word
+    // Apply the selected-word class
     word.classList.add('selected-word');
 
-    // Update references to the selected word
-    if (side === 'left') selectedWordOnLeft = word;
-    else selectedWordOnRight = word;
+    // Check if the word is numbered or unnumbered
+    if (word.classList.contains('clickable-word')) {
+      highlightedWordId = word.getAttribute('data-word-id');
 
-    // Display dictionary content in mini-dictionary mode
-    if (currentDisplayMode === 'miniDictionary' && side === 'left') {
-      displayEquivalentWordInFooter(highlightedWordId);
+      // Highlight all related words on both sides
+      highlightWordsOnBothSides(highlightedWordId);
+
+      // Display equivalent words in mini-dictionary
+      if (currentDisplayMode === 'miniDictionary' && side === 'left') {
+        displayEquivalentWordInFooter(highlightedWordId);
+      }
+
+      // Update references to the selected word
+      if (side === 'left') selectedWordOnLeft = word;
+      else selectedWordOnRight = word;
+    } else if (word.classList.contains('unnumbered-word')) {
+      // Handle unnumbered words
+      highlightedWordId = null; // Clear the highlightedWordId
+
+      // Apply unnumbered-highlight class
+      word.classList.add('unnumbered-highlight');
+
+      // Display "..." in the mini-dictionary
+      if (currentDisplayMode === 'miniDictionary' && side === 'left') {
+        displayEquivalentWordInFooter(null);
+      }
+
+      // Update references to the selected word
+      if (side === 'left') selectedWordOnLeft = word;
+      else selectedWordOnRight = word;
     }
   }
 }
@@ -277,27 +299,31 @@ function highlightWordByIndex(side, index) {
 // Updated keyboard event listener for navigation to reflect mini-dictionary changes
 document.addEventListener('keydown', (event) => {
   if (currentSide && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
-      const words = getWordElements(currentSide);
+    const words = getWordElements(currentSide);
 
-      if (event.key === 'ArrowRight' && currentWordIndex < words.length - 1) {
-          currentWordIndex++;
-      } else if (event.key === 'ArrowLeft' && currentWordIndex > 0) {
-          currentWordIndex--;
-      }
+    // Determine the new index
+    if (event.key === 'ArrowRight' && currentWordIndex < words.length - 1) {
+      currentWordIndex++;
+    } else if (event.key === 'ArrowLeft' && currentWordIndex > 0) {
+      currentWordIndex--;
+    } else {
+      return; // Exit if no valid navigation
+    }
 
-      highlightWordByIndex(currentSide, currentWordIndex);
+    // Highlight the word at the new index
+    highlightWordByIndex(currentSide, currentWordIndex);
 
-      // Ensure mini-dictionary updates on key navigation
-      if (currentDisplayMode === 'miniDictionary' && currentSide === 'left') {
-          displayEquivalentWordInFooter(highlightedWordId);
-      }
+    // Ensure mini-dictionary updates on key navigation
+    if (currentDisplayMode === 'miniDictionary' && currentSide === 'left') {
+      displayEquivalentWordInFooter(highlightedWordId);
+    }
   }
 });
 
 // Function to get clickable words on a side
 function getWordElements(side) {
-  const titleWords = document.querySelectorAll(`#${side}Title .clickable-word`);
-  const textWords = document.querySelectorAll(`#${side}Text .clickable-word`);
+  const titleWords = document.querySelectorAll(`#${side}Title .clickable-word, #${side}Title .unnumbered-word`);
+  const textWords = document.querySelectorAll(`#${side}Text .clickable-word, #${side}Text .unnumbered-word`);
   return [...titleWords, ...textWords];
 }
 
@@ -627,6 +653,12 @@ document.getElementById('footerLanguageSelector').addEventListener('change', (ev
 function displayEquivalentWordInFooter(wordId) {
   const selectedFooterLang = footerLanguageSelector.value;
   console.log("Selected language for mini-dictionary:", selectedFooterLang);
+
+  // If no wordId is provided (unnumbered word), display "..."
+  if (!wordId) {
+    footerContent.textContent = '...';
+    return;
+  }
 
   // Split multi-ID string (like "9_10") into individual IDs
   const ids = wordId.split('_');
