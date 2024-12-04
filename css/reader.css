@@ -90,6 +90,11 @@ h2 {
   box-sizing: border-box;
 }
 
+.unnumbered-highlight {
+  background-color: red;
+  box-sizing: border-box;
+}
+
 /* Limit notes size growth */
 .notes {
   font-style: italic;

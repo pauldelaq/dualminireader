@@ -208,42 +208,68 @@ function handleWordClick(event, side) {
   currentWordIndex = Array.from(words).indexOf(event.target);
   currentSide = side;
 
-  clearSelectedWordOnBothSides();
-  event.target.classList.add('highlight', 'selected-word');
-  highlightedWordId = event.target.getAttribute('data-word-id');
+  // Clear all highlights, but exclude the clicked element
+  clearHighlights(event.target);
 
-  console.log("Clicked word ID (highlightedWordId):", highlightedWordId); 
+  // Ensure the clicked word is the only one with the selected-word class
+  event.target.classList.add('selected-word'); // Apply the common selected class
 
-  if (side === 'left') {
+  // Check if the clicked word is numbered or unnumbered
+  if (event.target.classList.contains('clickable-word')) {
+    highlightedWordId = event.target.getAttribute('data-word-id');
+    console.log("Clicked word ID (highlightedWordId):", highlightedWordId);
+
+    if (side === 'left') {
       selectedWordOnLeft = event.target;
-  } else {
+    } else {
       selectedWordOnRight = event.target;
+    }
+
+    highlightWordsOnBothSides(highlightedWordId);
+
+    // Preload mini-dictionary content with the highlighted word
+    displayEquivalentWordInFooter(highlightedWordId);
+  } else if (event.target.classList.contains('unnumbered-word')) {
+    // Apply unnumbered highlight class
+    event.target.classList.add('unnumbered-highlight');
+    console.log("Clicked an unnumbered word:", event.target.textContent);
+
+    if (side === 'left') {
+      selectedWordOnLeft = event.target;
+    } else {
+      selectedWordOnRight = event.target;
+    }
   }
 
-  highlightWordsOnBothSides(highlightedWordId);
-
-  // Preload mini-dictionary content with the highlighted word
-  displayEquivalentWordInFooter(highlightedWordId);
+  console.log("Final target classes:", event.target.classList);
 }
 
 function highlightWordByIndex(side, index) {
   const words = getWordElements(side);
 
-  clearSelectedWordOnBothSides();
+  // Clear all highlights and selections
+  clearHighlights();
 
   if (index >= 0 && index < words.length) {
       const word = words[index];
-      word.classList.add('highlight', 'selected-word');
-      
+
+      // Apply the highlight and selected-word classes
+      word.classList.add('highlight');
+      word.classList.add('selected-word');
+
+      // Update references to the selected word
       if (side === 'left') selectedWordOnLeft = word;
       else selectedWordOnRight = word;
 
+      // Highlight all related words on both sides
       highlightedWordId = word.getAttribute('data-word-id');
       currentWordIndex = index;
       currentSide = side;
 
+      // Apply highlighting for numbered words
       highlightWordsOnBothSides(highlightedWordId);
 
+      // Display dictionary content in mini-dictionary mode
       if (currentDisplayMode === 'miniDictionary' && side === 'left') {
           displayEquivalentWordInFooter(highlightedWordId);
       }
@@ -353,8 +379,8 @@ function updateText(side) {
   // Populate notes without removing spaces
   document.getElementById(notesId).innerHTML = clickableNotes;
 
-  // Attach click listeners for all clickable words
-  const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word`);
+  // Attach click listeners for all clickable words and unnumbered words
+  const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word, #${titleId} .unnumbered-word, #${textContainerId} .unnumbered-word`);
   wordElements.forEach(word => {
     word.addEventListener('click', function(event) {
       handleWordClick(event, side);
@@ -415,39 +441,42 @@ function applyPlaceholders(text) {
 
 // Function to wrap multi-word phrases (with spaces) in a single span
 function makeWordsClickable(text) {
-  const words = text.split(' ');
-  let result = '';
-  let currentPhrase = '';
-  let currentWordId = null;
+  // Parse the text into a DOM structure
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div>${text}</div>`, 'text/html');
+  const container = doc.body.firstChild;
 
-  words.forEach((word, index) => {
-    const wordIds = word.match(/\d+(_\d+)*$/);
-    const cleanWord = word.replace(/\d+(_\d+)*$/, '');
+  // Traverse the DOM and wrap only plain text nodes
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
 
-    if (wordIds) {
-      if (currentWordId === wordIds[0]) {
-        currentPhrase += ` ${cleanWord}`;
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const words = node.textContent.split(' ');
+
+    // Replace text content with spans for each word
+    const processedWords = words.map(word => {
+      const wordIds = word.match(/\d+(_\d+)*$/); // Check for numbered word
+      const cleanWord = word.replace(/\d+(_\d+)*$/, ''); // Remove IDs for display
+
+      if (wordIds) {
+        // Wrap numbered words
+        return `<span class="clickable-word" data-word-id="${wordIds[0]}">${cleanWord}</span>`;
       } else {
-        if (currentPhrase) {
-          result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
-        }
-        currentWordId = wordIds[0];
-        currentPhrase = cleanWord;
+        // Wrap unnumbered words
+        return `<span class="unnumbered-word">${cleanWord}</span>`;
       }
-      if (index === words.length - 1) {
-        result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span>`;
-      }
-    } else {
-      if (currentPhrase) {
-        result += `<span class="clickable-word" data-word-id="${currentWordId}">${currentPhrase}</span> `;
-        currentPhrase = '';
-      }
-      result += cleanWord + ' ';
-      currentWordId = null;
-    }
-  });
+    });
 
-  return result.trim();
+    // Replace the original text node with the processed HTML
+    const replacementHTML = processedWords.join(' ');
+    const replacementNode = document.createElement('span');
+    replacementNode.innerHTML = replacementHTML;
+
+    node.parentNode.replaceChild(replacementNode, node);
+  }
+
+  // Return the modified HTML as a string
+  return container.innerHTML;
 }
 
 // Function to remove spaces for Japanese and Chinese content just before rendering to HTML
@@ -488,9 +517,21 @@ function clearSelectedWordOnBothSides() {
   }
 }
 
+function clearHighlights(excludeElement = null) {
+  const leftWords = document.querySelectorAll('#leftTitle .clickable-word, #leftText .clickable-word, #leftTitle .unnumbered-word, #leftText .unnumbered-word');
+  const rightWords = document.querySelectorAll('#rightTitle .clickable-word, #rightText .clickable-word, #rightTitle .unnumbered-word, #rightText .unnumbered-word');
+
+  // Remove all highlight-related classes, except for the excluded element
+  [...leftWords, ...rightWords].forEach(word => {
+    if (word !== excludeElement) {
+      word.classList.remove('highlight', 'unnumbered-highlight', 'selected-word');
+    }
+  });
+}
+
 function highlightWordsOnBothSides(wordId) {
   const wordIds = new Set(wordId.split('_'));
-  
+
   // Include connected IDs in the set
   wordIds.forEach(id => {
     if (wordEquivalencies[id] && wordEquivalencies[id].connections) {
@@ -498,12 +539,11 @@ function highlightWordsOnBothSides(wordId) {
     }
   });
 
+  // Clear all existing highlights
+  clearHighlights();
+
   const leftWords = document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`);
   const rightWords = document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`);
-
-  // Clear existing highlights
-  leftWords.forEach(word => word.classList.remove('highlight'));
-  rightWords.forEach(word => word.classList.remove('highlight'));
 
   // Apply highlights based on gathered IDs
   wordIds.forEach(id => {
