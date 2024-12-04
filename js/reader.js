@@ -251,28 +251,26 @@ function highlightWordByIndex(side, index) {
   clearHighlights();
 
   if (index >= 0 && index < words.length) {
-      const word = words[index];
+    const word = words[index];
 
-      // Apply the highlight and selected-word classes
-      word.classList.add('highlight');
-      word.classList.add('selected-word');
+    // Highlight all related words on both sides
+    highlightedWordId = word.getAttribute('data-word-id');
+    currentWordIndex = index;
+    currentSide = side;
 
-      // Update references to the selected word
-      if (side === 'left') selectedWordOnLeft = word;
-      else selectedWordOnRight = word;
+    highlightWordsOnBothSides(highlightedWordId);
 
-      // Highlight all related words on both sides
-      highlightedWordId = word.getAttribute('data-word-id');
-      currentWordIndex = index;
-      currentSide = side;
+    // Explicitly apply the selected-word class to the clicked word
+    word.classList.add('selected-word');
 
-      // Apply highlighting for numbered words
-      highlightWordsOnBothSides(highlightedWordId);
+    // Update references to the selected word
+    if (side === 'left') selectedWordOnLeft = word;
+    else selectedWordOnRight = word;
 
-      // Display dictionary content in mini-dictionary mode
-      if (currentDisplayMode === 'miniDictionary' && side === 'left') {
-          displayEquivalentWordInFooter(highlightedWordId);
-      }
+    // Display dictionary content in mini-dictionary mode
+    if (currentDisplayMode === 'miniDictionary' && side === 'left') {
+      displayEquivalentWordInFooter(highlightedWordId);
+    }
   }
 }
 
@@ -539,9 +537,6 @@ function highlightWordsOnBothSides(wordId) {
     }
   });
 
-  // Clear all existing highlights
-  clearHighlights();
-
   const leftWords = document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`);
   const rightWords = document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`);
 
@@ -550,13 +545,13 @@ function highlightWordsOnBothSides(wordId) {
     leftWords.forEach(word => {
       const wordDataIds = word.getAttribute('data-word-id').split('_');
       if (wordDataIds.includes(id)) {
-        word.classList.add('highlight');
+        word.classList.add('highlight'); // Ensure all related words get highlighted
       }
     });
     rightWords.forEach(word => {
       const wordDataIds = word.getAttribute('data-word-id').split('_');
       if (wordDataIds.includes(id)) {
-        word.classList.add('highlight');
+        word.classList.add('highlight'); // Ensure all related words get highlighted
       }
     });
   });
