@@ -565,32 +565,51 @@ function clearHighlights(excludeElement = null) {
 }
 
 function highlightWordsOnBothSides(wordId) {
-  const wordIds = new Set(wordId.split('_'));
+  const wordIds = new Set(wordId.split('_')); // Split combined IDs into individual components
 
-  // Include connected IDs in the set
-  wordIds.forEach(id => {
-    if (wordEquivalencies[id] && wordEquivalencies[id].connections) {
-      wordEquivalencies[id].connections.forEach(connId => wordIds.add(connId));
+  const leftWords = Array.from(document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`));
+  const rightWords = Array.from(document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`));
+
+  // Expand wordIds with equivalents from the other side
+  leftWords.forEach(word => {
+    const wordDataIds = word.getAttribute('data-word-id').split('_');
+    if (wordDataIds.some(id => wordIds.has(id))) {
+      wordDataIds.forEach(id => wordIds.add(id)); // Add any connected IDs
     }
   });
 
-  const leftWords = document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`);
-  const rightWords = document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`);
+  rightWords.forEach(word => {
+    const wordDataIds = word.getAttribute('data-word-id').split('_');
+    if (wordDataIds.some(id => wordIds.has(id))) {
+      wordDataIds.forEach(id => wordIds.add(id)); // Add any connected IDs
+    }
+  });
 
-  // Apply highlights based on gathered IDs
+  // Determine whether each ID has equivalents on the opposite side
+  const hasEquivalentOnOppositeSide = {};
   wordIds.forEach(id => {
-    leftWords.forEach(word => {
-      const wordDataIds = word.getAttribute('data-word-id').split('_');
-      if (wordDataIds.includes(id)) {
-        word.classList.add('highlight'); // Ensure all related words get highlighted
-      }
-    });
-    rightWords.forEach(word => {
-      const wordDataIds = word.getAttribute('data-word-id').split('_');
-      if (wordDataIds.includes(id)) {
-        word.classList.add('highlight'); // Ensure all related words get highlighted
-      }
-    });
+    hasEquivalentOnOppositeSide[id] = {
+      left: leftWords.some(word => word.getAttribute('data-word-id').split('_').includes(id)),
+      right: rightWords.some(word => word.getAttribute('data-word-id').split('_').includes(id)),
+    };
+  });
+
+  // Highlight words on the left
+  leftWords.forEach(word => {
+    const wordDataIds = word.getAttribute('data-word-id').split('_');
+    if (wordDataIds.some(id => wordIds.has(id))) {
+      const hasEquivalent = wordDataIds.some(id => hasEquivalentOnOppositeSide[id]?.right);
+      word.classList.add(hasEquivalent ? 'highlight' : 'unnumbered-highlight');
+    }
+  });
+
+  // Highlight words on the right
+  rightWords.forEach(word => {
+    const wordDataIds = word.getAttribute('data-word-id').split('_');
+    if (wordDataIds.some(id => wordIds.has(id))) {
+      const hasEquivalent = wordDataIds.some(id => hasEquivalentOnOppositeSide[id]?.left);
+      word.classList.add(hasEquivalent ? 'highlight' : 'unnumbered-highlight');
+    }
   });
 }
 
