@@ -1,0 +1,41 @@
+{
+    "languages": {
+      "en": {
+        "languageName": "English",
+        "title": "Dual1 Mini2 Reader3",
+        "text": "Welcome4 to5 Dual6 Mini7 Reader!8",
+        "notes": "This is a classic sentence used to display all letters of the alphabet."
+      },
+      "fr": {
+        "languageName": "Français",
+        "title": "Lecteur3 Mini-Dual1_2",
+        "text": "Bienvenue4 à5 Lecteur8 Mini-Dual!6_7",
+        "notes": "Ce contenu a été traduit par l'IA."
+      },
+      "es": {
+        "languageName": "Español",
+        "title": "El1 rápido2 zorro4 marrón3",
+        "text": "El5 rápido6 zorro8 marrón7 saltó9 sobre10 el11 perro13 perezoso.12",
+        "notes": "Este contenido ha sido traducido por IA."
+      },
+      "zh-TW": {
+        "languageName": "中文（繁體）",
+        "title": "快速的2 棕色3 狐狸4",
+        "text": "快速的6 棕色7 狐狸8 跳過9_10 懶惰的12 狗。13",
+        "notes": "此內容由 AI 翻譯。"
+      },
+      "zh-CN": {
+        "languageName": "中文（简体）",
+        "title": "快速的2 棕色3 狐狸4",
+        "text": "快速的6 棕色7 狐狸8 跳过9_10 懒惰的12 狗。13",
+        "notes": "此内容由 AI 翻译。"
+      },
+      "ja": {
+        "languageName": "日本語",
+        "title": "速い2 茶色の3 キツネ4",
+        "text": "素早い6 茶色の7 キツネが8 怠け者の12 犬を13 飛び越えた。9_10",
+        "notes": "この内容はAIによって翻訳されました。"
+      }
+    }
+  }
+  
