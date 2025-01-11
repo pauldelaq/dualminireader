@@ -1,5 +1,6 @@
 {
-    "name": "DualMiniReader",
+  "id": "/dualminireader/index.html",  
+  "name": "DualMiniReader",
     "short_name": "DualMiniReader",
     "description": "PWA version of DualMiniReader",
     "start_url": "index.html",
