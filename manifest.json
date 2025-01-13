@@ -3,7 +3,7 @@
   "name": "DualMiniReader",
     "short_name": "DualMiniReader",
     "description": "PWA version of DualMiniReader",
-    "start_url": "index.html",
+    "start_url": "/dualminireader/index.html",
     "scope": "/dualminireader/",
     "display": "standalone",
     "background_color": "white",
