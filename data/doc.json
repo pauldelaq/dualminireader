@@ -1,0 +1,307 @@
+{
+    "docTitle": {
+      "en": "DualMiniReader Documentation",
+      "fr": "Documentation DualMiniReader",
+      "es": "Documentación de DualMiniReader",
+      "zh-TW": "DualMiniReader 文檔",
+      "zh-CN": "DualMiniReader 文档",
+      "ja": "DualMiniReader ドキュメント"
+    },
+    "navHeader": {
+      "en": "DualMiniReader Documentation",
+      "fr": "Documentation DualMiniReader",
+      "es": "Documentación de DualMiniReader",
+      "zh-TW": "DualMiniReader 文檔",
+      "zh-CN": "DualMiniReader 文档",
+      "ja": "DualMiniReader ドキュメント"
+    },
+    "navIntroduction": {
+      "en": "Introduction",
+      "fr": "Introduction",
+      "es": "Introducción",
+      "zh-TW": "簡介",
+      "zh-CN": "简介",
+      "ja": "概要"
+    },
+    "navFeatures": {
+      "en": "Features",
+      "fr": "Fonctionnalités",
+      "es": "Características",
+      "zh-TW": "功能",
+      "zh-CN": "功能",
+      "ja": "機能"
+    },
+    "navSettings": {
+      "en": "Settings",
+      "fr": "Paramètres",
+      "es": "Configuración",
+      "zh-TW": "設定",
+      "zh-CN": "设置",
+      "ja": "設定"
+    },
+    "navShortcuts": {
+      "en": "Shortcuts",
+      "fr": "Raccourcis",
+      "es": "Atajos",
+      "zh-TW": "快捷鍵",
+      "zh-CN": "快捷键",
+      "ja": "ショートカット"
+    },
+    "navSources": {
+      "en": "Sources",
+      "fr": "Sources",
+      "es": "Fuentes",
+      "zh-TW": "來源",
+      "zh-CN": "来源",
+      "ja": "出典"
+    },
+    "navBack": {
+      "en": "Back to Index",
+      "fr": "Retour à l'index",
+      "es": "Volver al índice",
+      "zh-TW": "返回索引",
+      "zh-CN": "返回索引",
+      "ja": "インデックスに戻る"
+    },
+    "introductionHeader": {
+      "en": "Introduction",
+      "fr": "Introduction",
+      "es": "Introducción",
+      "zh-TW": "簡介",
+      "zh-CN": "简介",
+      "ja": "概要"
+    },
+    "introductionText1": {
+      "en": "DualMiniReader is a minimalistic bilingual reading system.",
+      "fr": "DualMiniReader est un système de lecture bilingue minimaliste.",
+      "es": "DualMiniReader es un sistema de lectura bilingüe minimalista.",
+      "zh-TW": "DualMiniReader 是一個簡約的雙語閱讀系統。",
+      "zh-CN": "DualMiniReader 是一个简约的双语阅读系统。",
+      "ja": "DualMiniReaderは、シンプルなバイリンガル読書システムです。"
+    },
+    "introductionText2": {
+      "en": "It features an intuitive interface which will be explained in the next section.",
+      "fr": "Il propose une interface intuitive qui sera expliquée dans la section suivante.",
+      "es": "Cuenta con una interfaz intuitiva que se explicará en la próxima sección.",
+      "zh-TW": "它具有直觀的界面，將在下一部分中進行解釋。",
+      "zh-CN": "它具有直观的界面，将在下一部分中进行解释。",
+      "ja": "直感的なインターフェースを備えており、次のセクションで説明します。"
+    },
+    "featuresHeader": {
+      "en": "Features",
+      "fr": "Fonctionnalités",
+      "es": "Características",
+      "zh-TW": "功能",
+      "zh-CN": "功能",
+      "ja": "機能"
+    },
+    "featuresText1": {
+      "en": "DualMiniReader features two display modes:",
+      "fr": "DualMiniReader propose deux modes d'affichage :",
+      "es": "DualMiniReader cuenta con dos modos de visualización:",
+      "zh-TW": "DualMiniReader 提供兩種顯示模式：",
+      "zh-CN": "DualMiniReader 提供两种显示模式：",
+      "ja": "DualMiniReaderには2つの表示モードがあります："
+    },
+    "sideBySideMode": {
+      "en": "Side-by-side mode:",
+      "fr": "Mode côte à côte :",
+      "es": "Modo lado a lado:",
+      "zh-TW": "並排模式：",
+      "zh-CN": "并排模式：",
+      "ja": "並列モード："
+    },
+    "sideBySideText": {
+      "en": "In this mode, text content in two different languages is shown in columns on each side of the screen.",
+      "fr": "Dans ce mode, le contenu textuel dans deux langues différentes est affiché en colonnes de chaque côté de l'écran.",
+      "es": "En este modo, el contenido de texto en dos idiomas diferentes se muestra en columnas a cada lado de la pantalla.",
+      "zh-TW": "在此模式下，不同語言的文本內容顯示在螢幕兩側的列中。",
+      "zh-CN": "在此模式下，不同语言的文本内容显示在屏幕两侧的列中。",
+      "ja": "このモードでは、異なる言語のテキストが画面の両側に表示されます。"
+    },
+    "verticalMode": {
+      "en": "Vertical mode:",
+      "fr": "Mode vertical :",
+      "es": "Modo vertical:",
+      "zh-TW": "垂直模式：",
+      "zh-CN": "垂直模式：",
+      "ja": "垂直モード："
+    },
+    "verticalModeText": {
+      "en": "In this mode, full text content for one language is shown on the top of the screen, while the bottom shows translations of individual words or phrases in a second language.",
+      "fr": "Dans ce mode, le contenu intégral d'une langue est affiché en haut de l'écran, tandis que les traductions des mots ou expressions individuelles sont affichées en bas.",
+      "es": "En este modo, el contenido completo de un idioma se muestra en la parte superior de la pantalla, mientras que la parte inferior muestra traducciones de palabras o frases individuales en un segundo idioma.",
+      "zh-TW": "在此模式下，一種語言的完整文本顯示在螢幕頂部，而底部顯示第二種語言中單詞或短語的翻譯。",
+      "zh-CN": "在此模式下，一种语言的完整文本显示在屏幕顶部，而底部显示第二种语言中单词或短语的翻译。",
+      "ja": "このモードでは、ある言語の全文が画面の上部に表示され、下部には第2言語の個々の単語やフレーズの翻訳が表示されます。"
+    },
+    "highlightFeature": {
+        "en": "When the user clicks a word, the equivalent word in the translated text is highlighted in green.",
+        "fr": "Lorsque l'utilisateur clique sur un mot, le mot équivalent dans le texte traduit est surligné en vert.",
+        "es": "Cuando el usuario hace clic en una palabra, la palabra equivalente en el texto traducido se resalta en verde.",
+        "zh-TW": "當用戶點擊一個單詞時，翻譯文本中的對應單詞會用綠色突出顯示。",
+        "zh-CN": "当用户点击一个单词时，翻译文本中的对应单词会用绿色突出显示。",
+        "ja": "ユーザーが単語をクリックすると、翻訳されたテキスト内の対応する単語が緑色で強調表示されます。"
+    },
+    "verticalNote": {
+        "en": "(In Vertical display mode, the translated text is displayed in a text box.)",
+        "fr": "(En mode d'affichage vertical, le texte traduit est affiché dans une boîte de texte.)",
+        "es": "(En el modo de visualización vertical, el texto traducido se muestra en un cuadro de texto.)",
+        "zh-TW": "（在垂直顯示模式下，翻譯文本顯示在文本框中。）",
+        "zh-CN": "（在垂直显示模式下，翻译文本显示在文本框中。）",
+        "ja": "（縦表示モードでは、翻訳されたテキストがテキストボックスに表示されます。）"
+    },
+    "phraseHighlight": {
+        "en": "If the word is better understood in the context of a phrase, then all the words constituting the phrase are highlighted.",
+        "fr": "Si le mot est mieux compris dans le contexte d'une phrase, alors tous les mots constituant la phrase sont surlignés.",
+        "es": "Si la palabra se entiende mejor en el contexto de una frase, se resaltan todas las palabras que constituyen la frase.",
+        "zh-TW": "如果在短語上下文中更好地理解該單詞，則短語中的所有單詞將被突出顯示。",
+        "zh-CN": "如果在短语上下文中更好地理解该单词，则短语中的所有单词将被突出显示。",
+        "ja": "単語がフレーズの文脈でより理解しやすい場合、フレーズを構成するすべての単語が強調表示されます。"
+    },
+    "noTranslationHighlight": {
+        "en": "If the clicked word doesn't have a direct translation, it is highlighted with a red color rather than a green one.",
+        "fr": "Si le mot cliqué n'a pas de traduction directe, il est surligné en rouge au lieu de vert.",
+        "es": "Si la palabra seleccionada no tiene traducción directa, se resalta en rojo en lugar de verde.",
+        "zh-TW": "如果點擊的單詞沒有直接翻譯，它會被紅色而不是綠色突出顯示。",
+        "zh-CN": "如果点击的单词没有直接翻译，它会被红色而不是绿色突出显示。",
+        "ja": "クリックされた単語に直接の翻訳がない場合は、緑ではなく赤で強調表示されます。"
+    },
+        "settingsHeader": {
+          "en": "Settings",
+          "fr": "Paramètres",
+          "es": "Configuración",
+          "zh-TW": "設定",
+          "zh-CN": "设置",
+          "ja": "設定"
+        },
+        "settingsText": {
+          "en": "The \"Settings\" menu in DualMiniReader is represented by this icon:",
+          "fr": "Le menu \"Paramètres\" dans DualMiniReader est représenté par cette icône :",
+          "es": "El menú \"Configuración\" en DualMiniReader está representado por este ícono:",
+          "zh-TW": "DualMiniReader 的「設定」選單由此圖示表示：",
+          "zh-CN": "DualMiniReader 的“设置”菜单由此图标表示：",
+          "ja": "DualMiniReaderの「設定」メニューは、このアイコンで表されます："
+        },
+        "settingsOptions": {
+          "en": "Four settings are available within it:",
+          "fr": "Quatre paramètres sont disponibles à l'intérieur :",
+          "es": "Hay cuatro configuraciones disponibles dentro:",
+          "zh-TW": "其中有四個設定選項：",
+          "zh-CN": "其中有四个设置选项：",
+          "ja": "その中に4つの設定があります："
+        },
+        "uiSettingLabel": {
+          "en": "UI",
+          "fr": "Interface utilisateur",
+          "es": "Interfaz de usuario",
+          "zh-TW": "界面",
+          "zh-CN": "界面",
+          "ja": "ユーザーインターフェース"
+        },
+        "uiSettingText": {
+          "en": "This setting allows the user to set the interface language.",
+          "fr": "Ce paramètre permet à l'utilisateur de définir la langue de l'interface.",
+          "es": "Esta configuración permite al usuario establecer el idioma de la interfaz.",
+          "zh-TW": "此設定允許用戶設置界面語言。",
+          "zh-CN": "此设置允许用户设置界面语言。",
+          "ja": "この設定では、インターフェースの言語を設定できます。"
+        },
+        "uiSettingNote": {
+          "en": "(Note that this doesn't set the language for reading content.)",
+          "fr": "(Remarque : cela ne définit pas la langue du contenu à lire.)",
+          "es": "(Nota: esto no configura el idioma del contenido de lectura).",
+          "zh-TW": "（請注意，這不會設置閱讀內容的語言。）",
+          "zh-CN": "（请注意，这不会设置阅读内容的语言。）",
+          "ja": "（これは読み取りコンテンツの言語を設定しないことに注意してください。）"
+        },
+        "fontSizeLabel": {
+          "en": "Font Size",
+          "fr": "Taille de police",
+          "es": "Tamaño de fuente",
+          "zh-TW": "字體大小",
+          "zh-CN": "字体大小",
+          "ja": "フォントサイズ"
+        },
+        "fontSizeText": {
+          "en": "This sets the font size.",
+          "fr": "Cela définit la taille de la police.",
+          "es": "Esto establece el tamaño de fuente.",
+          "zh-TW": "這會設置字體大小。",
+          "zh-CN": "这会设置字体大小。",
+          "ja": "これによりフォントサイズが設定されます。"
+        },
+        "sideBySideSettingText": {
+          "en": "This sets the interface to Side-by-side mode.",
+          "fr": "Cela configure l'interface en mode côte à côte.",
+          "es": "Esto configura la interfaz en modo lado a lado.",
+          "zh-TW": "這會將界面設置為並排模式。",
+          "zh-CN": "这会将界面设置为并排模式。",
+          "ja": "これにより、インターフェースが並列モードに設定されます。"
+        },
+        "verticalSettingText": {
+          "en": "This sets the interface to Vertical mode.",
+          "fr": "Cela configure l'interface en mode vertical.",
+          "es": "Esto configura la interfaz en modo vertical.",
+          "zh-TW": "這會將界面設置為垂直模式。",
+          "zh-CN": "这会将界面设置为垂直模式。",
+          "ja": "これにより、インターフェースが垂直モードに設定されます。"
+        },
+        "shortcutsHeader": {
+          "en": "Shortcuts",
+          "fr": "Raccourcis",
+          "es": "Atajos",
+          "zh-TW": "快捷鍵",
+          "zh-CN": "快捷键",
+          "ja": "ショートカット"
+        },
+        "shortcutsText": {
+          "en": "In DualMiniReader, you can use the arrow keys to cycle through words in a text:",
+          "fr": "Dans DualMiniReader, vous pouvez utiliser les touches fléchées pour parcourir les mots dans un texte :",
+          "es": "En DualMiniReader, puedes usar las teclas de flecha para desplazarte por las palabras en un texto:",
+          "zh-TW": "在 DualMiniReader 中，您可以使用方向鍵瀏覽文本中的單詞：",
+          "zh-CN": "在 DualMiniReader 中，您可以使用方向键浏览文本中的单词：",
+          "ja": "DualMiniReaderでは、矢印キーを使用してテキスト内の単語を循環できます："
+        },
+        "shortcutsNav": {
+          "en": "Select a word first and then you can navigate through the remainder of the text using the arrow keys.",
+          "fr": "Sélectionnez d'abord un mot, puis vous pouvez naviguer dans le reste du texte en utilisant les touches fléchées.",
+          "es": "Primero selecciona una palabra y luego puedes navegar por el resto del texto usando las teclas de flecha.",
+          "zh-TW": "首先選擇一個單詞，然後您可以使用方向鍵瀏覽文本的其餘部分。",
+          "zh-CN": "首先选择一个单词，然后您可以使用方向键浏览文本的其余部分。",
+          "ja": "最初に単語を選択し、その後矢印キーを使用して残りのテキストをナビゲートできます。"
+        },
+        "sourcesHeader": {
+          "en": "Sources",
+          "fr": "Sources",
+          "es": "Fuentes",
+          "zh-TW": "來源",
+          "zh-CN": "来源",
+          "ja": "出典"
+        },
+        "sourcesText1": {
+          "en": "Sources for reading content in DualMiniReader are listed below the full text, for example:",
+          "fr": "Les sources pour le contenu de lecture dans DualMiniReader sont répertoriées sous le texte complet, par exemple :",
+          "es": "Las fuentes para el contenido de lectura en DualMiniReader se enumeran debajo del texto completo, por ejemplo:",
+          "zh-TW": "DualMiniReader 中的閱讀內容來源列在全文下面，例如：",
+          "zh-CN": "DualMiniReader 中的阅读内容来源列在全文下面，例如：",
+          "ja": "DualMiniReaderでの読書コンテンツの出典は、全文の下にリストされています。たとえば："
+        },
+        "sourcesText2": {
+        "en": "The reading content available to DualMiniReader is in the public domain, from sources such as <a href=\"https://www.gutenberg.org/\" target=\"_blank\" class=\"note\">Project Gutenberg</a>.",
+        "fr": "Le contenu de lecture disponible pour DualMiniReader est dans le domaine public, à partir de sources telles que <a href=\"https://www.gutenberg.org/\" target=\"_blank\" class=\"note\">Project Gutenberg</a>.",
+        "es": "El contenido de lectura disponible para DualMiniReader es de dominio público, de fuentes como <a href=\"https://www.gutenberg.org/\" target=\"_blank\" class=\"note\">Project Gutenberg</a>.",
+        "zh-TW": "DualMiniReader 可用的閱讀內容屬於公共領域，來自例如 <a href=\"https://www.gutenberg.org/\" target=\"_blank\" class=\"note\">Project Gutenberg</a> 的來源。",
+        "zh-CN": "DualMiniReader 可用的阅读内容属于公共领域，来自例如 <a href=\"https://www.gutenberg.org/\" target=\"_blank\" class=\"note\">Project Gutenberg</a> 的来源。",
+        "ja": "DualMiniReaderで利用可能な読書コンテンツは、<a href=\"https://www.gutenberg.org/\" target=\"_blank\" class=\"note\">Project Gutenberg</a>などのパブリックドメインの出典に由来します。"
+        },
+        "sourcesText3": {
+          "en": "Most of the translations are generated by AI.",
+          "fr": "La plupart des traductions sont générées par l'IA.",
+          "es": "La mayoría de las traducciones son generadas por IA.",
+          "zh-TW": "大多數翻譯由人工智慧生成。",
+          "zh-CN": "大多数翻译由人工智能生成。",
+          "ja": "翻訳のほとんどはAIによって生成されます。"
+        }
+      }
+      

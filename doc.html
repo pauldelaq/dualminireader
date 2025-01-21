@@ -3,81 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DualMiniReader Documentation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <title id="docTitle">DualMiniReader Documentation</title> <!-- Translatable -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/doc.css">
+  <script defer src="js/doc.js"></script> <!-- JavaScript for dynamic translation -->
 </head>
 <body>
   <nav id="navbar">
-    <header class="dmr-header">DualMiniReader Documentation</header>
-        <a class="nav-link" href="#introduction">Introduction</a>
-        <a class="nav-link" href="#features">Features</a>
-        <a class="nav-link" href="#settings">Settings</a>
-        <a class="nav-link" href="#shortcuts">Shortcuts</a>
-        <a class="nav-link" href="#sources">Sources</a>
-        <a class="nav-link" href="index.html">Back to Index</a>
-    </nav>
-    <main id="main-doc">
-      <section id="introduction" class="main-section">
-        <header id="introduction">Introduction</header>
-        <p>DualMiniReader is a minimalistic bilingual reading system.</p>
-<p>It features an intuitive interface which will be explained in the next section.</p>
-        </section>
-              <section id="features" class="main-section">
-        <header id="features">Features</header>
-        <p>DualMiniReader features two display modes:</p>
-        <ul>
-          <li><span class="mode-label">Side-by-side mode:</span><br><br>In this mode, text content in two different languages is shown in columns on each side of the screen</span></li>
-<li><span class="mode-label">Vertical mode:</span><br><br>In this mode, full text content for one language is shown on the top of the screen, while the bottom shows translations of individual words or phrases in a second language</li>
-</ul>
-<p>When the user clicks a word, the equivalent word in the translated text is highlighted in green.</p>
-<code>The quick brown <span class="clicked-word">fox</span> jumped over the lazy dog.</code><br><code>Le rapide brun <span class="translated">renard</span> a sauté par-dessus le chien paresseux.</code>
-<p class="note caption">(In Vertical display mode, the translated text is displayed in a text box.)</p>
-<p>If the word is better understood in the context of a phrase, then all the words constituting the phrase are highlighted.</p>
-<code>The quick brown fox <span class="clicked-word">jumped</span> <span class="translated">over</span> the lazy dog.</code><br><code>快速的棕色狐狸<span class="translated">跳過</span>懶惰的狗。</code>
-<p>If the clicked word doesn't have a direct translation, it is highlighted with a red color rather than a green one.</p>
-<code><span class="no-direct">The</span> quick brown fox jumped over the lazy dog.</code><br><code>快速的棕色狐狸跳過懶惰的狗。</code>
-        </section>
-              <section id="settings" class="main-section">
-        <header id="settings">Settings</header>
-        <p>The "Settings" menu in DualMiniReader is represented by this icon:</p>
-<code>[≡]</code>
-<p>Four settings are available within it:</p>
-<ul>
-  <li><span class="mode-label">UI</span>
-  <p>This setting allows the user to set the interface language.</p>
-  <span class="note caption">(Note that this doesn't set the language for reading content.)</span></li>
-  <li>
-    <div>
-      <span style="font-size: 0.8em;" class="mode-label">abc</span>
-      <input type="range" style="margin: 0 10px;">
-      <span style="font-size: 1.2em;" class="mode-label">abc</span>
-  <p>This sets the font size.</p>
-  </li>
+    <header id="navHeader" class="dmr-header">DualMiniReader Documentation</header> <!-- Translatable -->
+    <div class="nav-link">
+      <label for="uiLanguageDropdown">UI:</label>
+      <select id="uiLanguageDropdown" class="ui-language-dropdown">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="zh-TW">中文（繁體）</option>
+        <option value="zh-CN">中文（简体）</option>
+        <option value="ja">日本語</option>
+      </select>
     </div>
-  <li><span class="mode-label">abc | abc</span>
-  <p>This sets the interface to Side-by-side mode.</p></li>
-  <li>        <div class="stacked-text mode-label">
-          <span>abc</span>
-          <span class="divider"></span>
-          <span>abc</span>
+    <a class="nav-link" href="#introduction" id="navIntroduction">Introduction</a> <!-- Translatable -->
+    <a class="nav-link" href="#features" id="navFeatures">Features</a> <!-- Translatable -->
+    <a class="nav-link" href="#settings" id="navSettings">Settings</a> <!-- Translatable -->
+    <a class="nav-link" href="#shortcuts" id="navShortcuts">Shortcuts</a> <!-- Translatable -->
+    <a class="nav-link" href="#sources" id="navSources">Sources</a> <!-- Translatable -->
+    <a class="nav-link" href="index.html" id="navBack">Back to Index</a> <!-- Translatable -->
+  </nav>
+  <main id="main-doc">
+    <section id="introduction" class="main-section">
+      <header id="introductionHeader">Introduction</header> <!-- Translatable -->
+      <p id="introductionText1">DualMiniReader is a minimalistic bilingual reading system.</p> <!-- Translatable -->
+      <p id="introductionText2">It features an intuitive interface which will be explained in the next section.</p> <!-- Translatable -->
+    </section>
+    <section id="features" class="main-section">
+      <header id="featuresHeader">Features</header> <!-- Translatable -->
+      <p id="featuresText1">DualMiniReader features two display modes:</p> <!-- Translatable -->
+      <ul>
+        <li>
+          <span class="mode-label" id="sideBySideMode">Side-by-side mode:</span> <!-- Translatable -->
+          <p id="sideBySideText">In this mode, text content in two different languages is shown in columns on each side of the screen.</p> <!-- Translatable -->
+        </li>
+        <li>
+          <span class="mode-label" id="verticalMode">Vertical mode:</span> <!-- Translatable -->
+          <p id="verticalModeText">In this mode, full text content for one language is shown on the top of the screen, while the bottom shows translations of individual words or phrases in a second language.</p> <!-- Translatable -->
+        </li>
+      </ul>
+      <p id="highlightFeature">When the user clicks a word, the equivalent word in the translated text is highlighted in green.</p> <!-- Translatable -->
+      <code>The quick brown <span class="clicked-word">fox</span> jumped over the lazy dog.</code>
+      <br>
+      <code>Le rapide brun <span class="translated">renard</span> a sauté par-dessus le chien paresseux.</code>
+      <p class="note caption" id="verticalNote">(In Vertical display mode, the translated text is displayed in a text box.)</p> <!-- Translatable -->
+      <p id="phraseHighlight">If the word is better understood in the context of a phrase, then all the words constituting the phrase are highlighted.</p> <!-- Translatable -->
+      <code>The quick brown fox <span class="clicked-word">jumped</span> <span class="translated">over</span> the lazy dog.</code>
+      <br>
+      <code>快速的棕色狐狸<span class="translated">跳過</span>懶惰的狗。</code>
+      <p id="noTranslationHighlight">If the clicked word doesn't have a direct translation, it is highlighted with a red color rather than a green one.</p> <!-- Translatable -->
+      <code><span class="no-direct">The</span> quick brown fox jumped over the lazy dog.</code>
+      <br>
+      <code>快速的棕色狐狸跳過懶惰的狗。</code>
+    </section>
+    <section id="settings" class="main-section">
+      <header id="settingsHeader">Settings</header> <!-- Translatable -->
+      <p id="settingsText">The "Settings" menu in DualMiniReader is represented by this icon:</p> <!-- Translatable -->
+      <code>[≡]</code>
+      <p id="settingsOptions">Four settings are available within it:</p> <!-- Translatable -->
+      <ul>
+        <li>
+          <span class="mode-label" id="uiSettingLabel">UI</span> <!-- Translatable -->
+          <p id="uiSettingText">This setting allows the user to set the interface language.</p> <!-- Translatable -->
+          <span class="note caption" id="uiSettingNote">(Note that this doesn't set the language for reading content.)</span> <!-- Translatable -->
+        </li>
+        <li>
+            <div>
+              <span style="font-size: 0.8em;" class="mode-label">abc</span>
+              <input type="range" style="margin: 0 10px;">
+              <span style="font-size: 1.2em;" class="mode-label">abc</span>
+          <p id="fontSizeText">This sets the font size.</p>
+          </li>
+        <li>
+          <span class="mode-label" id="sideBySideSetting">abc | abc</span>
+          <p id="sideBySideSettingText">This sets the interface to Side-by-side mode.</p> <!-- Translatable -->
+        </li>
+        <li>
+          <div class="stacked-text mode-label" id="verticalSetting">
+            <span>abc</span>
+            <span class="divider"></span>
+            <span>abc</span>
           </div>
-<p>This sets the interface to Vertical mode.</p>
-        </div></li>
-        </section>
-              <section id="shortcuts" class="main-section">
-        <header id="shortcuts">Shortcuts</header>
-        <p>In DualMiniReader, you can use the arrow keys to cycle through words in a text:</p>
-<kbd>←</kbd> <kbd>→</kbd>
-<p>Select a word first and then you can navigate through the remainder of the text using the arrow keys.</p>
-        </section>
-              <section id="sources" class="main-section">
-        <header id="sources">Sources</header>
-        <p>Sources for reading content in DualMiniReader are listed below the full text, for example:</p>
-    <code class="note">by Aesop, translated into English by Vernon S. Vernon Jones (1912)</code>
-<p>The reading content available to DualMiniReader is in the public domain, from sources such as <a href="https://www.gutenberg.org/" class="note">Project Gutenberg</a>.</p>
-<p>Most of the translations are generated by AI.</p>
-        </section>
-    </main>
+          <p id="verticalSettingText">This sets the interface to Vertical mode.</p> <!-- Translatable -->
+        </li>
+      </ul>
+    </section>
+    <section id="shortcuts" class="main-section">
+      <header id="shortcutsHeader">Shortcuts</header> <!-- Translatable -->
+      <p id="shortcutsText">In DualMiniReader, you can use the arrow keys to cycle through words in a text:</p> <!-- Translatable -->
+      <kbd>←</kbd> <kbd>→</kbd>
+      <p id="shortcutsNav">Select a word first and then you can navigate through the remainder of the text using the arrow keys.</p> <!-- Translatable -->
+    </section>
+    <section id="sources" class="main-section">
+      <header id="sourcesHeader">Sources</header> <!-- Translatable -->
+      <p id="sourcesText1">Sources for reading content in DualMiniReader are listed below the full text, for example:</p> <!-- Translatable -->
+      <code class="note">by Aesop, translated into English by Vernon S. Vernon Jones (1912)</code>
+      <p id="sourcesText2">The reading content available to DualMiniReader is in the public domain, from sources such as <a href="https://www.gutenberg.org/" class="note">Project Gutenberg</a>.</p> <!-- Translatable -->
+      <p id="sourcesText3">Most of the translations are generated by AI.</p> <!-- Translatable -->
+    </section>
+  </main>
 </body>
 </html>
