@@ -1,0 +1,146 @@
+
+html {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    font-size: 24px;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    line-height: 1.5em;
+  }
+  
+  .dmr-header {
+    padding-left: 0.5em;
+  }
+  
+  nav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 230px;
+    height: 100vh;border-right: 1px solid #ddd;
+    
+  }
+  
+  @media (max-width: 500px) {
+    nav {
+      position: static;
+      width: 100%;
+    }
+    .nav-link {
+      padding-top: 0.5em;
+        line-height: 0;
+      padding-bottom: 0.5em;
+      border-right: none;
+    }
+    .nav-link:last-of-type {
+      border-bottom: 1px solid #ddd;
+    }
+    main {
+      margin: 0 !important;
+      padding: 1.5em;
+    }
+    .dmr-header {
+      line-height: 1;
+      display: flex;
+    }
+  }
+  
+  .nav-link {
+    color: black;
+    text-decoration: none;
+    border-top: 1px solid #ddd;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+  }
+  
+  main {
+    margin-left: calc(230px + 2em);
+    margin-right: 1.5em;
+  }
+  
+  .main-section {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  
+  p, li {
+    line-height: 1.5em;
+  }
+  
+  li {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  
+  .mode-label {
+    font-weight: bold;
+  }
+  
+  .clicked-word {
+  background-color: greenyellow;
+      box-sizing: border-box;
+      outline: 2px solid #007BFF;
+  }
+  
+  .translated {
+  background-color: greenyellow;
+      box-sizing: border-box;
+  }
+  
+  .no-direct {
+    background-color: tomato;
+      box-sizing: border-box;
+      outline: 2px solid #007BFF;
+  }
+  
+  code {
+  display: block;
+  background-color: #EEE;
+  padding: 1em;
+  }
+  
+  .stacked-text {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
+  
+  .divider {
+    width: 32px;
+    border-top: 1px solid black;
+    margin: 2px 0;
+  }
+  
+  .note {
+    font-style: italic;
+  }
+  
+  .caption {
+    margin-bottom: 2em;
+  }
+
+  
+  input[type="range"] {
+      width: 50px;
+      pointer-events: none;
+      transform: translateY(4px);
+  }
+  
+  kbd {
+    font-weight: bold;
+      padding: 4px 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      margin-right: 8px;
+  
+  }
