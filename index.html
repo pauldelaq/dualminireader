@@ -25,24 +25,26 @@
       <button class="settings-button">[≡]</button>
   </header>
 
-  <!-- Wrapper for the centered content -->
-  <div class="centered-content">
-      <p id="welcomeText" class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
-      <br>
-      
-      <!-- New dropdown menus with updated classes -->
-      <div class="language-selection">
-          <label id="showMeLabel" for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
-          <br><br>
-          <select id="leftLanguageDropdown" class="select"></select>
-          <label id="andLabel" for="rightLanguageDropdown" class="common-text">and</label>
-          <select id="rightLanguageDropdown" class="select"></select>
-      </div>
-      
-      <br>
-      
-      <!-- Container for the dynamically generated list of texts -->
-      <div id="textList"></div>
-  </div>
+  <section class="needs-space">
+    <!-- Wrapper for the centered content -->
+    <div class="centered-content">
+        <p id="welcomeText" class="common-text">Welcome to DualMiniReader! Please choose a text to start.</p>
+        <br>
+        
+        <!-- New dropdown menus with updated classes -->
+        <div class="language-selection">
+            <label id="showMeLabel" for="leftLanguageDropdown" class="common-text"><i>Show me texts in:</i></label>
+            <br><br>
+            <select id="leftLanguageDropdown" class="select"></select>
+            <label id="andLabel" for="rightLanguageDropdown" class="common-text">and</label>
+            <select id="rightLanguageDropdown" class="select"></select>
+        </div>
+        
+        <br>
+        
+        <!-- Container for the dynamically generated list of texts -->
+        <div id="textList"></div>
+    </div>
+  </section>
 </body>
 </html>

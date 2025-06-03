@@ -115,6 +115,11 @@ h2 {
   overflow-wrap: break-word;
 }
 
+.needs-space {
+  padding-top: 63.5px;
+  margin: 8px;
+}
+
 /* Styling for the footer in mini-dictionary mode */
 .footer {
   display: none; /* Hidden by default */

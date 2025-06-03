@@ -10,6 +10,7 @@
     z-index: 20; /* Higher than settings menu to keep it visible */
     width: 100%;
     background-color: white;
+    top: 0;
   }
   
   /* Button styling for consistent appearance */
