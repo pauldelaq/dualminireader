@@ -1,3 +1,7 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+  }  
+
 /* Position the settings menu to cover the entire area below the header */
 .settings-menu {
   position: fixed;
@@ -136,4 +140,52 @@
 
 .ui-language-dropdown {
   font-size: 1em;
+}
+
+.game-settings-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: -40px; /* align with other controls */
+}
+
+.game-mode-section {
+  text-align: center;
+  width: 100%;
+}
+
+.standard-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.standard-select {
+  width: 60%;
+  max-width: 300px;
+  padding: 6px;
+  font-size: 1em;
+  margin: 6px 0 12px 0;
+}
+
+#startGameBtn {
+  padding: 8px 16px;
+  font-size: 1em;
+  width: auto;
+  cursor: pointer;
+}
+
+.game-mode-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.game-mode-section hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
 }

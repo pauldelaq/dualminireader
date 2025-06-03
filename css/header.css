@@ -6,8 +6,10 @@
     padding: 10px;
     font-family: 'Noto Sans', sans-serif;
     border-bottom: 1px solid #ddd;
-    position: relative;
+    position: fixed;
     z-index: 20; /* Higher than settings menu to keep it visible */
+    width: 100%;
+    background-color: white;
   }
   
   /* Button styling for consistent appearance */
@@ -35,7 +37,7 @@
   }
   
   .settings-button {
-    right: 10px;
+    right: 24px;
   }
   
   /* Title styling */

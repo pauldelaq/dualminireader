@@ -1,21 +1,66 @@
 // Function to load settings HTML
 function loadSettingsMenu() {
-    fetch('settings.html')
-        .then(response => response.text())
-        .then(html => {
-            const container = document.createElement('div');
-            container.innerHTML = html;
-            document.body.appendChild(container);
+  fetch('settings.html')
+    .then(response => response.text())
+    .then(html => {
+      const container = document.createElement('div');
+      container.innerHTML = html;
+      document.body.appendChild(container);
 
-            setupSettingsMenuListeners();
-            initializeFontSizeControl();
-            initializeDisplayModeControl();
-            initializeUILanguageDropdown(); // Initialize UI language dropdown
+      setupSettingsMenuListeners();
+      initializeFontSizeControl();
+      initializeDisplayModeControl();
+      initializeUILanguageDropdown();
 
-            const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
-            applyDisplayMode(savedDisplayMode);
-        })
-        .catch(error => console.error('Error loading settings menu:', error));
+      const savedDisplayMode = localStorage.getItem('displayMode') || 'sideBySide';
+      applyDisplayMode(savedDisplayMode);
+
+      // 🔍 Detect current page
+      const isReaderPage = window.location.pathname.includes('reader.html');
+
+      // 🎮 Show/hide Game Mode section
+      const gameSettingsSection = document.getElementById('gameSettingsSection');
+      if (gameSettingsSection) {
+        gameSettingsSection.style.display = isReaderPage ? 'block' : 'none';
+      }
+
+      // 🎮 If on reader.html, attach Start Game logic
+      if (isReaderPage) {
+        const startGameBtn = document.getElementById('startGameBtn');
+        const gameModeSelector = document.getElementById('gameModeSelector');
+
+        if (startGameBtn && gameModeSelector) {
+            startGameBtn.addEventListener('click', () => {
+            const selectedMode = gameModeSelector.value;
+
+            if (selectedMode === 'bilingual') {
+                // 1. Set display mode to side-by-side
+                localStorage.setItem('displayMode', 'sideBySide');
+                applyDisplayMode('sideBySide');
+
+                // 2. Update the side-by-side radio button
+                const sideBySideRadio = document.querySelector('input[name="displayMode"][value="sideBySide"]');
+                if (sideBySideRadio) {
+                sideBySideRadio.checked = true;
+                }
+
+                // 3. Close the settings menu
+                const settingsMenu = document.querySelector('#settingsMenu');
+                const settingsButton = document.querySelector('.settings-button');
+                if (settingsMenu && settingsButton) {
+                settingsMenu.classList.add('hidden');
+                settingsButton.textContent = '[≡]';
+                document.body.classList.remove('settings-active');
+                }
+
+                // 4. Start the game
+                window.startBilingualGame?.();
+            }
+            });
+        }
+      }
+    })
+    .catch(error => console.error('Error loading settings menu:', error));
 }
 
 function initializeUILanguageDropdown() {
@@ -33,15 +78,22 @@ function initializeUILanguageDropdown() {
     });
 }
 
-// Function to setup open/close behavior using the settings button
 function setupSettingsMenuListeners() {
     const settingsButton = document.querySelector('.settings-button');
     const settingsMenu = document.querySelector('#settingsMenu');
 
-    // Toggle settings menu on button click
+    // Toggle settings menu or cancel game
     settingsButton.addEventListener('click', () => {
+        // ✅ Check if game is in progress
+        if (window.isGameInProgress?.()) {
+            // ⛔ Cancel the game
+            window.endBilingualGame?.();
+            return;
+        }
+
+        // Otherwise, toggle menu as usual
         const isMenuOpen = !settingsMenu.classList.contains('hidden');
-        
+
         if (isMenuOpen) {
             settingsMenu.classList.add('hidden');
             settingsButton.textContent = '[≡]';

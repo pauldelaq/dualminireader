@@ -715,3 +715,21 @@ function displayEquivalentWordInFooter(wordId) {
 
   footerContent.textContent = wordsToDisplay || '...'; // Display the concatenated phrase or placeholder
 }
+
+import { startBilingualGame } from './game-bilingual.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const startGameBtn = document.getElementById('startGameBtn');
+  const gameModeSelector = document.getElementById('gameModeSelector');
+
+  if (startGameBtn && gameModeSelector) {
+    startGameBtn.addEventListener('click', () => {
+      const selectedMode = gameModeSelector.value;
+
+      if (selectedMode === 'bilingual') {
+        startBilingualGame();
+      }
+      // Later: add other game modes here
+    });
+  }
+});
