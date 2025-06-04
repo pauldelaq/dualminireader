@@ -24,6 +24,16 @@ function loadSettingsMenu() {
         gameSettingsSection.style.display = isReaderPage ? 'block' : 'none';
       }
 
+        // 📖 Show/hide Display Mode section
+        const displayModeSection = document.getElementById('displayModeSection');
+        if (displayModeSection) {
+        if (isReaderPage) {
+            displayModeSection.classList.remove('nonvisible');
+        } else {
+            displayModeSection.classList.add('nonvisible');
+        }
+        }
+
       // 🎮 If on reader.html, attach Start Game logic
       if (isReaderPage) {
         const startGameBtn = document.getElementById('startGameBtn');
