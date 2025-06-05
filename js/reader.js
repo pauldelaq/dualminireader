@@ -9,6 +9,8 @@ let currentWordIndex = -1;
 let currentSide = null;
 let currentDisplayMode = 'sideBySide'; // Default mode
 
+window.isGameModeActive = false;
+
 // Get the DOM elements for display mode handling
 const textContainer = document.getElementById('textContainer');
 const rightSection = document.getElementById('rightSection');
@@ -201,6 +203,7 @@ function syncLanguageSelectors(rightSelector, footerSelector) {
 }
 
 function handleWordClick(event, side) {
+  if (window.isGameModeActive) return;
   console.log("handleWordClick called with side:", side);
   console.log("Current display mode:", currentDisplayMode);
 
@@ -296,8 +299,13 @@ function highlightWordByIndex(side, index) {
   }
 }
 
-// Updated keyboard event listener for navigation to reflect mini-dictionary changes
 document.addEventListener('keydown', (event) => {
+  // 🔒 Disable arrow key navigation during game
+  if (window.isGameModeActive && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+    event.preventDefault();
+    return;
+  }
+
   if (currentSide && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
     const words = getWordElements(currentSide);
 

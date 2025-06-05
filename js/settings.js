@@ -38,6 +38,17 @@ function loadSettingsMenu() {
       if (isReaderPage) {
         const startGameBtn = document.getElementById('startGameBtn');
         const gameModeSelector = document.getElementById('gameModeSelector');
+        const timerInputWrapper = document.getElementById('timerInputWrapper');
+
+        if (gameModeSelector && timerInputWrapper) {
+        gameModeSelector.addEventListener('change', () => {
+            if (gameModeSelector.value === 'bilingual') {
+            timerInputWrapper.classList.remove('nonvisible');
+            } else {
+            timerInputWrapper.classList.add('nonvisible');
+            }
+        });
+        }
 
         if (startGameBtn && gameModeSelector) {
             startGameBtn.addEventListener('click', () => {
@@ -64,7 +75,8 @@ function loadSettingsMenu() {
                 }
 
                 // 4. Start the game
-                window.startBilingualGame?.();
+                const customSeconds = parseInt(document.getElementById('gameTimerInput')?.value) || 30;
+                window.startBilingualGame?.(customSeconds);
             }
             });
         }
