@@ -55,28 +55,42 @@ function loadSettingsMenu() {
             const selectedMode = gameModeSelector.value;
 
             if (selectedMode === 'bilingual') {
-                // 1. Set display mode to side-by-side
-                localStorage.setItem('displayMode', 'sideBySide');
-                applyDisplayMode('sideBySide');
+            localStorage.setItem('displayMode', 'sideBySide');
+            applyDisplayMode('sideBySide');
 
-                // 2. Update the side-by-side radio button
-                const sideBySideRadio = document.querySelector('input[name="displayMode"][value="sideBySide"]');
-                if (sideBySideRadio) {
-                sideBySideRadio.checked = true;
-                }
+            const sideBySideRadio = document.querySelector('input[name="displayMode"][value="sideBySide"]');
+            if (sideBySideRadio) sideBySideRadio.checked = true;
 
-                // 3. Close the settings menu
-                const settingsMenu = document.querySelector('#settingsMenu');
-                const settingsButton = document.querySelector('.settings-button');
-                if (settingsMenu && settingsButton) {
+            const settingsMenu = document.querySelector('#settingsMenu');
+            const settingsButton = document.querySelector('.settings-button');
+            if (settingsMenu && settingsButton) {
                 settingsMenu.classList.add('hidden');
                 settingsButton.textContent = '[≡]';
                 document.body.classList.remove('settings-active');
-                }
+            }
 
-                // 4. Start the game
-                const customSeconds = parseInt(document.getElementById('gameTimerInput')?.value) || 30;
-                window.startBilingualGame?.(customSeconds);
+            const customSeconds = parseInt(document.getElementById('gameTimerInput')?.value) || 30;
+            window.startBilingualGame?.(customSeconds);
+
+            } else if (selectedMode === 'monolingual') {
+            // ✅ Set display mode to miniDictionary
+            localStorage.setItem('displayMode', 'miniDictionary');
+            applyDisplayMode('miniDictionary');
+
+            const miniDictionaryRadio = document.querySelector('input[name="displayMode"][value="miniDictionary"]');
+            if (miniDictionaryRadio) miniDictionaryRadio.checked = true;
+
+            // ✅ Close settings menu
+            const settingsMenu = document.querySelector('#settingsMenu');
+            const settingsButton = document.querySelector('.settings-button');
+            if (settingsMenu && settingsButton) {
+                settingsMenu.classList.add('hidden');
+                settingsButton.textContent = '[≡]';
+                document.body.classList.remove('settings-active');
+            }
+
+            // ✅ Start game (no timer needed)
+            window.startMonolingualGame?.();
             }
             });
         }
@@ -106,25 +120,31 @@ function setupSettingsMenuListeners() {
 
     // Toggle settings menu or cancel game
     settingsButton.addEventListener('click', () => {
-        // ✅ Check if game is in progress
-        if (window.isGameInProgress?.()) {
-            // ⛔ Cancel the game
-            window.endBilingualGame?.();
-            return;
+    if (window.isGameInProgress?.()) {
+        // Determine which game is active by checking display mode
+        const currentMode = localStorage.getItem('displayMode');
+
+        if (currentMode === 'bilingual') {
+        window.endBilingualGame?.();
+        } else if (currentMode === 'miniDictionary') {
+        window.endMonolingualGame?.();
         }
 
-        // Otherwise, toggle menu as usual
-        const isMenuOpen = !settingsMenu.classList.contains('hidden');
+        return;
+    }
 
-        if (isMenuOpen) {
-            settingsMenu.classList.add('hidden');
-            settingsButton.textContent = '[≡]';
-            document.body.classList.remove('settings-active');
-        } else {
-            settingsMenu.classList.remove('hidden');
-            settingsButton.textContent = '[X]';
-            document.body.classList.add('settings-active');
-        }
+    // Otherwise, toggle menu as usual
+    const isMenuOpen = !settingsMenu.classList.contains('hidden');
+
+    if (isMenuOpen) {
+        settingsMenu.classList.add('hidden');
+        settingsButton.textContent = '[≡]';
+        document.body.classList.remove('settings-active');
+    } else {
+        settingsMenu.classList.remove('hidden');
+        settingsButton.textContent = '[X]';
+        document.body.classList.add('settings-active');
+    }
     });
 }
 

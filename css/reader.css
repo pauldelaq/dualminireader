@@ -28,6 +28,7 @@ h1 {
   font-size: var(--base-font-size);
   max-width: 100%; /* Ensure main content does not exceed viewport width */
   padding-bottom: 90px; /* Slightly more than footer height to ensure visibility */
+  line-height: 1.5em;
 }
 
 /* Text sections */
@@ -76,12 +77,12 @@ h2 {
   font-size: clamp(1.2em, calc(var(--base-font-size) * 1.4), 1.6em);
   margin-bottom: -0.5em;
   letter-spacing: 2px;
+  line-height: 1.5em;
 }
 
 /* Styling for selected words */
 .selected-word {
   outline: 2px solid #007BFF;
-  outline-offset: 0px;
   display: inline;
 }
 
@@ -133,9 +134,18 @@ h2 {
   overflow: hidden; /* Ensures no extra scrolling */
 }
 
+.footer.footer-expanded {
+  height: auto; /* allow height to expand naturally */
+  overflow: visible;
+}
+
 .footer.active {
   display: block; /* Displayed when in miniDictionary mode */
   left: 0px;
+}
+
+.footer.hidden {
+  display: none !important;
 }
 
 /* Hide the right section in mini-dictionary mode */
@@ -232,4 +242,27 @@ h2 {
 
 .nonvisible {
   visibility: hidden;
+}
+
+.drop-zone {
+  display: inline-block;
+  min-width: 5em;
+  border: 1px dashed gray;
+  text-align: center;
+  vertical-align: bottom;
+  line-height: 1.3em;
+}
+
+.draggable-word {
+  background-color: #eee;
+  border: 1px dashed gray;
+  margin: 0.3em;
+  padding: 0.3em 0.6em;
+  cursor: grab;
+  display: inline-block;
+  line-height: 1.4; /* to match reader flow */
+}
+
+.hidden-word {
+  color: transparent;             /* Hide the word */
 }

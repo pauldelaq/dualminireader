@@ -725,6 +725,7 @@ function displayEquivalentWordInFooter(wordId) {
 }
 
 import { startBilingualGame } from './game-bilingual.js';
+import { startMonolingualGame } from './game-monolingual.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const startGameBtn = document.getElementById('startGameBtn');
@@ -735,9 +736,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const selectedMode = gameModeSelector.value;
 
       if (selectedMode === 'bilingual') {
-        startBilingualGame();
+        window.startBilingualGame();
+      } else if (selectedMode === 'monolingual') {
+        window.startMonolingualGame();
       }
-      // Later: add other game modes here
     });
   }
 });
