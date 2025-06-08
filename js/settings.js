@@ -225,12 +225,14 @@ function applyDisplayMode(mode) {
         if (mode === 'sideBySide') {
             tableContainer.classList.remove('single-column');
             footerDictionary.classList.remove('active');
+            footerDictionary.classList.add('hidden'); // 💥 hide it
         } else if (mode === 'miniDictionary') {
             tableContainer.classList.add('single-column');
             footerDictionary.classList.add('active');
+            footerDictionary.classList.remove('hidden'); // ✅ show it
         }
 
-        // Call alignTableRows if it is defined
+        // Re-align rows if needed
         if (typeof alignTableRows === 'function') {
             alignTableRows();
         }

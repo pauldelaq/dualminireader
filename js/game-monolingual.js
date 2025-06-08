@@ -94,55 +94,127 @@ export function startMonolingualGame() {
     // Unhide the footer area so it's visible
     footerContent.classList.remove('nonvisible');
 
-    // Drag logic
-    document.querySelectorAll('.draggable-word').forEach(word => {
-      word.addEventListener('dragstart', e => {
-        e.dataTransfer.setData('text/plain', word.dataset.wordId);
-      });
+let currentlySelectedWordId = null;
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+document.querySelectorAll('.draggable-word').forEach(word => {
+  const id = word.dataset.wordId;
+
+  if (!isTouchDevice) {
+    // ✅ Desktop: native drag
+    word.setAttribute('draggable', 'true');
+    word.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', id);
+    });
+  } else {
+    // ✅ Mobile: disable native dragging
+    word.removeAttribute('draggable');
+
+    let offsetX = 0;
+    let offsetY = 0;
+    let clone = null;
+
+    word.addEventListener('touchstart', e => {
+      const touch = e.touches[0];
+      const rect = word.getBoundingClientRect();
+
+      clone = word.cloneNode(true);
+      clone.style.position = 'fixed';
+      clone.style.left = rect.left + 'px';
+      clone.style.top = rect.top + 'px';
+      clone.style.zIndex = '1000';
+      clone.style.opacity = '0.85';
+      clone.style.pointerEvents = 'none';
+      clone.classList.add('drag-clone');
+      document.body.appendChild(clone);
+
+      offsetX = touch.clientX - rect.left;
+      offsetY = touch.clientY - rect.top;
+
+      currentlySelectedWordId = id;
     });
 
-    document.querySelectorAll('.drop-zone').forEach(zone => {
-      zone.addEventListener('dragover', e => {
-        e.preventDefault();
-      });
+    word.addEventListener('touchmove', e => {
+      if (!clone) return;
+      const touch = e.touches[0];
+      clone.style.left = (touch.clientX - offsetX) + 'px';
+      clone.style.top = (touch.clientY - offsetY) + 'px';
 
-    zone.addEventListener('drop', e => {
-      e.preventDefault();
-      const draggedId = e.dataTransfer.getData('text/plain');
-      const targetId = zone.dataset.wordId;
+      e.preventDefault(); // Prevent scroll during drag
+    });
 
-      const draggedEl = document.querySelector(`.draggable-word[data-word-id="${draggedId}"]`);
+    word.addEventListener('touchend', e => {
+      if (!clone) return;
 
-      // 🛑 Safety check
-      if (!draggedEl) return;
+      const touch = e.changedTouches[0];
+      const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+      const dropZone = dropTarget?.closest('.drop-zone');
 
-      // Get visible text values
-      const draggedText = draggedEl.textContent?.trim();
-      const targetText = zone.textContent?.trim();
-
-      // ✅ Accept if:
-      // 1. ID matches and hidden-word class exists
-      // 2. OR: same visible text
-      const isIdMatch = draggedId === targetId && zone.classList.contains('hidden-word');
-      const isTextMatch = draggedText === targetText;
-
-      if (isIdMatch || isTextMatch) {
-        zone.classList.remove('hidden-word');
-        zone.classList.add('highlight');
-        draggedEl.remove();
-
-        const remaining = document.querySelectorAll('.drop-zone.hidden-word');
-        if (remaining.length === 0) {
-          document.getElementById('footerDictionary')?.classList.add('hidden');
-          const pageTitle = document.getElementById('pageTitle');
-          if (pageTitle) {
-            pageTitle.dataset.originalText = pageTitle.textContent;
-            pageTitle.textContent = '100%!';
-          }
-        }
+      if (dropZone) {
+        handleDrop(id, dropZone);
       }
+
+      clone.remove();
+      clone = null;
+      currentlySelectedWordId = null;
     });
+  }
+
+  // Optional: also support tap-to-select + tap-to-drop as fallback
+  word.addEventListener('click', () => {
+    document.querySelectorAll('.draggable-word').forEach(w => w.classList.remove('active-drag'));
+    word.classList.add('active-drag');
+    currentlySelectedWordId = id;
+  });
 });
+
+document.querySelectorAll('.drop-zone').forEach(zone => {
+  // ✅ Desktop drop logic
+  zone.addEventListener('dragover', e => e.preventDefault());
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    const draggedId = e.dataTransfer.getData('text/plain');
+    handleDrop(draggedId, zone);
+  });
+
+  // ✅ Mobile tap-to-drop (optional fallback)
+  zone.addEventListener('click', () => {
+    if (currentlySelectedWordId) {
+      handleDrop(currentlySelectedWordId, zone);
+    }
+  });
+});
+
+function handleDrop(draggedId, zone) {
+  const targetId = zone.dataset.wordId;
+  const draggedEl = document.querySelector(`.draggable-word[data-word-id="${draggedId}"]`);
+  if (!draggedEl) return;
+
+  const draggedText = draggedEl.textContent?.trim();
+  const targetText = zone.textContent?.trim();
+
+  const isIdMatch = draggedId === targetId && zone.classList.contains('hidden-word');
+  const isTextMatch = draggedText === targetText;
+
+  if (isIdMatch || isTextMatch) {
+    zone.classList.remove('hidden-word');
+    zone.classList.add('highlight');
+    draggedEl.remove();
+
+    currentlySelectedWordId = null;
+    document.querySelectorAll('.draggable-word').forEach(w => w.classList.remove('active-drag'));
+
+    const remaining = document.querySelectorAll('.drop-zone.hidden-word');
+    if (remaining.length === 0) {
+      document.getElementById('footerDictionary')?.classList.add('hidden');
+      const pageTitle = document.getElementById('pageTitle');
+      if (pageTitle) {
+        pageTitle.dataset.originalText = pageTitle.textContent;
+        pageTitle.textContent = '100%!';
+      }
+    }
+  }
+}
 }
 
 function endMonolingualGame() {
