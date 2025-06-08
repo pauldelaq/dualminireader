@@ -266,3 +266,7 @@ h2 {
 .hidden-word {
   color: transparent;             /* Hide the word */
 }
+
+#footerDictionary {
+  touch-action: none;
+}
