@@ -148,3 +148,12 @@ select {
       margin-right: 8px;
   
   }
+
+  .drop-zone {
+  display: inline-block;
+  min-width: 5em;
+  border: 1px dashed gray;
+  text-align: center;
+  vertical-align: bottom;
+  line-height: 1.3em;
+}

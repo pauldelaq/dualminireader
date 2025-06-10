@@ -167,6 +167,62 @@
         "zh-CN": "如果点击的单词没有直接翻译，它会被红色而不是绿色突出显示。",
         "ja": "クリックされた単語に直接の翻訳がない場合は、緑ではなく赤で強調表示されます。"
     },
+    "navGamemodes": {
+        "en": "Game Modes",
+        "fr": "Modes de jeu",
+        "es": "Modos de juego",
+        "zh-TW": "遊戲模式",
+        "zh-CN": "游戏模式",
+        "ja": "ゲームモード"
+      },
+      "gamemodesHeader": {
+        "en": "Game Modes",
+        "fr": "Modes de jeu",
+        "es": "Modos de juego",
+        "zh-TW": "遊戲模式",
+        "zh-CN": "游戏模式",
+        "ja": "ゲームモード"
+      },
+      "gamemodesIntroText": {
+        "en": "DualMiniReader features game modes which are accessible from the Settings Menu:",
+        "fr": "DualMiniReader propose des modes de jeu accessibles depuis le menu Paramètres :",
+        "es": "DualMiniReader incluye modos de juego accesibles desde el menú de configuración:",
+        "zh-TW": "DualMiniReader 提供可從設定選單進入的遊戲模式：",
+        "zh-CN": "DualMiniReader 提供可从设置菜单访问的游戏模式：",
+        "ja": "DualMiniReaderには、設定メニューからアクセスできるゲームモードがあります："
+      },
+      "wordMatchMode": {
+        "en": "Word Match (Side-by-Side mode):",
+        "fr": "Correspondance de mots (mode côte à côte) :",
+        "es": "Emparejar palabras (modo lado a lado):",
+        "zh-TW": "單詞配對（並排模式）：",
+        "zh-CN": "单词匹配（并排模式）：",
+        "ja": "単語マッチ（並列モード）："
+      },
+      "wordMatchModeText": {
+        "en": "In this game mode, words on the left column are <span class=\"clicked-word\">highlighted</span> at random. You get points by clicking the <span class=\"translated\">equivalent</span> word on the right column.",
+        "fr": "Dans ce mode de jeu, des mots de la colonne de gauche sont <span class=\"clicked-word\">surlignés</span> au hasard. Vous marquez des points en cliquant sur le mot <span class=\"translated\">équivalent</span> dans la colonne de droite.",
+        "es": "En este modo de juego, se <span class=\"clicked-word\">resaltan</span palabras al azar en la columna izquierda. Ganas puntos al hacer clic en la palabra <span class=\"translated\">equivalente</span> en la columna derecha.",
+        "zh-TW": "在這種遊戲模式中，左側欄的單詞會隨機<span class=\"clicked-word\">高亮</span>。你可以通過點擊右側欄中<span class=\"translated\">對應</span>的單詞來獲得分數。",
+        "zh-CN": "在这种游戏模式中，左侧栏的单词会随机<span class=\"clicked-word\">高亮</span>。你可以通过点击右侧栏中<span class=\"translated\">对应</span>的单词来得分。",
+        "ja": "このゲームモードでは、左の列の単語がランダムに<span class=\"clicked-word\">強調表示</span>されます。右の列の<span class=\"translated\">対応する</span>単語をクリックするとポイントがもらえます。"
+      },
+      "FillInTheBlankMode": {
+        "en": "Fill-in-the-Blank (Vertical mode):",
+        "fr": "Remplir les blancs (mode vertical) :",
+        "es": "Rellenar los espacios (modo vertical):",
+        "zh-TW": "填空遊戲（垂直模式）：",
+        "zh-CN": "填空游戏（垂直模式）：",
+        "ja": "穴埋め（縦モード）："
+      },
+      "FillInTheBlankModeText": {
+        "en": "In this game mode, words are <span class=\"drop-zone\">cut</span> <span class=\"drop-zone\">out</span> from the text. You win by putting the words back in the <span class=\"drop-zone translated\">right</span> <span class=\"drop-zone translated\">places</span>.",
+        "fr": "Dans ce mode de jeu, des mots sont <span class=\"drop-zone\">coupés</span> <span class=\"drop-zone\">du</span> texte. Vous gagnez en remettant les mots aux <span class=\"drop-zone translated\">bons</span> <span class=\"drop-zone translated\">endroits</span>.",
+        "es": "En este modo de juego, se <span class=\"drop-zone\">eliminan</span> <span class=\"drop-zone\">palabras</span> del texto. Ganas si colocas las palabras en los <span class=\"drop-zone translated\">lugares</span> <span class=\"drop-zone translated\">correctos</span>.",
+        "zh-TW": "在此遊戲模式中，文本中的單詞會被<span class=\"drop-zone\">移除</span>。你需要將單詞放回<span class=\"drop-zone translated\">正確</span>的<span class=\"drop-zone translated\">位置</span>來獲勝。",
+        "zh-CN": "在此游戏模式中，文本中的单词会被<span class=\"drop-zone\">移除</span>。你需要将单词放回<span class=\"drop-zone translated\">正确</span>的<span class=\"drop-zone translated\">位置</span>才能获胜。",
+        "ja": "このゲームモードでは、単語がテキストから<span class=\"drop-zone\">削除</span>されます。<span class=\"drop-zone translated\">正しい</span><span class=\"drop-zone translated\">位置</span>に戻すことで勝利します。"
+      },
         "settingsHeader": {
           "en": "Settings",
           "fr": "Paramètres",

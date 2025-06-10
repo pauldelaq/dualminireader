@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const element = document.getElementById(id);
             if (element) {
               // Use innerHTML for specific IDs that include HTML content
-              if (id === 'sourcesText2') {
+              const htmlIDs = ['sourcesText2', 'wordMatchModeText', 'FillInTheBlankModeText'];
+              if (htmlIDs.includes(id)) {
                 element.innerHTML = translations[id][uiLanguage] || translations[id]['en'];
               } else {
                 element.textContent = translations[id][uiLanguage] || translations[id]['en'];
