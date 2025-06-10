@@ -380,7 +380,19 @@ function updateText(side) {
   // Process text paragraphs
   const paragraphs = text.split(/\[br\]/);
   const textContainer = document.getElementById(textContainerId);
-  textContainer.innerHTML = ''; // Clear previous content
+  textContainer.innerHTML = '';
+
+  // ✅ Immediately strip any leftover heights from previous layout
+  resetAllRowHeights();
+
+  // 🧹 Ensure we clear any leftover layout styling before re-rendering content
+  document.querySelectorAll('.left-text .cell, .right-text .cell').forEach(cell => {
+    cell.style.height = 'auto';
+  });
+
+  document.querySelectorAll('.left-text .row, .right-text .row').forEach(row => {
+    row.style.height = 'auto';
+  });
 
   paragraphs.forEach((paragraph, index) => {
     console.log(`[DEBUG] Raw Paragraph ${index + 1}: ${paragraph}`);
@@ -430,39 +442,53 @@ function updateText(side) {
 }
 
 function alignTableRows() {
+  if (currentDisplayMode === 'miniDictionary') return;
+
+  const leftCells = document.querySelectorAll('.left-text .cell');
+  const rightCells = document.querySelectorAll('.right-text .cell');
+
+  // 🧹 Always reset previous height styles first
+  [...leftCells, ...rightCells].forEach(cell => {
+    cell.style.height = 'auto';
+  });
+
   const leftRows = document.querySelectorAll('.left-text .row');
   const rightRows = document.querySelectorAll('.right-text .row');
 
-  // Ensure we have the same number of rows on each side
   const rowCount = Math.min(leftRows.length, rightRows.length);
 
   for (let i = 0; i < rowCount; i++) {
-      const leftCell = leftRows[i].querySelector('.cell');
-      const rightCell = rightRows[i].querySelector('.cell');
+    const leftCell = leftRows[i].querySelector('.cell');
+    const rightCell = rightRows[i].querySelector('.cell');
 
-      if (leftCell && rightCell) {
-          // Reset heights
-          leftCell.style.height = 'auto';
-          rightCell.style.height = 'auto';
+    if (leftCell && rightCell) {
+      // Recalculate and match heights
+      const maxContentHeight = Math.max(leftCell.offsetHeight, rightCell.offsetHeight);
+      leftCell.style.height = `${maxContentHeight}px`;
+      rightCell.style.height = `${maxContentHeight}px`;
+    }
 
-          // Calculate maximum height for the content row
-          const maxContentHeight = Math.max(leftCell.offsetHeight, rightCell.offsetHeight);
-          leftCell.style.height = `${maxContentHeight}px`;
-          rightCell.style.height = `${maxContentHeight}px`;
-      }
-
-      // Set a consistent height for any spacer rows if needed
-      if (leftRows[i].classList.contains('spacer-row') && rightRows[i].classList.contains('spacer-row')) {
-          const spacerHeight = '1em'; // Adjust as needed for spacing
-          leftRows[i].style.height = spacerHeight;
-          rightRows[i].style.height = spacerHeight;
-      }
+    if (leftRows[i].classList.contains('spacer-row') && rightRows[i].classList.contains('spacer-row')) {
+      const spacerHeight = '1em';
+      leftRows[i].style.height = spacerHeight;
+      rightRows[i].style.height = spacerHeight;
+    }
   }
 }
 
 // Ensure alignment on page load and resize
 window.addEventListener('load', alignTableRows);
 window.addEventListener('resize', alignTableRows);
+
+function resetAllRowHeights() {
+  document.querySelectorAll('#leftText .cell, #rightText .cell').forEach(cell => {
+    cell.style.removeProperty('height');
+  });
+
+  document.querySelectorAll('#leftText .row, #rightText .row').forEach(row => {
+    row.style.removeProperty('height');
+  });
+}
 
 // Function to apply line break and indentation placeholders
 function applyPlaceholders(text) {
@@ -637,7 +663,12 @@ function activateSideBySideMode() {
   footerDictionary.classList.remove('active');
   rightSection.classList.remove('hidden');
   currentDisplayMode = 'sideBySide';
-  alignTableRows(); // Re-align the rows for side-by-side mode
+
+  requestAnimationFrame(() => {
+    resetAllRowHeights();   // 🧹 Clear out any leftover styling
+    alignTableRows();       // 📐 Now recalculate cleanly
+  });
+
   console.log("Switched to sideBySide mode - single-column class removed");
 }
 
@@ -650,6 +681,12 @@ function activateMiniDictionaryMode() {
   if (highlightedWordId) {
     displayEquivalentWordInFooter(highlightedWordId);
   }
+
+  // Wait for layout to settle, then reset heights
+  requestAnimationFrame(() => {
+    resetAllRowHeights();
+  });
+
   console.log("Switched to miniDictionary mode - single-column class added");
 }
 

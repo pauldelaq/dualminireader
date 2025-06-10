@@ -167,7 +167,6 @@ h2 {
 /* Style for displaying equivalent words in footer content */
 .footer-content {
   color: #333;
-  margin-top: -13px;
   line-height: 1.5;
   font-size: 1.5em;
 }
@@ -269,4 +268,5 @@ h2 {
 
 #footerDictionary {
   touch-action: none;
+  padding-bottom: 30px;
 }
