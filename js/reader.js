@@ -296,6 +296,30 @@ function highlightWordByIndex(side, index) {
   }
 }
 
+function patchFrenchPunctuationSpaces() {
+  const walker = document.createTreeWalker(
+    document.getElementById('textContainer'),
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const oldText = node.textContent;
+
+    const newText = oldText
+      // space before French closing punctuation (» ? !)
+      .replace(/ (\»|[?!])/g, '\u00A0$1')
+      // space after French opening punctuation («)
+      .replace(/(«) /g, '$1\u00A0');
+
+    if (oldText !== newText) {
+      node.textContent = newText;
+    }
+  }
+}
+
 document.addEventListener('keydown', (event) => {
   // 🔒 Disable arrow key navigation during game
   if (window.isGameModeActive && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
@@ -459,6 +483,8 @@ function updateText(side) {
   if (highlightedWordId) {
     highlightWordsOnBothSides(highlightedWordId);
   }
+
+patchFrenchPunctuationSpaces();
 }
 
 function alignTableRows() {
@@ -494,11 +520,14 @@ function alignTableRows() {
       rightRows[i].style.height = spacerHeight;
     }
   }
+
 }
 
 // Ensure alignment on page load and resize
 window.addEventListener('load', alignTableRows);
-window.addEventListener('resize', alignTableRows);
+window.addEventListener('resize', () => {
+  alignTableRows();
+});
 
 function resetAllRowHeights() {
   document.querySelectorAll('#leftText .cell, #rightText .cell').forEach(cell => {
@@ -508,6 +537,7 @@ function resetAllRowHeights() {
   document.querySelectorAll('#leftText .row, #rightText .row').forEach(row => {
     row.style.removeProperty('height');
   });
+
 }
 
 // Function to apply line break and indentation placeholders

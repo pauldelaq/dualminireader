@@ -199,7 +199,6 @@ h2 {
 .row {
   display: grid;
   grid-template-columns: 1fr 20px 1fr;
-  column-gap: 20px;
   width: 100%;
   margin-bottom: 1em;
 }
@@ -209,6 +208,10 @@ h2 {
   margin-top: 1em;
   padding: 0;
   width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 /* Remove margin from the first and last cells in each text section */
