@@ -54,8 +54,8 @@ function startNextRound() {
   clearHighlights();
   currentTargetId = null;
 
-  const leftWords = Array.from(document.querySelectorAll('#leftTitle .clickable-word, #leftText .clickable-word'));
-  const rightWords = Array.from(document.querySelectorAll('#rightTitle .clickable-word, #rightText .clickable-word'));
+  const leftWords = Array.from(document.querySelectorAll('#leftTitle .clickable-word, .cell.left-text .clickable-word'));
+  const rightWords = Array.from(document.querySelectorAll('#rightTitle .clickable-word, .cell.right-text .clickable-word'));
 
   const validIds = leftWords
     .map(w => w.getAttribute('data-word-id'))
@@ -74,7 +74,7 @@ function startNextRound() {
 }
 
 function setupGameClickListeners() {
-  const rightWords = document.querySelectorAll('#rightTitle .clickable-word, #rightText .clickable-word');
+  const rightWords = document.querySelectorAll('#rightTitle .clickable-word, .cell.right-text .clickable-word');
 
   rightWords.forEach(word => {
     word.addEventListener('click', () => {
@@ -83,7 +83,7 @@ function setupGameClickListeners() {
       const clickedId = word.getAttribute('data-word-id');
 
       if (clickedId === currentTargetId) {
-        const matchingRightWords = document.querySelectorAll('#rightTitle .clickable-word, #rightText .clickable-word');
+      const matchingRightWords = document.querySelectorAll('#rightTitle .clickable-word, .cell.right-text .clickable-word');
         matchingRightWords.forEach(w => {
           if (w.getAttribute('data-word-id') === clickedId) {
             w.classList.add('highlight');

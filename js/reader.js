@@ -32,7 +32,6 @@ if (textFile) {
       translationsData = data.languages;
       populateLanguageSelectors();
       updateText('left');
-      updateText('right');
 
 // Event listener for left language selector
 document.getElementById('leftLanguageSelector').addEventListener('change', (event) => {
@@ -52,7 +51,6 @@ document.getElementById('leftLanguageSelector').addEventListener('change', (even
 
   // Update text for both sides
   updateText('left');
-  updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
   // Update mini-dictionary content if a word is highlighted
@@ -79,7 +77,6 @@ document.getElementById('rightLanguageSelector').addEventListener('change', (eve
 
   // Update text for both sides
   updateText('left');
-  updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
   // Update mini-dictionary content if a word is highlighted
@@ -331,107 +328,130 @@ document.addEventListener('keydown', (event) => {
 // Function to get clickable words on a side
 function getWordElements(side) {
   const titleWords = document.querySelectorAll(`#${side}Title .clickable-word, #${side}Title .unnumbered-word`);
-  const textWords = document.querySelectorAll(`#${side}Text .clickable-word, #${side}Text .unnumbered-word`);
+  const textWords = document.querySelectorAll(`.cell.${side}-text .clickable-word, .cell.${side}-text .unnumbered-word`);
   return [...titleWords, ...textWords];
 }
 
-// updateText function: Attach click listeners and process text
 function updateText(side) {
-  const languageSelectorId = side === 'left' ? 'leftLanguageSelector' : 'rightLanguageSelector';
-  const titleId = side === 'left' ? 'leftTitle' : 'rightTitle';
-  const textContainerId = side === 'left' ? 'leftText' : 'rightText';
-  const notesId = side === 'left' ? 'leftNotes' : 'rightNotes';
+  // Only run when called from left — skip right to avoid double render
+  if (side !== 'left') return;
 
-  const language = document.getElementById(languageSelectorId).value;
+  const leftLang = document.getElementById('leftLanguageSelector').value;
+  const rightLang = document.getElementById('rightLanguageSelector').value;
 
-  if (!translationsData[language]) {
-    console.error(`Language data for ${language} is not available.`);
-    return;
-  }
+  const leftTitleId = 'leftTitle';
+  const rightTitleId = 'rightTitle';
+  const leftNotesId = 'leftNotes';
+  const rightNotesId = 'rightNotes';
 
-  // Fetch title, text, and notes
-  let title = translationsData[language].title;
-  let text = translationsData[language].text;
-  let notes = translationsData[language].notes || "";
+  const container = document.getElementById('textContainer');
 
-  // Apply placeholders for line breaks and indentation
-  title = applyPlaceholders(title);
-  notes = applyPlaceholders(notes);
+  // 🧱 Preserve title row before clearing
+  const titleRow = Array.from(container.children).find(row =>
+    row.contains(document.getElementById(leftTitleId))
+  );
 
-  // Debugging: Log raw content
-  console.log(`[DEBUG] Raw Title: ${title}`);
-  console.log(`[DEBUG] Raw Notes: ${notes}`);
+  // Clear content
+  container.innerHTML = '';
+  if (titleRow) container.appendChild(titleRow);
 
-  // Make words clickable in title and text
-  const clickableTitle = makeWordsClickable(title);
-  const clickableNotes = makeWordsClickable(notes);
+  // Fetch translation data
+  const leftData = translationsData[leftLang];
+  const rightData = translationsData[rightLang];
 
-  // Debugging: Log clickable content
-  console.log(`[DEBUG] Clickable Title: ${clickableTitle}`);
-  console.log(`[DEBUG] Clickable Notes: ${clickableNotes}`);
+  // 📝 Prepare and populate titles
+  const clickableLeftTitle = removeSpacesForAsianLanguages(
+    makeWordsClickable(applyPlaceholders(leftData.title)),
+    leftLang
+  );
+  const clickableRightTitle = removeSpacesForAsianLanguages(
+    makeWordsClickable(applyPlaceholders(rightData.title)),
+    rightLang
+  );
 
-  // Remove spaces only from the title and text sections
-  const finalTitle = removeSpacesForAsianLanguages(clickableTitle, language);
-  console.log(`[DEBUG] Final Title: ${finalTitle}`);
+  const leftTitleEl = document.getElementById(leftTitleId);
+  const rightTitleEl = document.getElementById(rightTitleId);
+  if (leftTitleEl) leftTitleEl.innerHTML = clickableLeftTitle;
+  if (rightTitleEl) rightTitleEl.innerHTML = clickableRightTitle;
 
-  // Populate the title
-  document.getElementById(titleId).innerHTML = finalTitle;
+  // 📝 Prepare notes (will be appended after paragraphs)
+  const clickableLeftNotes = removeSpacesForAsianLanguages(
+    makeWordsClickable(applyPlaceholders(leftData.notes || '')),
+    leftLang
+  );
+  const clickableRightNotes = removeSpacesForAsianLanguages(
+    makeWordsClickable(applyPlaceholders(rightData.notes || '')),
+    rightLang
+  );
 
-  // Process text paragraphs
-  const paragraphs = text.split(/\[br\]/);
-  const textContainer = document.getElementById(textContainerId);
-  textContainer.innerHTML = '';
+  // 📄 Split and render aligned paragraph rows
+  const leftParagraphs = leftData.text.split(/\[br\]/);
+  const rightParagraphs = rightData.text.split(/\[br\]/);
+  const rowCount = Math.max(leftParagraphs.length, rightParagraphs.length);
 
-  // ✅ Immediately strip any leftover heights from previous layout
-  resetAllRowHeights();
-
-  // 🧹 Ensure we clear any leftover layout styling before re-rendering content
-  document.querySelectorAll('.left-text .cell, .right-text .cell').forEach(cell => {
-    cell.style.height = 'auto';
-  });
-
-  document.querySelectorAll('.left-text .row, .right-text .row').forEach(row => {
-    row.style.height = 'auto';
-  });
-
-  paragraphs.forEach((paragraph, index) => {
-    console.log(`[DEBUG] Raw Paragraph ${index + 1}: ${paragraph}`);
-
-    // Apply placeholders
-    paragraph = applyPlaceholders(paragraph);
-
-    // Make paragraph clickable
-    let clickableParagraph = makeWordsClickable(paragraph);
-    console.log(`[DEBUG] Clickable Paragraph ${index + 1}: ${clickableParagraph}`);
-
-    // Final cleanup of spaces for text
-    clickableParagraph = removeSpacesForAsianLanguages(clickableParagraph, language);
-
-    // Debugging: Log final processed paragraph
-    console.log(`[DEBUG] Final Paragraph ${index + 1}: ${clickableParagraph}`);
-
-    // Create a row and append the processed paragraph
+  for (let i = 0; i < rowCount; i++) {
     const row = document.createElement('div');
     row.classList.add('row');
-    const cell = document.createElement('div');
-    cell.classList.add('cell', side === 'left' ? 'left-text' : 'right-text');
-    cell.innerHTML = clickableParagraph;
-    row.appendChild(cell);
-    textContainer.appendChild(row);
-  });
 
-  // Populate notes without removing spaces
-  document.getElementById(notesId).innerHTML = clickableNotes;
+    const leftCell = document.createElement('div');
+    leftCell.classList.add('cell', 'left-text');
+    leftCell.innerHTML = removeSpacesForAsianLanguages(
+      makeWordsClickable(applyPlaceholders(leftParagraphs[i] || '')),
+      leftLang
+    );
 
-  // Attach click listeners for all clickable words and unnumbered words
-  const wordElements = document.querySelectorAll(`#${titleId} .clickable-word, #${textContainerId} .clickable-word, #${titleId} .unnumbered-word, #${textContainerId} .unnumbered-word`);
-  wordElements.forEach(word => {
-    word.addEventListener('click', function(event) {
-      handleWordClick(event, side);
+    const gap = document.createElement('div');
+    gap.classList.add('cell', 'gap');
+
+    const rightCell = document.createElement('div');
+    rightCell.classList.add('cell', 'right-text');
+    rightCell.innerHTML = removeSpacesForAsianLanguages(
+      makeWordsClickable(applyPlaceholders(rightParagraphs[i] || '')),
+      rightLang
+    );
+
+    row.appendChild(leftCell);
+    row.appendChild(gap);
+    row.appendChild(rightCell);
+    container.appendChild(row);
+  }
+
+  // 📝 Add notes row after all paragraphs
+  const notesRow = document.createElement('div');
+  notesRow.classList.add('row');
+
+  const leftNotesCell = document.createElement('div');
+  leftNotesCell.classList.add('cell', 'left-notes');
+  leftNotesCell.innerHTML = `<p class="notes">${clickableLeftNotes}</p>`;
+
+  const gap = document.createElement('div');
+  gap.classList.add('cell', 'gap');
+
+  const rightNotesCell = document.createElement('div');
+  rightNotesCell.classList.add('cell', 'right-notes');
+  rightNotesCell.innerHTML = `<p class="notes">${clickableRightNotes}</p>`;
+
+  notesRow.appendChild(leftNotesCell);
+  notesRow.appendChild(gap);
+  notesRow.appendChild(rightNotesCell);
+  container.appendChild(notesRow);
+
+  // 🖱️ Attach click listeners for both sides
+  ['left', 'right'].forEach(side => {
+    const titleId = side === 'left' ? 'leftTitle' : 'rightTitle';
+    const wordElements = document.querySelectorAll(
+      `#${titleId} .clickable-word, .cell.${side}-text .clickable-word, #${titleId} .unnumbered-word, .cell.${side}-text .unnumbered-word`
+    );
+    wordElements.forEach(word => {
+      word.addEventListener('click', function (event) {
+        handleWordClick(event, side);
+      });
     });
   });
 
-  // Align rows in side-by-side mode
+  // ♻️ Reset layout heights and reapply highlights
+  resetAllRowHeights();
+
   if (currentDisplayMode === 'sideBySide') {
     alignTableRows();
   }
@@ -587,10 +607,9 @@ function clearSelectedWordOnBothSides() {
 }
 
 function clearHighlights(excludeElement = null) {
-  const leftWords = document.querySelectorAll('#leftTitle .clickable-word, #leftText .clickable-word, #leftTitle .unnumbered-word, #leftText .unnumbered-word');
-  const rightWords = document.querySelectorAll('#rightTitle .clickable-word, #rightText .clickable-word, #rightTitle .unnumbered-word, #rightText .unnumbered-word');
+  const leftWords = document.querySelectorAll('#leftTitle .clickable-word, .cell.left-text .clickable-word, #leftTitle .unnumbered-word, .cell.left-text .unnumbered-word');
+  const rightWords = document.querySelectorAll('#rightTitle .clickable-word, .cell.right-text .clickable-word, #rightTitle .unnumbered-word, .cell.right-text .unnumbered-word');
 
-  // Remove all highlight-related classes, except for the excluded element
   [...leftWords, ...rightWords].forEach(word => {
     if (word !== excludeElement) {
       word.classList.remove('highlight', 'unnumbered-highlight', 'selected-word');
@@ -599,27 +618,20 @@ function clearHighlights(excludeElement = null) {
 }
 
 function highlightWordsOnBothSides(wordId) {
-  const wordIds = new Set(wordId.split('_')); // Split combined IDs into individual components
+  const wordIds = new Set(wordId.split('_'));
 
-  const leftWords = Array.from(document.querySelectorAll(`#leftTitle .clickable-word, #leftText .clickable-word`));
-  const rightWords = Array.from(document.querySelectorAll(`#rightTitle .clickable-word, #rightText .clickable-word`));
+  const leftWords = Array.from(document.querySelectorAll(`#leftTitle .clickable-word, .cell.left-text .clickable-word`));
+  const rightWords = Array.from(document.querySelectorAll(`#rightTitle .clickable-word, .cell.right-text .clickable-word`));
 
   // Expand wordIds with equivalents from the other side
-  leftWords.forEach(word => {
+  [...leftWords, ...rightWords].forEach(word => {
     const wordDataIds = word.getAttribute('data-word-id').split('_');
     if (wordDataIds.some(id => wordIds.has(id))) {
-      wordDataIds.forEach(id => wordIds.add(id)); // Add any connected IDs
+      wordDataIds.forEach(id => wordIds.add(id));
     }
   });
 
-  rightWords.forEach(word => {
-    const wordDataIds = word.getAttribute('data-word-id').split('_');
-    if (wordDataIds.some(id => wordIds.has(id))) {
-      wordDataIds.forEach(id => wordIds.add(id)); // Add any connected IDs
-    }
-  });
-
-  // Determine whether each ID has equivalents on the opposite side
+  // Determine which IDs have equivalents on the other side
   const hasEquivalentOnOppositeSide = {};
   wordIds.forEach(id => {
     hasEquivalentOnOppositeSide[id] = {
@@ -628,7 +640,7 @@ function highlightWordsOnBothSides(wordId) {
     };
   });
 
-  // Highlight words on the left
+  // Highlight left
   leftWords.forEach(word => {
     const wordDataIds = word.getAttribute('data-word-id').split('_');
     if (wordDataIds.some(id => wordIds.has(id))) {
@@ -637,7 +649,7 @@ function highlightWordsOnBothSides(wordId) {
     }
   });
 
-  // Highlight words on the right
+  // Highlight right
   rightWords.forEach(word => {
     const wordDataIds = word.getAttribute('data-word-id').split('_');
     if (wordDataIds.some(id => wordIds.has(id))) {
@@ -716,7 +728,6 @@ document.getElementById('footerLanguageSelector').addEventListener('change', (ev
 
   // Update text and equivalencies for all affected sides
   updateText('left');
-  updateText('right');
   updateWordEquivalenciesForSelectedLanguages();
 
   // Update mini-dictionary content if a word is highlighted

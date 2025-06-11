@@ -50,7 +50,7 @@ export function startMonolingualGame() {
   window.addEventListener('resize', adjustMainContentPaddingForFooter);
 
   // Get all clickable words on the left side
-  const leftWords = Array.from(document.querySelectorAll('#leftTitle .clickable-word, #leftText .clickable-word'));
+  const leftWords = Array.from(document.querySelectorAll('#leftTitle .clickable-word, .cell.left-text .clickable-word'));
 
   // Get unique word IDs
   const uniqueWordIds = [...new Set(leftWords.map(word => word.getAttribute('data-word-id')))];
