@@ -1,0 +1,50 @@
+{
+  "gameModeHeader": {
+    "en": "Game Mode",
+    "fr": "Mode de jeu",
+    "es": "Modo de juego",
+    "zh-TW": "遊戲模式",
+    "zh-CN": "游戏模式",
+    "ja": "ゲームモード"
+  },
+  "gameModeSelectLabel": {
+    "en": "Select Mode:",
+    "fr": "Sélectionner le mode :",
+    "es": "Seleccionar modo:",
+    "zh-TW": "選擇模式：",
+    "zh-CN": "选择模式：",
+    "ja": "モードを選択："
+  },
+  "gameTimerLabel": {
+    "en": "Time (seconds):",
+    "fr": "Temps (secondes) :",
+    "es": "Tiempo (segundos):",
+    "zh-TW": "時間（秒）：",
+    "zh-CN": "时间（秒）：",
+    "ja": "時間（秒）："
+  },
+  "startGameBtn": {
+    "en": "Start Game",
+    "fr": "Démarrer le jeu",
+    "es": "Iniciar juego",
+    "zh-TW": "開始遊戲",
+    "zh-CN": "开始游戏",
+    "ja": "ゲーム開始"
+  },
+  "gameModeBilingual": {
+    "en": "Word Match (Side-by-Side)",
+    "fr": "Correspondance de mots (côte à côte)",
+    "es": "Emparejar palabras (lado a lado)",
+    "zh-TW": "單詞配對（並排）",
+    "zh-CN": "单词匹配（并排）",
+    "ja": "単語マッチ（並列）"
+  },
+  "gameModeMonolingual": {
+    "en": "Fill-in-the-Blank (Vertical)",
+    "fr": "Remplir les blancs (vertical)",
+    "es": "Rellenar los espacios (vertical)",
+    "zh-TW": "填空遊戲（垂直）",
+    "zh-CN": "填空游戏（垂直）",
+    "ja": "穴埋め（縦）"
+  }
+}

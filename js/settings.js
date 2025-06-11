@@ -1,3 +1,26 @@
+function applySettingsTranslations(uiLanguage) {
+  fetch('data/settings.json')
+    .then(res => res.json())
+    .then(translations => {
+      const ids = [
+        'gameModeHeader',
+        'gameModeSelectLabel',
+        'gameTimerLabel',
+        'startGameBtn',
+        'gameModeNone',
+        'gameModeBilingual',
+        'gameModeMonolingual'
+      ];
+
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && translations[id]) {
+          el.textContent = translations[id][uiLanguage] || translations[id]['en'];
+        }
+      });
+    });
+}
+
 // Function to load settings HTML
 function loadSettingsMenu() {
   fetch('settings.html')
@@ -241,6 +264,14 @@ function applyDisplayMode(mode) {
 
 // Load settings menu, font size, and initialize settings on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadSettingsMenu();
-    loadFontSize(); // Apply font size from localStorage on page load
+  loadSettingsMenu();
+  loadFontSize();
+
+  const uiLang = localStorage.getItem('uiLanguage') || 'en';
+  applySettingsTranslations(uiLang);
+});
+
+window.addEventListener('languageChanged', () => {
+  const lang = localStorage.getItem('uiLanguage') || 'en';
+  applySettingsTranslations(lang);
 });

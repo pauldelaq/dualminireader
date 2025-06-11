@@ -43,19 +43,18 @@
     <div class="game-settings-container" id="gameSettingsSection">
       <div class="game-mode-section">
         <hr>
-        <h3 class="center-text">Game Mode</h3>
+        <h3 class="center-text" id="gameModeHeader">Game Mode</h3>
 
-        <label for="gameModeSelector" class="standard-label">Select Mode:</label>
-        
+        <label for="gameModeSelector" class="standard-label" id="gameModeSelectLabel">Select Mode:</label>
+
         <div class="game-mode-controls">
           <select id="gameModeSelector" class="standard-select">
-            <option value="">None</option>
-            <option value="bilingual">Word Match (Side-by-Side)</option>
-            <option value="monolingual">Fill-in-the-Blank (Vertical)</option>
+            <option value="bilingual" id="gameModeBilingual">Word Match (Side-by-Side)</option>
+            <option value="monolingual" id="gameModeMonolingual">Fill-in-the-Blank (Vertical)</option>
           </select>
-          
+
           <div id="timerInputWrapper" class="nonvisible">
-            <label for="gameTimerInput" class="standard-label">Time (seconds):</label>
+            <label for="gameTimerInput" class="standard-label" id="gameTimerLabel">Time (seconds):</label>
             <input type="number" id="gameTimerInput" class="standard-select" min="10" max="300" value="30">
           </div>
 
