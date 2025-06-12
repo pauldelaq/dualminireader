@@ -37,25 +37,17 @@ document.getElementById('leftLanguageSelector').addEventListener('change', (even
   const newLeftLang = event.target.value;
   const leftLanguageSelector = document.getElementById('leftLanguageSelector');
   const rightLanguageSelector = document.getElementById('rightLanguageSelector');
-  const footerLanguageSelector = document.getElementById('footerLanguageSelector');
+  const footerLanguageSelector = document.getElementById('footerLanguageSelector'); // purely visual
 
   const oldLeftLang = localStorage.getItem('leftLanguage') || 'en';
   const currentRightLang = rightLanguageSelector.value;
-  const currentFooterLang = footerLanguageSelector.value;
 
-  if (currentDisplayMode === 'sideBySide' && newLeftLang === currentRightLang) {
+  if (newLeftLang === currentRightLang) {
     // 🔁 Swap left <-> right
     rightLanguageSelector.value = oldLeftLang;
+    footerLanguageSelector.value = oldLeftLang; // keep footer visually synced
     localStorage.setItem('rightLanguage', oldLeftLang);
-
-} else if (currentDisplayMode === 'miniDictionary' && newLeftLang === currentFooterLang) {
-  // 🔁 Swap left <-> footer
-  footerLanguageSelector.value = oldLeftLang;
-  rightLanguageSelector.value = oldLeftLang;
-
-  // ✅ Ensure sync and storage are correct
-  syncRightLanguageToFooter();
-}
+  }
 
   // 📝 Save the new left language
   localStorage.setItem('leftLanguage', newLeftLang);
@@ -178,44 +170,24 @@ function populateLanguageSelectors() {
   // Get saved values from localStorage, or fall back to defaults
   leftSelector.value = localStorage.getItem('leftLanguage') || 'en';
   rightSelector.value = localStorage.getItem('rightLanguage') || 'fr';
-  footerSelector.value = localStorage.getItem('footerLanguage') || rightSelector.value;
+  footerSelector.value = rightSelector.value; // Always mirrors right
 
-  // Synchronize right and footer selectors
-  syncLanguageSelectors(rightSelector, footerSelector);
+  // ✅ Right selector controls both right and footer language
+  rightSelector.addEventListener('change', () => {
+    const newRightLang = rightSelector.value;
+    footerSelector.value = newRightLang;
+
+    localStorage.setItem('rightLanguage', newRightLang);
+    updateText('right');
+    updateWordEquivalenciesForSelectedLanguages();
+
+    if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
+      displayEquivalentWordInFooter(highlightedWordId);
+    }
+  });
 
   // Set initial word equivalencies for default language selections
   updateWordEquivalenciesForSelectedLanguages();
-}
-
-function syncRightLanguageToFooter() {
-  const rightSelector = document.getElementById('rightLanguageSelector');
-  const footerSelector = document.getElementById('footerLanguageSelector');
-  const footerLang = footerSelector.value;
-
-  rightSelector.value = footerLang;
-  localStorage.setItem('rightLanguage', footerLang);
-}
-
-function syncLanguageSelectors(rightSelector, footerSelector) {
-  // When the right language selector changes
-  rightSelector.addEventListener('change', () => {
-    footerSelector.value = rightSelector.value;
-    updateText('right'); // Refresh content for the right side
-    updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
-    if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
-      displayEquivalentWordInFooter(highlightedWordId); // Update mini-dictionary content
-    }
-  });
-
-  // When the footer language selector changes
-  footerSelector.addEventListener('change', () => {
-    syncRightLanguageToFooter();
-    updateText('right'); // Refresh content for the right side
-    updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
-    if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
-      displayEquivalentWordInFooter(highlightedWordId); // Update mini-dictionary content
-    }
-  });
 }
 
 function handleWordClick(event, side) {
@@ -750,12 +722,10 @@ document.getElementById('footerLanguageSelector').addEventListener('change', (ev
 
     rightLanguageSelector.value = currentLeftLanguage; // Swap right to the current left
     event.target.value = currentLeftLanguage; // Footer is now the original left
-    localStorage.setItem('footerLanguage', currentLeftLanguage);
     localStorage.setItem('rightLanguage', currentLeftLanguage);
   } else {
     // Otherwise, update the footer and right language normally
     rightLanguageSelector.value = selectedFooterLanguage;
-    localStorage.setItem('footerLanguage', selectedFooterLanguage);
     localStorage.setItem('rightLanguage', selectedFooterLanguage);
   }
 
@@ -770,7 +740,7 @@ document.getElementById('footerLanguageSelector').addEventListener('change', (ev
 });
 
 function displayEquivalentWordInFooter(wordId) {
-  const selectedFooterLang = footerLanguageSelector.value;
+  const selectedFooterLang = document.getElementById('rightLanguageSelector').value; // force use right
   console.log("Selected language for mini-dictionary:", selectedFooterLang);
 
   // If no wordId is provided (unnumbered word), display "..."
