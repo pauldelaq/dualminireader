@@ -33,27 +33,37 @@ if (textFile) {
       populateLanguageSelectors();
       updateText('left');
 
-// Event listener for left language selector
 document.getElementById('leftLanguageSelector').addEventListener('change', (event) => {
-  const selectedLanguage = event.target.value;
+  const newLeftLang = event.target.value;
+  const leftLanguageSelector = document.getElementById('leftLanguageSelector');
   const rightLanguageSelector = document.getElementById('rightLanguageSelector');
-  const currentRightLanguage = rightLanguageSelector.value;
+  const footerLanguageSelector = document.getElementById('footerLanguageSelector');
 
-  if (selectedLanguage === currentRightLanguage) {
-    // Swap the languages if the same language is selected
-    rightLanguageSelector.value = localStorage.getItem('leftLanguage') || 'en';
-    localStorage.setItem('rightLanguage', rightLanguageSelector.value);
-  }
+  const oldLeftLang = localStorage.getItem('leftLanguage') || 'en';
+  const currentRightLang = rightLanguageSelector.value;
+  const currentFooterLang = footerLanguageSelector.value;
 
-  // Update localStorage for both selectors
-  localStorage.setItem('leftLanguage', selectedLanguage);
-  localStorage.setItem('rightLanguage', rightLanguageSelector.value);
+  if (currentDisplayMode === 'sideBySide' && newLeftLang === currentRightLang) {
+    // 🔁 Swap left <-> right
+    rightLanguageSelector.value = oldLeftLang;
+    localStorage.setItem('rightLanguage', oldLeftLang);
 
-  // Update text for both sides
+} else if (currentDisplayMode === 'miniDictionary' && newLeftLang === currentFooterLang) {
+  // 🔁 Swap left <-> footer
+  footerLanguageSelector.value = oldLeftLang;
+  rightLanguageSelector.value = oldLeftLang;
+
+  // ✅ Ensure sync and storage are correct
+  syncRightLanguageToFooter();
+}
+
+  // 📝 Save the new left language
+  localStorage.setItem('leftLanguage', newLeftLang);
+
+  // 🔄 Refresh
   updateText('left');
   updateWordEquivalenciesForSelectedLanguages();
 
-  // Update mini-dictionary content if a word is highlighted
   if (highlightedWordId) {
     displayEquivalentWordInFooter(highlightedWordId);
   }
@@ -177,6 +187,15 @@ function populateLanguageSelectors() {
   updateWordEquivalenciesForSelectedLanguages();
 }
 
+function syncRightLanguageToFooter() {
+  const rightSelector = document.getElementById('rightLanguageSelector');
+  const footerSelector = document.getElementById('footerLanguageSelector');
+  const footerLang = footerSelector.value;
+
+  rightSelector.value = footerLang;
+  localStorage.setItem('rightLanguage', footerLang);
+}
+
 function syncLanguageSelectors(rightSelector, footerSelector) {
   // When the right language selector changes
   rightSelector.addEventListener('change', () => {
@@ -190,7 +209,7 @@ function syncLanguageSelectors(rightSelector, footerSelector) {
 
   // When the footer language selector changes
   footerSelector.addEventListener('change', () => {
-    rightSelector.value = footerSelector.value;
+    syncRightLanguageToFooter();
     updateText('right'); // Refresh content for the right side
     updateWordEquivalenciesForSelectedLanguages(); // Recalculate word equivalencies
     if (highlightedWordId && currentDisplayMode === 'miniDictionary') {
@@ -262,36 +281,24 @@ function highlightWordByIndex(side, index) {
     // Apply the selected-word class
     word.classList.add('selected-word');
 
-    // Check if the word is numbered or unnumbered
     if (word.classList.contains('clickable-word')) {
       highlightedWordId = word.getAttribute('data-word-id');
 
-      // Highlight all related words on both sides
       highlightWordsOnBothSides(highlightedWordId);
 
-      // Display equivalent words in mini-dictionary
-      if (currentDisplayMode === 'miniDictionary' && side === 'left') {
-        displayEquivalentWordInFooter(highlightedWordId);
-      }
-
-      // Update references to the selected word
+      // Update references
       if (side === 'left') selectedWordOnLeft = word;
       else selectedWordOnRight = word;
-    } else if (word.classList.contains('unnumbered-word')) {
-      // Handle unnumbered words
-      highlightedWordId = null; // Clear the highlightedWordId
 
-      // Apply unnumbered-highlight class
+      return highlightedWordId; // 🔁 Return the ID
+    } else if (word.classList.contains('unnumbered-word')) {
+      highlightedWordId = null;
       word.classList.add('unnumbered-highlight');
 
-      // Display "..." in the mini-dictionary
-      if (currentDisplayMode === 'miniDictionary' && side === 'left') {
-        displayEquivalentWordInFooter(null);
-      }
-
-      // Update references to the selected word
       if (side === 'left') selectedWordOnLeft = word;
       else selectedWordOnRight = word;
+
+      return null; // 🔁 Return null for unnumbered
     }
   }
 }
@@ -339,13 +346,9 @@ document.addEventListener('keydown', (event) => {
       return; // Exit if no valid navigation
     }
 
-    // Highlight the word at the new index
-    highlightWordByIndex(currentSide, currentWordIndex);
-
-    // Ensure mini-dictionary updates on key navigation
-    if (currentDisplayMode === 'miniDictionary' && currentSide === 'left') {
-      displayEquivalentWordInFooter(highlightedWordId);
-    }
+    // 🟡 Simulate a click event on the new word
+    const newWord = words[currentWordIndex];
+    handleWordClick({ target: newWord }, currentSide);
   }
 });
 
@@ -780,16 +783,22 @@ function displayEquivalentWordInFooter(wordId) {
   const ids = wordId.split('_');
 
   // Collect words for each ID in the selected language
+  let wordsSeen = new Set();
   let wordsToDisplay = ids
     .map(id => {
       const equivalentWords = wordEquivalencies[id];
       if (equivalentWords) {
-        return (equivalentWords[selectedFooterLang] || []).join(' ');
+        return (equivalentWords[selectedFooterLang] || []);
       }
-      return ''; // Return empty string if no equivalent found for this ID
+      return [];
     })
-    .filter(word => word) // Remove empty strings
-    .join(' '); // Join all words with a space between them
+    .flat()
+    .filter(word => {
+      if (wordsSeen.has(word)) return false;
+      wordsSeen.add(word);
+      return true;
+    })
+    .join(' ');
 
   // Remove punctuation from the concatenated phrase
   wordsToDisplay = wordsToDisplay.replace(/[.,\/#!$%\^&\*;:{}=\«»_`~()。]/g, "");
