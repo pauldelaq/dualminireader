@@ -175,9 +175,22 @@ function populateLanguageSelectors() {
   // ✅ Right selector controls both right and footer language
   rightSelector.addEventListener('change', () => {
     const newRightLang = rightSelector.value;
-    footerSelector.value = newRightLang;
+    const leftLang = leftSelector.value;
+    const oldRightLang = localStorage.getItem('rightLanguage') || 'fr';
 
-    localStorage.setItem('rightLanguage', newRightLang);
+    if (currentDisplayMode === 'sideBySide' && newRightLang === leftLang) {
+      // 🔁 Swap right <-> left
+      leftSelector.value = oldRightLang;
+      localStorage.setItem('leftLanguage', oldRightLang);
+    }
+
+    // 🔄 Always mirror footer visually
+    footerSelector.value = rightSelector.value;
+
+    // Save right language
+    localStorage.setItem('rightLanguage', rightSelector.value);
+
+    // Refresh
     updateText('right');
     updateWordEquivalenciesForSelectedLanguages();
 
