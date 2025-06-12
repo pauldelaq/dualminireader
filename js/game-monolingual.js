@@ -53,10 +53,25 @@ export function startMonolingualGame() {
   const leftWords = Array.from(document.querySelectorAll('#leftTitle .clickable-word, .cell.left-text .clickable-word'));
 
   // Get unique word IDs
-  const uniqueWordIds = [...new Set(leftWords.map(word => word.getAttribute('data-word-id')))];
+  const uniqueWordIds = [...new Set(
+    leftWords
+      .map(word => word.getAttribute('data-word-id'))
+      .filter(id => id !== null)
+  )];
 
   // Pick 10 random word IDs
-  const targetIds = uniqueWordIds.sort(() => 0.5 - Math.random()).slice(0, 10);
+  const shuffledIds = uniqueWordIds.sort(() => 0.5 - Math.random());
+  const targetIds = [];
+  let wordCount = 0;
+
+  for (const id of shuffledIds) {
+    const matchingWords = leftWords.filter(word => word.getAttribute('data-word-id') === id);
+    if (wordCount + matchingWords.length <= 10) {
+      targetIds.push(id);
+      wordCount += matchingWords.length;
+    }
+    if (wordCount >= 10) break;
+  }
 
   // Create a Map to track replaced elements so we can restore them later
   const replacedWordMap = new Map();
