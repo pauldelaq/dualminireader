@@ -1,0 +1,120 @@
+/* Base font size variable */
+:root {
+  --base-font-size: 1em; /* Default font size */
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --highlight-color: greenyellow;
+  --unnumbered-highlight-color: tomato;
+  --footer-bg-color: #f3f3f3;
+  --footer-text-color: #333;
+  --link-color: #0645ad;        /* standard blue for light mode */
+  --link-hover-color: #0b0080;  /* darker blue on hover */
+}
+
+/* Dark theme overrides */
+body.dark-mode {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --highlight-color: #6ba529;
+  --unnumbered-highlight-color: #ff7043;
+  --footer-bg-color: #1e1e1e;
+  --footer-text-color: #ddd;
+  --link-color: #89b4fa;        /* soft blue for dark background */
+  --link-hover-color: #ffffff;  /* white on hover, optional */
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+/* Universal font styling */
+body {
+  font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 2px;
+  overflow-x: hidden;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+/* Header layout */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-family: 'Noto Sans', sans-serif;
+    border-bottom: 1px solid #ddd;
+    position: fixed;
+    z-index: 20; /* Higher than settings menu to keep it visible */
+    width: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    top: 0;
+    font-size: 1em; /* Fixed size for header text */
+  }
+  
+  /* Button styling for consistent appearance */
+  .back-button,
+  .info-button,
+  .settings-button {
+    font-size: 1.2em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    text-decoration: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Specific positioning */
+  .back-button {
+    left: 10px;
+  }
+  
+  .info-button {
+    left: 10px;
+  }
+  
+  .settings-button {
+    right: 24px;
+  }
+  
+  /* Title styling */
+  .title {
+    font-size: 1.5em;
+    text-align: center;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  /* Shared text styling for welcome and generated text */
+.common-text {
+  font-size: var(--base-font-size);
+  font-family: 'Noto Sans', sans-serif;
+  letter-spacing: 2px;
+  line-height: 1.6; /* Consistent line height */
+  color: var(--text-color);
+  max-width: 100%; /* Prevent overflow */
+  overflow-wrap: break-word;
+}
+
+.needs-space {
+  padding-top: 63.5px;
+  margin: 8px;
+}
