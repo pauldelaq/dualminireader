@@ -94,8 +94,9 @@ function loadSettingsMenu() {
 function initializeDarkModeToggle() {
   const toggleSwitch = document.getElementById('darkModeSwitch');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  let isDark = localStorage.getItem('dmrDarkMode');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
 
+  let isDark = localStorage.getItem('dmrDarkMode');
   if (isDark === null) {
     isDark = prefersDark;
     localStorage.setItem('dmrDarkMode', prefersDark);
@@ -103,13 +104,26 @@ function initializeDarkModeToggle() {
     isDark = isDark === 'true';
   }
 
+  // Apply dark mode class and update toggle state
   document.body.classList.toggle('dark-mode', isDark);
   toggleSwitch.checked = isDark;
 
+  // 💡 Set initial theme-color based on current background color
+  if (themeMeta) {
+    const bgColor = getComputedStyle(document.body).getPropertyValue('--background-color').trim();
+    themeMeta.setAttribute('content', bgColor);
+  }
+
+  // 📦 Update on toggle
   toggleSwitch.addEventListener('change', () => {
     const enabled = toggleSwitch.checked;
     document.body.classList.toggle('dark-mode', enabled);
     localStorage.setItem('dmrDarkMode', enabled);
+
+    if (themeMeta) {
+      const newBgColor = getComputedStyle(document.body).getPropertyValue('--background-color').trim();
+      themeMeta.setAttribute('content', newBgColor);
+    }
   });
 }
 

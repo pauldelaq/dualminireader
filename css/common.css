@@ -5,7 +5,7 @@
   --text-color: #000000;
   --highlight-color: greenyellow;
   --unnumbered-highlight-color: tomato;
-  --footer-bg-color: #f3f3f3;
+  --footer-bg-color: #d1d1d1;
   --footer-text-color: #333;
   --link-color: #0645ad;        /* standard blue for light mode */
   --link-hover-color: #0b0080;  /* darker blue on hover */
@@ -13,11 +13,11 @@
 
 /* Dark theme overrides */
 body.dark-mode {
-  --background-color: #121212;
+  --background-color: #2a2a2a;
   --text-color: #f0f0f0;
   --highlight-color: #6ba529;
   --unnumbered-highlight-color: #ff7043;
-  --footer-bg-color: #1e1e1e;
+  --footer-bg-color: #3f3f3f;
   --footer-text-color: #ddd;
   --link-color: #89b4fa;        /* soft blue for dark background */
   --link-hover-color: #ffffff;  /* white on hover, optional */
