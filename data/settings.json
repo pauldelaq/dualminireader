@@ -7,14 +7,6 @@
     "zh-CN": "游戏模式",
     "ja": "ゲームモード"
   },
-  "gameModeSelectLabel": {
-    "en": "Select Mode:",
-    "fr": "Sélectionner le mode :",
-    "es": "Seleccionar modo:",
-    "zh-TW": "選擇模式：",
-    "zh-CN": "选择模式：",
-    "ja": "モードを選択："
-  },
   "gameTimerLabel": {
     "en": "Time (seconds):",
     "fr": "Temps (secondes) :",
@@ -46,5 +38,13 @@
     "zh-TW": "填空遊戲（垂直）",
     "zh-CN": "填空游戏（垂直）",
     "ja": "穴埋め（縦）"
+  },
+    "gameModePlaceholder": {
+    "en": "Choose a game mode",
+    "fr": "Choisissez un mode de jeu",
+    "es": "Elige un modo de juego",
+    "zh-TW": "選擇遊戲模式",
+    "zh-CN": "选择游戏模式",
+    "ja": "ゲームモードを選択"
   }
 }

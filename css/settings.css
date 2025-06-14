@@ -210,8 +210,8 @@
 .light-circle,
 .dark-circle {
   display: inline-block;
-  width: 1.2em;
-  height: 1.2em;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   border: 1px solid;
   margin-top: 5px;

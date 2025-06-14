@@ -23,6 +23,19 @@ export function startBilingualGame(customTime = 30) {
 
   if (settingsButton) {
     settingsButton.textContent = '[X]';
+
+    // 🧹 Remove the original settings menu click handler
+    settingsButton.removeEventListener('click', window._settingsClickHandler);
+
+    // ✅ Replace it with the game-ending function
+    settingsButton.onclick = () => {
+      endBilingualGame();
+
+      // 🔄 Restore original settings behavior
+      settingsButton.textContent = '[≡]';
+      settingsButton.onclick = null;
+      settingsButton.addEventListener('click', window._settingsClickHandler);
+    };
   }
 
   timerInterval = setInterval(() => {

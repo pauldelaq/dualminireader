@@ -240,12 +240,12 @@
           "ja": "DualMiniReaderの「設定」メニューは、このアイコンで表されます："
         },
         "settingsOptions": {
-          "en": "Four settings are available within it:",
-          "fr": "Quatre paramètres sont disponibles à l'intérieur :",
-          "es": "Hay cuatro configuraciones disponibles dentro:",
-          "zh-TW": "其中有四個設定選項：",
-          "zh-CN": "其中有四个设置选项：",
-          "ja": "その中に4つの設定があります："
+          "en": "The following settings are available within it:",
+          "fr": "Les paramètres suivants sont disponibles dans ce menu :",
+          "es": "Las siguientes configuraciones están disponibles en él:",
+          "zh-TW": "其中提供以下設定選項：",
+          "zh-CN": "其中提供以下设置选项：",
+          "ja": "以下の設定がこのメニュー内で利用できます："
         },
         "uiSettingLabel": {
           "en": "UI",
@@ -286,6 +286,14 @@
           "zh-TW": "這會設置字體大小。",
           "zh-CN": "这会设置字体大小。",
           "ja": "これによりフォントサイズが設定されます。"
+        },
+        "darkModeText": {
+          "en": "This sets the interface to Dark Mode.",
+          "fr": "Ce paramètre active le mode sombre.",
+          "es": "Esta opción activa el modo oscuro.",
+          "zh-TW": "這會將介面切換為深色模式。",
+          "zh-CN": "这将把界面切换为深色模式。",
+          "ja": "この設定でインターフェースがダークモードになります。"
         },
         "sideBySideSettingText": {
           "en": "This sets the interface to Side-by-side mode.",

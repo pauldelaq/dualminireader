@@ -157,3 +157,94 @@ select {
   vertical-align: bottom;
   line-height: 1.3em;
 }
+
+/* Theme-neutral base */
+.light-circle,
+.dark-circle {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin-top: 10px;
+}
+
+/* Default (light mode) */
+body:not(.dark-mode) .light-circle {
+  background-color: white;
+  border-color: black;
+}
+
+body:not(.dark-mode) .dark-circle {
+  background-color: black;
+  border-color: white;
+}
+
+/* Inverted (dark mode) */
+body.dark-mode .light-circle {
+  background-color: white;
+  border-color: black;
+}
+
+body.dark-mode .dark-circle {
+  background-color: black;
+  border-color: white;
+}
+
+/* Switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-top: 10px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider track */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.2s;
+}
+
+/* Slider knob */
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+/* Move knob to right when checked */
+.switch input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+.doc-fake-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none; /* Keeps it non-interactive */
+  transform: translateY(4px);
+}
+
+.doc-fake-toggle input {
+  pointer-events: none;
+}

@@ -2,15 +2,14 @@ function applySettingsTranslations(uiLanguage) {
   fetch('data/settings.json')
     .then(res => res.json())
     .then(translations => {
-      const ids = [
-        'gameModeHeader',
-        'gameModeSelectLabel',
-        'gameTimerLabel',
-        'startGameBtn',
-        'gameModeNone',
-        'gameModeBilingual',
-        'gameModeMonolingual'
-      ];
+    const ids = [
+      'gameModeHeader',
+      'gameModePlaceholder',
+      'gameModeBilingual',
+      'gameModeMonolingual',
+      'gameTimerLabel',
+      'startGameBtn'
+    ];
 
       ids.forEach(id => {
         const el = document.getElementById(id);
@@ -139,29 +138,33 @@ function initializeUILanguageDropdown() {
   });
 }
 
-function setupSettingsMenuListeners() {
+function handleSettingsButtonClick() {
   const settingsButton = document.querySelector('.settings-button');
   const settingsMenu = document.querySelector('#settingsMenu');
 
-  settingsButton.addEventListener('click', () => {
-    if (window.isGameInProgress?.()) {
-      const currentMode = localStorage.getItem('displayMode');
-      if (currentMode === 'bilingual') window.endBilingualGame?.();
-      else if (currentMode === 'miniDictionary') window.endMonolingualGame?.();
-      return;
-    }
+  if (window.isGameInProgress?.()) {
+    const currentMode = localStorage.getItem('displayMode');
+    if (currentMode === 'bilingual') window.endBilingualGame?.();
+    else if (currentMode === 'miniDictionary') window.endMonolingualGame?.();
+    return;
+  }
 
-    const isMenuOpen = !settingsMenu.classList.contains('hidden');
-    if (isMenuOpen) {
-      settingsMenu.classList.add('hidden');
-      settingsButton.textContent = '[≡]';
-      document.body.classList.remove('settings-active');
-    } else {
-      settingsMenu.classList.remove('hidden');
-      settingsButton.textContent = '[X]';
-      document.body.classList.add('settings-active');
-    }
-  });
+  const isMenuOpen = !settingsMenu.classList.contains('hidden');
+  if (isMenuOpen) {
+    settingsMenu.classList.add('hidden');
+    settingsButton.textContent = '[≡]';
+    document.body.classList.remove('settings-active');
+  } else {
+    settingsMenu.classList.remove('hidden');
+    settingsButton.textContent = '[X]';
+    document.body.classList.add('settings-active');
+  }
+}
+
+function setupSettingsMenuListeners() {
+  const settingsButton = document.querySelector('.settings-button');
+  settingsButton.addEventListener('click', handleSettingsButtonClick);
+  window._settingsClickHandler = handleSettingsButtonClick; // 🔁 Allow other modules to remove it
 }
 
 function closeSettingsMenu() {
