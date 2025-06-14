@@ -119,9 +119,15 @@ function initializeDarkModeToggle() {
     document.body.classList.toggle('dark-mode', enabled);
     localStorage.setItem('dmrDarkMode', enabled);
 
+    // Remove inline background-color so CSS takes over
+    document.body.style.backgroundColor = '';
+    document.body.style.color = '';
+
+    // Update theme color for mobile
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
     if (themeMeta) {
-      const newBgColor = getComputedStyle(document.body).getPropertyValue('--background-color').trim();
-      themeMeta.setAttribute('content', newBgColor);
+      const bgColor = getComputedStyle(document.body).getPropertyValue('--background-color').trim();
+      themeMeta.setAttribute('content', bgColor);
     }
   });
 }

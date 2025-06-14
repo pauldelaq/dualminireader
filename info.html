@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+(function () {
+  try {
+    const isDark = localStorage.getItem('dmrDarkMode');
+    const shouldBeDark = isDark === 'true' || (isDark === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const bg = shouldBeDark ? '#2a2a2a' : '#ffffff';
+    const fg = shouldBeDark ? '#ffffff' : '#000000';
+    document.write(`<body style="background-color: ${bg}; color: ${fg};" class="${shouldBeDark ? 'dark-mode' : ''}">`);
+  } catch (e) {
+    document.write('<body>');
+  }
+})();
+</script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,7 +31,7 @@
   <script defer src="js/settings.js"></script> <!-- Link to settings.js -->
   <script defer src="js/info.js"></script> <!-- Link to settings.js -->
 </head>
-<body>
+
     <header class="header">
         <a href="index.html" class="back-button">[&lt;]</a>
         <h1 class="title">DualMiniReader</h1>
