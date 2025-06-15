@@ -8,7 +8,7 @@
   --footer-bg-color: #d1d1d1;
   --footer-text-color: #333;
   --link-color: #0645ad;        /* standard blue for light mode */
-  --link-hover-color: #0b0080;  /* darker blue on hover */
+  --link-hover-color: #007BFF;  /* darker blue on hover */
 }
 
 /* Dark theme overrides */
@@ -20,7 +20,7 @@ body.dark-mode {
   --footer-bg-color: #3f3f3f;
   --footer-text-color: #ddd;
   --link-color: #89b4fa;        /* soft blue for dark background */
-  --link-hover-color: #ffffff;  /* white on hover, optional */
+  --link-hover-color: #007BFF;  /* white on hover, optional */
 }
 
 a {
@@ -30,6 +30,10 @@ a {
 }
 
 a:hover {
+  color: var(--link-hover-color);
+}
+
+.settings-button:hover {
   color: var(--link-hover-color);
 }
 
@@ -71,15 +75,15 @@ h1 {
   .back-button,
   .info-button,
   .settings-button {
-    font-size: 1.2em;
     background: none;
     border: none;
+    font-size: 1.8em;
     cursor: pointer;
     color: var(--text-color);
     text-decoration: none;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-58%);
   }
   
   /* Specific positioning */

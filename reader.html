@@ -6,10 +6,17 @@
   try {
     const isDark = localStorage.getItem('dmrDarkMode');
     const shouldBeDark = isDark === 'true' || (isDark === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
     const bg = shouldBeDark ? '#2a2a2a' : '#ffffff';
     const fg = shouldBeDark ? '#ffffff' : '#000000';
+    const theme = shouldBeDark ? '#2a2a2a' : '#ffffff';
+
+    // Inject theme-color before any paint
+    document.write(`<meta name="theme-color" content="${theme}">`);
+    // Inject body with correct background to prevent flash
     document.write(`<body style="background-color: ${bg}; color: ${fg};" class="${shouldBeDark ? 'dark-mode' : ''}">`);
   } catch (e) {
+    document.write('<meta name="theme-color" content="white">');
     document.write('<body>');
   }
 })();
@@ -21,7 +28,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="DualMiniReader">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="white" id="theme-color-meta">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <title>DualMiniReader</title>
     <!-- Link to CSS files for reader, header, and settings -->

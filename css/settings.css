@@ -35,15 +35,7 @@
     max-width: 800px; /* Restrict max width for better readability */
     margin: auto;
 }
-  
-  .settings-button,
-  .back-button {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-  }
-  
+    
   .hidden {
     display: none;
   }

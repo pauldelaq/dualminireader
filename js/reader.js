@@ -813,3 +813,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+document.querySelector('.main-content').addEventListener('click', (event) => {
+  // Ignore clicks on word spans
+  const isWordSpan = event.target.classList.contains('clickable-word') || event.target.classList.contains('unnumbered-word');
+
+  // Ignore clicks on header or footer by checking if they are outside .main-content
+  const isInHeader = event.target.closest('header');
+  const isInFooter = event.target.closest('#footerDictionary');
+
+  if (!isWordSpan && !isInHeader && !isInFooter) {
+    clearHighlights();
+    clearSelectedWordOnBothSides();
+    highlightedWordId = null;
+    displayEquivalentWordInFooter(null);
+  }
+});
