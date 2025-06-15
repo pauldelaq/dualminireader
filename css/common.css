@@ -33,7 +33,12 @@ a:hover {
   color: var(--link-hover-color);
 }
 
-.settings-button:hover {
+@media (hover: hover) and (pointer: fine) {
+  .settings-button:hover {  color: var(--link-hover-color);
+}
+}
+
+.settings-button:active {
   color: var(--link-hover-color);
 }
 

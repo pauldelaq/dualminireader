@@ -288,6 +288,65 @@ function highlightWordByIndex(side, index) {
   }
 }
 
+function applySoftHyphensIfWrapped(containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+
+  container.querySelectorAll('span.clickable-word, span.unnumbered-word').forEach(originalSpan => {
+    const cleanText = originalSpan.textContent.replace(/\u00AD/g, '');
+    originalSpan.textContent = cleanText;
+
+    if (!cleanText || !cleanText.trim()) return;
+
+    // Check if the word wraps by comparing to a no-wrap clone
+    const clone = originalSpan.cloneNode(true);
+    clone.textContent = cleanText;
+    clone.style.visibility = 'hidden';
+    clone.style.position = 'absolute';
+    clone.style.whiteSpace = 'nowrap';
+    clone.style.fontSize = getComputedStyle(originalSpan).fontSize;
+    document.body.appendChild(clone);
+
+    const originalWidth = originalSpan.offsetWidth;
+    const cloneWidth = clone.offsetWidth;
+    document.body.removeChild(clone);
+
+    if (cloneWidth <= originalWidth) {
+      return; // ✅ Still fits — no need to hyphenate
+    }
+
+    // Find best hyphenation point
+    let bestSplitIndex = -1;
+
+    for (let i = 2; i < cleanText.length - 1; i++) {
+      const testText = cleanText.slice(0, i) + '\u00AD' + cleanText.slice(i);
+
+      const testSpan = document.createElement('span');
+      testSpan.className = originalSpan.className;
+      testSpan.style.visibility = 'hidden';
+      testSpan.style.position = 'absolute';
+      testSpan.style.whiteSpace = 'normal';
+      testSpan.style.width = originalWidth + 'px';
+      testSpan.innerHTML = testText;
+
+      document.body.appendChild(testSpan);
+      const testHeight = testSpan.clientHeight;
+      document.body.removeChild(testSpan);
+
+      if (testHeight > originalSpan.clientHeight) {
+        bestSplitIndex = i;
+      }
+    }
+
+    if (bestSplitIndex !== -1) {
+      originalSpan.innerHTML =
+        cleanText.slice(0, bestSplitIndex) +
+        '\u00AD' +
+        cleanText.slice(bestSplitIndex);
+    }
+  });
+}
+
 function patchFrenchPunctuationSpaces() {
   const walker = document.createTreeWalker(
     document.getElementById('textContainer'),
@@ -301,10 +360,10 @@ function patchFrenchPunctuationSpaces() {
     const oldText = node.textContent;
 
     const newText = oldText
-      // space before French closing punctuation (» ? !)
-      .replace(/ (\»|[?!])/g, '\u00A0$1')
-      // space after French opening punctuation («)
-      .replace(/(«) /g, '$1\u00A0');
+      // Non-breaking space **after** opening guillemet «
+      .replace(/(«)(\s)/g, '$1\u00A0')
+      // Non-breaking space **before** closing guillemet », !, ?, :, ;, %, $, €
+      .replace(/(\s)([»!?;:%$€])/g, '\u00A0$2');
 
     if (oldText !== newText) {
       node.textContent = newText;
@@ -472,7 +531,14 @@ function updateText(side) {
     highlightWordsOnBothSides(highlightedWordId);
   }
 
-patchFrenchPunctuationSpaces();
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      applySoftHyphensIfWrapped('#leftTitle');
+      applySoftHyphensIfWrapped('#rightTitle');
+    }, 20); // Slightly more time
+  });
+
+  patchFrenchPunctuationSpaces();
 }
 
 function alignTableRows() {
@@ -828,4 +894,13 @@ document.querySelector('.main-content').addEventListener('click', (event) => {
     highlightedWordId = null;
     displayEquivalentWordInFooter(null);
   }
+});
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    applySoftHyphensIfWrapped('#leftTitle');
+    applySoftHyphensIfWrapped('#rightTitle');
+  }, 100);
 });

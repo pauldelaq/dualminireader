@@ -231,3 +231,10 @@ h2 {
   touch-action: none;
   padding-bottom: 30px;
 }
+
+.left-title,
+.right-title {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
