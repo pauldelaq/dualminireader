@@ -81,10 +81,20 @@ select {
     line-height: 1.5em;
   }
   
-  li {
-    margin-top: 2em;
-    margin-bottom: 2em;
-  }
+li {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+/* Keep markers outside content so they don't overlap inline/flex children (Safari quirk) */
+li {
+  list-style-position: outside;
+}
+
+/* Extra gutter in case Safari still crowds the marker area */
+ul li {
+  padding-left: 0.25em;
+}
   
   .mode-label {
     font-weight: bold;
@@ -238,13 +248,16 @@ body.dark-mode .dark-circle {
 }
 
 .doc-fake-toggle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
   pointer-events: none; /* Keeps it non-interactive */
   transform: translateY(4px);
+  /* Safari: keep the first circle from drifting into the <li> marker gutter */
+  margin-left: 0.75em;
 }
 
 .doc-fake-toggle input {
   pointer-events: none;
 }
+

@@ -881,6 +881,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.querySelector('.main-content').addEventListener('click', (event) => {
+  if (window.isGameModeActive) return;
+  
   // Ignore clicks on word spans
   const isWordSpan = event.target.classList.contains('clickable-word') || event.target.classList.contains('unnumbered-word');
 

@@ -21,23 +21,30 @@ export function startBilingualGame(customTime = 30) {
     titleElement.textContent = formatTime(timeRemaining);
   }
 
+  // ✅ Force settings button to act as "end game" during gameplay,
+  // and make sure we cleanly restore the original handler when the game ends.
   if (settingsButton) {
     settingsButton.textContent = '[X]';
 
-    // 🧹 Remove the original settings menu click handler
-    settingsButton.removeEventListener('click', window._settingsClickHandler);
+    // Remove the original settings click handler (installed by settings.js)
+    if (window._settingsClickHandler) {
+      settingsButton.removeEventListener('click', window._settingsClickHandler);
+    }
 
-    // ✅ Replace it with the game-ending function
-    settingsButton.onclick = () => {
+    // Remove any previous game handler (in case of re-entry)
+    if (window._bilingualGameSettingsHandler) {
+      settingsButton.removeEventListener('click', window._bilingualGameSettingsHandler);
+    }
+
+    // Add a dedicated game handler via addEventListener (avoid mixing with onclick)
+    window._bilingualGameSettingsHandler = () => {
       endBilingualGame();
-
-      // 🔄 Restore original settings behavior
-      settingsButton.textContent = '[≡]';
-      settingsButton.onclick = null;
-      settingsButton.addEventListener('click', window._settingsClickHandler);
     };
+
+    settingsButton.addEventListener('click', window._bilingualGameSettingsHandler);
   }
 
+  clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     timeRemaining--;
     if (titleElement) {
@@ -134,7 +141,21 @@ export function endBilingualGame() {
 
   const settingsButton = document.querySelector('.settings-button');
   if (settingsButton) {
+    // Remove the game-specific handler (if present)
+    if (window._bilingualGameSettingsHandler) {
+      settingsButton.removeEventListener('click', window._bilingualGameSettingsHandler);
+      window._bilingualGameSettingsHandler = null;
+    }
+
+    // Restore original settings menu behavior
     settingsButton.textContent = '[≡]';
+    settingsButton.onclick = null;
+
+    if (window._settingsClickHandler) {
+      // Ensure we don't accidentally stack duplicates
+      settingsButton.removeEventListener('click', window._settingsClickHandler);
+      settingsButton.addEventListener('click', window._settingsClickHandler);
+    }
   }
 
   document.getElementById('leftLanguageSelector')?.classList.remove('nonvisible');
