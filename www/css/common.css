@@ -9,6 +9,12 @@
   --footer-text-color: #333;
   --link-color: #0645ad;        /* standard blue for light mode */
   --link-hover-color: #007BFF;  /* darker blue on hover */
+
+  /* iOS safe-area insets (for notch / home indicator) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
 }
 
 /* Dark theme overrides */
@@ -50,6 +56,10 @@ body {
   margin: 0;
   background-color: var(--background-color);
   color: var(--text-color);
+  /* Prevent content from sitting under the home indicator / rounded corners */
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
 }
 
 h1 {
@@ -65,6 +75,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    padding-top: calc(10px + var(--safe-top));
     font-family: 'Noto Sans', sans-serif;
     border-bottom: 1px solid #ddd;
     position: fixed;
@@ -87,7 +98,7 @@ h1 {
     color: var(--text-color);
     text-decoration: none;
     position: absolute;
-    top: 50%;
+    top: calc(50% + (var(--safe-top) / 2));
     transform: translateY(-58%);
   }
   
@@ -124,6 +135,6 @@ h1 {
 }
 
 .needs-space {
-  padding-top: 63.5px;
+  padding-top: calc(63.5px + var(--safe-top));
   margin: 8px;
 }
