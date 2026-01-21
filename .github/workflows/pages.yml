@@ -3,8 +3,9 @@ name: Deploy Pages from www
 on:
   push:
     branches:
-      - main
-
+      - master
+  workflow_dispatch:
+  
 permissions:
   contents: read
   pages: write
