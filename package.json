@@ -1,0 +1,17 @@
+{
+  "name": "dualminireader",
+  "version": "1.0.0",
+  "description": "Check out the project at https://pauldelaq.github.io/dualminireader/index.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/cli": "^8.0.1",
+    "@capacitor/core": "^8.0.1",
+    "@capacitor/ios": "^8.0.1"
+  }
+}
