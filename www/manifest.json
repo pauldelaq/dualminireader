@@ -1,43 +1,46 @@
 {
-  "id": "/dualminireader/index.html",  
+  "id": "./index.html",
   "name": "DualMiniReader",
-    "short_name": "DualMiniReader",
-    "description": "PWA version of DualMiniReader",
-    "start_url": "/dualminireader/index.html",
-    "scope": "/dualminireader/",
-    "display": "standalone",
-    "background_color": "white",
-    "theme_color": "white",
-    "icons": [
-      {
-        "src": "icons/icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "icons/icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ],
-    "screenshots": [
+  "short_name": "DualMiniReader",
+  "description": "PWA version of DualMiniReader",
+
+  "start_url": "./index.html",
+  "scope": "./",
+
+  "display": "standalone",
+  "background_color": "white",
+  "theme_color": "white",
+
+  "icons": [
     {
-        "src": "screenshots/screenshot-wide.png",
-        "sizes": "1280x720",
-        "type": "image/png",
-        "form_factor": "wide"
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-        "src": "screenshots/screenshot-mobile.png",
-        "sizes": "640x1136",
-        "type": "image/png",
-        "form_factor": "narrow"
-    },
-    {
-        "src": "screenshots/screenshot-default.png",
-        "sizes": "750x1334",
-        "type": "image/png"
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-    ]
-  }
-  
+  ],
+
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/screenshot-mobile.png",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/screenshot-default.png",
+      "sizes": "750x1334",
+      "type": "image/png"
+    }
+  ]
+}
