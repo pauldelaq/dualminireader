@@ -18,6 +18,11 @@
   padding: 20px;
 }
 
+.cap-native .settings-menu {
+  top: calc(53.5px + var(--safe-top));
+  height: calc(100vh - (53.5px + var(--safe-top)));
+}
+
 /* Fallback for unsupported devices */
 @supports not ((backdrop-filter: blur(5px)) or (-webkit-backdrop-filter: blur(5px))) {
   .settings-menu {
@@ -34,6 +39,7 @@
 .settings-content {
     max-width: 800px; /* Restrict max width for better readability */
     margin: auto;
+    padding-bottom: 3em;
 }
     
   .hidden {

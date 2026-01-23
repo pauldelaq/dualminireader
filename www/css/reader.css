@@ -1,3 +1,9 @@
+/* In native (Capacitor), keep the top safe-area/header offset, but DON'T add extra left/right padding here.
+   Left/right safe-area padding is handled by .table-container (so we don't double-pad in landscape). */
+.cap-native .main-content {
+  padding-top: calc(63.5px + var(--safe-top));
+}
+
 /* Apply font size adjustments only to main content */
 .main-content {
   font-size: var(--base-font-size);
@@ -134,7 +140,13 @@ h2 {
 /* Main container for the grid layout */
 .table-container {
   display: block;
-  padding: 63.5px 10px 70px;
+  padding: 63.5px calc(10px + var(--safe-right)) 70px calc(10px + var(--safe-left));
+}
+
+/* In native mode, avoid overly-large gutters in landscape while still protecting against the notch */
+.cap-native .table-container {
+  padding-right: max(10px, var(--safe-right));
+  padding-left: max(10px, var(--safe-left));
 }
 
 .table-container.single-column {

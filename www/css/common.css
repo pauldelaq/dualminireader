@@ -58,8 +58,6 @@ body {
   color: var(--text-color);
   /* Prevent content from sitting under the home indicator / rounded corners */
   padding-bottom: var(--safe-bottom);
-  padding-left: var(--safe-left);
-  padding-right: var(--safe-right);
 }
 
 h1 {
@@ -80,11 +78,16 @@ h1 {
     border-bottom: 1px solid #ddd;
     position: fixed;
     z-index: 20; /* Higher than settings menu to keep it visible */
-    width: 100%;
+    width: 100vw;
     background-color: var(--background-color);
     color: var(--text-color);
     top: 0;
     font-size: 1em; /* Fixed size for header text */
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding-left: calc(10px + var(--safe-left));
+    padding-right: calc(10px + var(--safe-right));
   }
   
   /* Button styling for consistent appearance */
@@ -104,15 +107,15 @@ h1 {
   
   /* Specific positioning */
   .back-button {
-    left: 10px;
+    left: calc(10px + var(--safe-left));
   }
   
   .info-button {
-    left: 10px;
+    left: calc(10px + var(--safe-left));
   }
   
   .settings-button {
-    right: 24px;
+    right: calc(24px + var(--safe-right));
   }
   
   /* Title styling */

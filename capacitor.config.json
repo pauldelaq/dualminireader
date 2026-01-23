@@ -1,5 +1,12 @@
 {
   "appId": "com.pauldelaquis.dualminireader",
   "appName": "DualMiniReader",
-  "webDir": "www"
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {},
+  "assets": {
+    "icon": "./www/icons/icon-1024x1024.png",
+    "splash": "./www/icons/icon-1024x1024.png"
+  }
 }
+
