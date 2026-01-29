@@ -55,6 +55,14 @@
       "zh-CN": "来源",
       "ja": "出典"
     },
+    "navCredits": {
+      "en": "Credits",
+      "fr": "Crédits",
+      "es": "Créditos",
+      "zh-TW": "製作團隊",
+      "zh-CN": "制作团队",
+      "ja": "クレジット"
+    },
     "navBack": {
       "en": "Back to Index",
       "fr": "Retour à l'index",
@@ -366,6 +374,22 @@
           "zh-TW": "大多數翻譯由人工智慧生成。",
           "zh-CN": "大多数翻译由人工智能生成。",
           "ja": "翻訳のほとんどはAIによって生成されます。"
+        },
+        "creditsHeader": {
+          "en": "Credits",
+          "fr": "Crédits",
+          "es": "Créditos",
+          "zh-TW": "製作團隊",
+          "zh-CN": "制作团队",
+          "ja": "クレジット"
+        },
+        "creditsText": {
+          "en": "DualMiniReader was created by Paul Delaquis. For contact information or to check out his other projects, please visit <a href='https://pauldelaq.github.io/portfolio/'>this link</a>.",
+          "fr": "DualMiniReader a été créé par Paul Delaquis. Pour ses coordonnées ou pour découvrir ses autres projets, veuillez consulter <a href='https://pauldelaq.github.io/portfolio/'>ce lien</a>.",
+          "es": "DualMiniReader fue creado por Paul Delaquis. Para obtener información de contacto o ver otros proyectos suyos, visita <a href='https://pauldelaq.github.io/portfolio/'>este enlace</a>.",
+          "zh-TW": "DualMiniReader 由 Paul Delaquis 開發。如需聯絡資訊或查看其他作品，請造訪<a href='https://pauldelaq.github.io/portfolio/'>此連結</a>。",
+          "zh-CN": "DualMiniReader 由 Paul Delaquis 开发。如需联系方式或查看其他作品，请访问<a href='https://pauldelaq.github.io/portfolio/'>此链接</a>。",
+          "ja": "DualMiniReader は Paul Delaquis によって制作されました。お問い合わせや他のプロジェクトについては、<a href='https://pauldelaq.github.io/portfolio/'>こちらのリンク</a>をご覧ください。"
         }
       }
       

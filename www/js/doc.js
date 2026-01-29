@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const element = document.getElementById(id);
             if (element) {
               // Use innerHTML for specific IDs that include HTML content
-              const htmlIDs = ['sourcesText2', 'wordMatchModeText', 'FillInTheBlankModeText'];
+              const htmlIDs = ['sourcesText2', 'wordMatchModeText', 'FillInTheBlankModeText', 'creditsText'];
               if (htmlIDs.includes(id)) {
                 element.innerHTML = translations[id][uiLanguage] || translations[id]['en'];
               } else {
@@ -34,5 +34,54 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('uiLanguage', selectedLanguage); // Save the new language
       applyTranslations(selectedLanguage); // Apply translations in the selected language
     });
+
+    function initializeDarkModeToggle() {
+      const toggleSwitch = document.getElementById('darkModeSwitch');
+      if (!toggleSwitch) return;
+
+      // Guard against double-binding (e.g., if doc.js is included twice)
+      if (toggleSwitch.dataset.dmrBound === 'true') return;
+      toggleSwitch.dataset.dmrBound = 'true';
+
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+      const applyDarkMode = (enabled) => {
+        // doc.html sets theme on <html>, so toggle it there too
+        document.documentElement.classList.toggle('dark-mode', enabled);
+        document.body.classList.toggle('dark-mode', enabled);
+        toggleSwitch.checked = enabled;
+
+        // If doc.html used inline colors on <html> to prevent flash, update them immediately:
+        const bg = enabled ? '#2a2a2a' : '#ffffff';
+        const fg = enabled ? '#ffffff' : '#000000';
+        document.documentElement.style.backgroundColor = bg;
+        document.documentElement.style.color = fg;
+        localStorage.setItem('dmrDarkMode', enabled ? 'true' : 'false');
+        // Update theme color for mobile
+        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeMeta) {
+          const bgColor = getComputedStyle(document.body)
+            .getPropertyValue('--background-color')
+            .trim();
+          themeMeta.setAttribute('content', bgColor);
+        }
+      };
+
+      let isDark = localStorage.getItem('dmrDarkMode');
+      if (isDark === null) {
+        isDark = prefersDark;
+      } else {
+        isDark = isDark === 'true';
+      }
+
+      applyDarkMode(!!isDark);
+
+      // 📦 Update on toggle
+      toggleSwitch.addEventListener('change', (e) => {
+        applyDarkMode(!!e.target.checked);
+      });
+    }
+
+  initializeDarkModeToggle();
   });
-  

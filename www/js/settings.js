@@ -92,6 +92,7 @@ function loadSettingsMenu() {
 
 function initializeDarkModeToggle() {
   const toggleSwitch = document.getElementById('darkModeSwitch');
+  if (!toggleSwitch) return;
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const themeMeta = document.querySelector('meta[name="theme-color"]');
 
@@ -104,8 +105,15 @@ function initializeDarkModeToggle() {
   }
 
   // Apply dark mode class and update toggle state
+  document.documentElement.classList.toggle('dark-mode', isDark);
   document.body.classList.toggle('dark-mode', isDark);
   toggleSwitch.checked = isDark;
+
+  // Clear any inline colors applied by the early inline <head> script (prevents overriding the CSS)
+  document.documentElement.style.backgroundColor = '';
+  document.documentElement.style.color = '';
+  document.body.style.backgroundColor = '';
+  document.body.style.color = '';
 
   // 💡 Set initial theme-color based on current background color
   if (themeMeta) {
@@ -116,10 +124,13 @@ function initializeDarkModeToggle() {
   // 📦 Update on toggle
   toggleSwitch.addEventListener('change', () => {
     const enabled = toggleSwitch.checked;
+    document.documentElement.classList.toggle('dark-mode', enabled);
     document.body.classList.toggle('dark-mode', enabled);
-    localStorage.setItem('dmrDarkMode', enabled);
+    localStorage.setItem('dmrDarkMode', enabled ? 'true' : 'false');
 
-    // Remove inline background-color so CSS takes over
+    // Remove inline colors so CSS takes over (important if the page used an early inline <head> script)
+    document.documentElement.style.backgroundColor = '';
+    document.documentElement.style.color = '';
     document.body.style.backgroundColor = '';
     document.body.style.color = '';
 
